@@ -1,0 +1,103 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+$md-greatblueprimary: (
+    50 : #e6f3fa,
+    100 : #c0e2f3,
+    200 : #97ceec,
+    300 : #6dbae4,
+    400 : #4dacde,
+    500 : #2e9dd8,
+    600 : #2995d4,
+    700 : #238bce,
+    800 : #1d81c8,
+    900 : #126fbf,
+    A100 : #eef7ff,
+    A200 : #bbddff,
+    A400 : #88c4ff,
+    A700 : #6eb8ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+/* For use in src/lib/core/theming/_palette.scss */
+$md-greatblueaccent: (
+    50 : #e5e4e4,
+    100 : #bdbcbc,
+    200 : #918f90,
+    300 : #656263,
+    400 : #444141,
+    500 : #231f20,
+    600 : #1f1b1c,
+    700 : #1a1718,
+    800 : #151213,
+    900 : #0c0a0b,
+    A100 : #ff52ff,
+    A200 : #ff1fff,
+    A400 : #eb00eb,
+    A700 : #d200d2,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+
+
+//#2e9dd8 #3ae dodgerblue hsl(200,68,51) rgb(46,157,216)
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$great-blue-fishing-primary: mat-palette($md-greatblueprimary);
+$great-blue-fishing-accent: mat-palette($md-greatblueaccent);
+
+// The warn palette is optional (defaults to red).
+$great-blue-fishing-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$great-blue-fishing-theme: mat-light-theme($great-blue-fishing-primary, $great-blue-fishing-accent, $great-blue-fishing-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($great-blue-fishing-theme);
+
+
+/* For use in src/lib/core/theming/_palette.scss */
+
+
