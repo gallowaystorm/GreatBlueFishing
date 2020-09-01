@@ -5,14 +5,14 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-// //connect to database
-// mongoose.connect('mongodb+srv://mean-stack-practice:' + process.env.MONGO_ATLAS_PASSWORD + '@mean-stack-practice.4vsmj.mongodb.net/node-angular?retryWrites=true&w=majority')
-// .then( () => {
-//     console.log('Connected to database successful!');
-// })
-// .catch( () => {
-//     console.log('Connected to database failed!');
-// });
+//connect to database
+mongoose.connect('mongodb+srv://great-blue-fishing-dev:' + process.env.MONGO_ATLAS_PASSWORD + '@greatbluefishingdb.4vsmj.mongodb.net/<dbname>?retryWrites=true&w=majority)
+.then( () => {
+    console.log('Connected to great blue fishing database successful!');
+})
+.catch( () => {
+    console.log('Connected to database failed!');
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
