@@ -1,3 +1,21 @@
-<p>
-  create-blog works!
-</p>
+<mat-card>
+  <mat-spinner *ngIf='isLoading'></mat-spinner>
+  <form (submit)="onSavePost()" *ngIf="!isLoading">
+    <mat-form-field>
+      <input matInput type='text' formControlName="title" placeholder="Blog Title">
+      <mat-error *ngIf="form.get('title').invalid">Please enter a blog title!</mat-error>
+    </mat-form-field>
+    <div>
+      <button mat-stroked-button type="button" (click)="filePicker.click()">Upload Image</button>
+      <input type='file' #filePicker (change)='onImagePicked($event)'>
+    </div>
+    <div class='image-preview' *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
+      <img [src]='imagePreview' [alt]='form.value.title'>
+    </div>
+    <mat-form-field>
+      <textarea matInput formControlName='content' rows="6" placeholder="Blog Content"></textarea>
+      <mat-error *ngIf="form.get('content').invalid">Please enter blog content.</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="submit">Save Blog</button>
+  </form>
+</mat-card>

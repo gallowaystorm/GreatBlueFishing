@@ -1,8 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatCardModule } from '@angular/material/card'
 import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
 
+import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,6 +23,7 @@ import { CreateBlogComponent } from './admin/create-blog/create-blog.component';
 import { ManageDonationsComponent } from './admin/manage-donations/manage-donations.component';
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 import { ProductsComponent } from './admin/products/products.component';
+import { NgModule } from '@angular/core';
 
 
 
@@ -42,8 +48,15 @@ import { ProductsComponent } from './admin/products/products.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatInputModule,
+    MatCardModule,
+    MatButtonModule,
     MatToolbarModule,
-    MatButtonModule
+    MatExpansionModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    MatDialogModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
