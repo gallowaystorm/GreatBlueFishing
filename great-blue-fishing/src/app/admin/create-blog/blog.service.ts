@@ -12,8 +12,24 @@ const BACKEND_URL = environment.apiUrl + '/blog/'
 @Injectable({providedIn: 'root'})
 export class BlogService{
 
-  addBlogPost(title: string, content: string, image: File){
+  constructor(private http: HttpClient, private router: Router){}
 
+  addBlogPost(title: string, content: string, image: File){
+    const blogData = new FormData();
+    //append the passed in information
+    blogData.append('title', title);
+    blogData.append('content', content);
+    //title is passed in as well to name image
+    blogData.append('image', image, title);
+    this.http.post<{message: string, blog: Blog}>(BACKEND_URL, blogData)
+      .subscribe( (responseData) => {
+        console.log(responseData);
+        this.navigateToHomePage();
+      });
+  }
+
+  navigateToHomePage(){
+    this.router.navigate(["/"]);
   }
 
 }

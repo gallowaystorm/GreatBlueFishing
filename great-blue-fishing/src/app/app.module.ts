@@ -24,6 +24,8 @@ import { ManageDonationsComponent } from './admin/manage-donations/manage-donati
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 import { ProductsComponent } from './admin/products/products.component';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -55,8 +57,9 @@ import { NgModule } from '@angular/core';
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
-    MatDialogModule
-
+    MatDialogModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

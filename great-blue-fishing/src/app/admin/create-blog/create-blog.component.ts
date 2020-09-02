@@ -54,9 +54,9 @@ export class CreateBlogComponent implements OnInit {
 
   onSavePost(){
     //check if form is complete
-    if (this.form.invalid){
-      return
-    }
+    // if (this.form.invalid){
+    //   return
+    // }
     this.isLoading = true;
     this.blogService.addBlogPost(this.form.value.title, this.form.value.content, this.form.value.image);
     this.form.reset();
