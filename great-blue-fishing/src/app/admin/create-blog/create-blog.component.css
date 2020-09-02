@@ -30,3 +30,8 @@ input[type='file']{
 mat-paginator{
   margin-top: 1rem;
 }
+
+.blog-list{
+  margin-top: 5%;
+  text-align: center;
+}

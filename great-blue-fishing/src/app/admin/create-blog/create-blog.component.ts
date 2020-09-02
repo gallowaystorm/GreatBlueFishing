@@ -4,6 +4,8 @@ import { Blog } from './blog.model';
 
 import { mimeType } from './mime-type.validator';
 import { BlogService } from './blog.service';
+import { Subscription } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-create-blog',
@@ -21,6 +23,14 @@ export class CreateBlogComponent implements OnInit {
   form: FormGroup;
   //for imagepreview
   imagePreview: string;
+  //for blog lists
+  blogs: Blog[] = [];
+  private postsSub: Subscription;
+  //for paginator
+  totalPosts = 0;
+  postsPerPage = 2;
+  pageSizeOptions = [1, 2, 5, 10];
+  currentPage = 1;
 
 
   constructor(public blogService: BlogService) { }
@@ -54,12 +64,24 @@ export class CreateBlogComponent implements OnInit {
 
   onSavePost(){
     //check if form is complete
-    // if (this.form.invalid){
-    //   return
-    // }
+    if (this.form.invalid){
+      return
+    }
     this.isLoading = true;
     this.blogService.addBlogPost(this.form.value.title, this.form.value.content, this.form.value.image);
-    this.form.reset();
+    if (this.blogService.addBlogPost){
+      this.isLoading = false;
+      alert('Blog saved successfully');
+      this.form.reset();
+    }
+  }
+
+  onDelete(blogId: string){
+
+  }
+
+  onChangedPage(pageData: PageEvent){
+
   }
 
 }
