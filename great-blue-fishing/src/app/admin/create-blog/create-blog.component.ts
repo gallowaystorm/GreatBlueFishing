@@ -23,12 +23,14 @@ export class CreateBlogComponent implements OnInit {
   form: FormGroup;
   //for imagepreview
   imagePreview: string;
+
   //for blog lists
   blogs: Blog[] = [];
-  private postsSub: Subscription;
+  private blogsSub: Subscription;
+
   //for paginator
-  totalPosts = 0;
-  postsPerPage = 2;
+  totalBlogs = 0;
+  blogsPerPage = 2;
   pageSizeOptions = [1, 2, 5, 10];
   currentPage = 1;
 
@@ -44,6 +46,16 @@ export class CreateBlogComponent implements OnInit {
       'content': new FormControl(null, {validators: [Validators.required]})
     });
     this.postId = null;
+
+    //for posts list
+    this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
+    //blog posts subscription
+    this.blogsSub = this.blogService.getBlogPostUpdateListener().subscribe((blogData: { blogs: Blog[]; blogCount: number }) => {
+      this.isLoading = false;
+      //to set total posts on paginator
+      this.totalBlogs = blogData.blogCount;
+      this.blogs = blogData.blogs;
+    });
   }
 
   onImagePicked(event: Event){
