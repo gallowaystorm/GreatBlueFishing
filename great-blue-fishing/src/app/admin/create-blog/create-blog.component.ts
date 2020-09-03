@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Blog } from './blog.model';
 
@@ -12,7 +12,7 @@ import { PageEvent } from '@angular/material/paginator';
   templateUrl: './create-blog.component.html',
   styleUrls: ['./create-blog.component.css']
 })
-export class CreateBlogComponent implements OnInit {
+export class CreateBlogComponent implements OnInit, OnDestroy {
 
   isLoading = false;
   enteredContent = '';
@@ -93,7 +93,19 @@ export class CreateBlogComponent implements OnInit {
   }
 
   onChangedPage(pageData: PageEvent){
+    //for spinner
+    this.isLoading = true;
+    //values from page data
+      //adding 1 becuase this index starts at zero
+    this.currentPage = pageData.pageIndex + 1;
+    this.blogsPerPage = pageData.pageSize;
+    this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
+  }
 
+  ngOnDestroy(){
+    this.blogsSub.unsubscribe();
+    // //unsubscribe to listener
+    // this.authListenerSubscription.unsubscribe();
   }
 
 }
