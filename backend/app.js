@@ -2,12 +2,12 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
-const blogModel = require('./models/blog-model');
+const blogRoutes = require('./routes/blog-route');
 
 const app = express();
 
 //connect to database
-mongoose.connect('mongodb+srv://great-blue-fishing-dev:' + process.env.MONGO_ATLAS_PASSWORD + '@greatbluefishingdb.4vsmj.mongodb.net/<dbname>?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://great-blue-fishing-dev:' + process.env.MONGO_ATLAS_PASSWORD + '@greatbluefishingdb.4vsmj.mongodb.net/great-blue-fishing?retryWrites=true&w=majority')
 .then( () => {
     console.log('Connected to great blue fishing database successful!');
 })
@@ -34,7 +34,7 @@ app.use((req, res, next) => {
     next();
   });
 
-  //models
-  app.use('/api/posts', blogModel);
+  //routes
+  app.use('/api/blog', blogRoutes);
 
   module.exports = app;

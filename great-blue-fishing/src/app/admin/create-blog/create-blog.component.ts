@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Blog } from './blog.model';
 
 import { mimeType } from './mime-type.validator';
 import { BlogService } from './blog.service';
+import { Subscription } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-create-blog',
   templateUrl: './create-blog.component.html',
   styleUrls: ['./create-blog.component.css']
 })
-export class CreateBlogComponent implements OnInit {
+export class CreateBlogComponent implements OnInit, OnDestroy {
 
   isLoading = false;
   enteredContent = '';
@@ -21,6 +23,16 @@ export class CreateBlogComponent implements OnInit {
   form: FormGroup;
   //for imagepreview
   imagePreview: string;
+
+  //for blog lists
+  blogs: Blog[] = [];
+  private blogsSub: Subscription;
+
+  //for paginator
+  totalBlogs = 0;
+  blogsPerPage = 2;
+  pageSizeOptions = [1, 2, 5, 10];
+  currentPage = 1;
 
 
   constructor(public blogService: BlogService) { }
@@ -34,6 +46,16 @@ export class CreateBlogComponent implements OnInit {
       'content': new FormControl(null, {validators: [Validators.required]})
     });
     this.postId = null;
+
+    //for posts list
+    this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
+    //blog posts subscription
+    this.blogsSub = this.blogService.getBlogPostUpdateListener().subscribe((blogData: { blogs: Blog[]; blogCount: number }) => {
+      this.isLoading = false;
+      //to set total posts on paginator
+      this.totalBlogs = blogData.blogCount;
+      this.blogs = blogData.blogs;
+    });
   }
 
   onImagePicked(event: Event){
@@ -59,7 +81,31 @@ export class CreateBlogComponent implements OnInit {
     }
     this.isLoading = true;
     this.blogService.addBlogPost(this.form.value.title, this.form.value.content, this.form.value.image);
-    this.form.reset();
+    if (this.blogService.addBlogPost){
+      this.isLoading = false;
+      alert('Blog saved successfully');
+      this.form.reset();
+    }
+  }
+
+  onDelete(blogId: string){
+
+  }
+
+  onChangedPage(pageData: PageEvent){
+    //for spinner
+    this.isLoading = true;
+    //values from page data
+      //adding 1 becuase this index starts at zero
+    this.currentPage = pageData.pageIndex + 1;
+    this.blogsPerPage = pageData.pageSize;
+    this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
+  }
+
+  ngOnDestroy(){
+    this.blogsSub.unsubscribe();
+    // //unsubscribe to listener
+    // this.authListenerSubscription.unsubscribe();
   }
 
 }
