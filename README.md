@@ -8,3 +8,5 @@ This is a MEAN stack application that I am building for two reasons:
   * E-Commerce Platform
   * Blog
   * Donations to Non-Profits
+
+> “Fishing is not an escape from life, but often a deeper immersion into it,” - Harry Middleton
