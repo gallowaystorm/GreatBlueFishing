@@ -27,6 +27,23 @@ exports.createBlogPost = (req, res, next) => {
     });
 };
 
+exports.getSinglePost = (req, res, next) => {
+    Blog.findById(req.params.id).then( blog => {
+        //check if exist
+        if (blog) {
+            res.status(200).json(blog)
+        } else {
+            res.status(404).json({message: 'Blog post not found!'})
+        }
+    })
+    //to catch technical issues
+    .catch( error => {
+        res.status(500).json({
+            message: "Fetching blog post failed!"
+        });
+    });
+};
+
 exports.getAllBlogPosts = (req, res, next) => {
     //for paginator
         //the plus in front of variables converts to type numbers beacause they are stings comming from the url

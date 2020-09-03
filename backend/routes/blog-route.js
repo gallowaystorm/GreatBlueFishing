@@ -9,9 +9,11 @@ const BlogController = require('../controller/blog-controller');
     // checkAuth is to verify token
 router.post('', extractFile, BlogController.createBlogPost);
 
-//get all routes
 //get all posts
 router.get('', BlogController.getAllBlogPosts);
+
+//get single post
+router.get('/:id', BlogController.getSinglePost)
 
 //delete single post
 router.delete('/:id', BlogController.deleteBlogPost);

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Blog } from './blog.model';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { mimeType } from './mime-type.validator';
 import { BlogService } from './blog.service';
@@ -17,8 +18,8 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
   isLoading = false;
   enteredContent = '';
   enteredTitle = '';
-  private postId: string;
-  public post: Blog;
+  private blogId: string;
+  public blog: Blog;
   //for reactive form of forms
   form: FormGroup;
   //for imagepreview
@@ -34,8 +35,11 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
   pageSizeOptions = [1, 2, 5, 10];
   currentPage = 1;
 
+  //for create vs edit mode
+  private mode = 'create';
 
-  constructor(public blogService: BlogService) { }
+
+  constructor(public blogService: BlogService, public route: ActivatedRoute) { }
 
   ngOnInit() {
     //for mapping
@@ -45,7 +49,34 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
       'image': new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]}),
       'content': new FormControl(null, {validators: [Validators.required]})
     });
-    this.postId = null;
+
+    //for create vs edit mode
+      //pulls the path that you are at to determine between /create and /edit/:postID
+      this.route.paramMap
+      //subscribes to observable
+      .subscribe( (paramMap: ParamMap) => {
+        //check if path exists
+        if (paramMap.has('blogId')) {
+          this.mode = 'edit';
+          //sets blogId in the path equal to blogId variable
+          this.blogId = paramMap.get('blogId');
+          //spinner on load
+          this.isLoading = true;
+          //call overloaded getPost function that finds post in database that matches id
+          this.blogService.getSingleBlog(this.blogId)
+            //subscribe to observable
+            .subscribe(blogData => {
+              //stop spinner
+              this.isLoading = false;
+              this.blog = {id: blogData._id, title: blogData.title, content: blogData.content, imagePath: blogData.imagePath};
+              //overite default form value on init
+              this.form.setValue({'title': this.blog.title, 'content': this.blog.content, 'image': this.blog.imagePath});
+            });
+        } else {
+          this.mode = 'create';
+          this.blogId = null;
+        }
+      });
 
     //for posts list
     this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
@@ -80,12 +111,24 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
       return
     }
     this.isLoading = true;
-    this.blogService.addBlogPost(this.form.value.title, this.form.value.content, this.form.value.image);
-    if (this.blogService.addBlogPost){
-      this.isLoading = false;
-      alert('Blog saved successfully');
-      this.form.reset();
+    if (this.mode === 'create'){
+      this.blogService.addBlogPost(this.form.value.title, this.form.value.content, this.form.value.image);
+      if (this.blogService.addBlogPost){
+        this.isLoading = false;
+        alert('Blog saved successfully');
+      }
+    } else {
+      var confirmUpdate = confirm("Are you sure you want to update this blog post?");
+      if (confirmUpdate == true){
+        var blogUpdated = this.blogService.updateBlogPost(this.blogId, this.form.value.title, this.form.value.content, this.form.value.image);
+        if (blogUpdated == true) {
+          alert("Blog post has been updated!");
+        }
+      } else {
+        return;
+      }
     }
+    this.form.reset();
   }
 
   onDelete(blogId: string){
