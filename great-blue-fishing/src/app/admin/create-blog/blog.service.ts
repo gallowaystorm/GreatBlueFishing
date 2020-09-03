@@ -62,6 +62,12 @@ export class BlogService{
     return this.blogsUpdated.asObservable();
   }
 
+  //delete single post
+
+  deleteBlogPost(blogId: string){
+    return this.http.delete(BACKEND_URL +  blogId);
+  }
+
   navigateToHomePage(){
     this.router.navigate(["/"]);
   }

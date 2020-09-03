@@ -89,7 +89,19 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
   }
 
   onDelete(blogId: string){
-
+    var confirmDelete = confirm("Are you sure you want to delete this post? This cannot be undone.");
+    if (confirmDelete == true){
+      this.isLoading = true;
+      this.blogService.deleteBlogPost(blogId).subscribe( () => {
+        //to update post list on frontend on delete
+        this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
+      }, () => {
+        //this method helps handle erros
+        this.isLoading = false;
+      });
+    } else {
+      return;
+    }
   }
 
   onChangedPage(pageData: PageEvent){

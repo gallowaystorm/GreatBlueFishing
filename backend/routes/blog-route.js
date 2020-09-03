@@ -13,5 +13,8 @@ router.post('', extractFile, BlogController.createBlogPost);
 //get all posts
 router.get('', BlogController.getAllBlogPosts);
 
+//delete single post
+router.delete('/:id', BlogController.deleteBlogPost);
+
 //export all routes
 module.exports = router;
