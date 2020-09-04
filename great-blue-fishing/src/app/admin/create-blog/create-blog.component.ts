@@ -77,9 +77,6 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
           this.blogId = null;
         }
       });
-
-    //for posts list
-    this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
     //blog posts subscription
     this.blogsSub = this.blogService.getBlogPostUpdateListener().subscribe((blogData: { blogs: Blog[]; blogCount: number }) => {
       this.isLoading = false;
@@ -87,6 +84,9 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
       this.totalBlogs = blogData.blogCount;
       this.blogs = blogData.blogs;
     });
+    //for posts list
+    this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
+
   }
 
   onImagePicked(event: Event){
@@ -129,6 +129,7 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
         return;
       }
     }
+    this.blogPostSubscription();
     this.form.reset();
   }
 
@@ -156,6 +157,10 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
     this.currentPage = pageData.pageIndex + 1;
     this.blogsPerPage = pageData.pageSize;
     this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
+  }
+
+  blogPostSubscription(){
+
   }
 
   ngOnDestroy(){
