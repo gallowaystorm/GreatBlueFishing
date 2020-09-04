@@ -22,6 +22,7 @@ const routes: Routes = [
   { path: 'blog', component: BlogComponent },
   { path: 'contact', component: ContactComponent},
   { path: 'admin/blog', component: CreateBlogComponent},
+  { path: 'edit/:blogId', component: CreateBlogComponent },
   { path: 'admin/products', component: ProductsComponent },
   { path: 'admin/donations', component: ManageDonationsComponent },
   { path: 'admin/users', component: ManageUsersComponent }

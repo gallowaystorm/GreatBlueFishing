@@ -26,9 +26,15 @@ export class BlogService{
     blogData.append('image', image, title);
     this.http.post<{message: string, blog: Blog}>(BACKEND_URL, blogData)
       .subscribe( (responseData) => {
-        this.router.navigate(["/admin/blog"]);
+        this.navigateToBlogPage();
         return true;
       });
+  }
+
+  //get single blog post
+  getSingleBlog(blogId: string){
+    //returned this way because it is asynchronous
+    return this.http.get<{ _id: string, title: string, content: string, imagePath: string }>(BACKEND_URL + blogId);
   }
 
   //get all blog posts
@@ -45,8 +51,7 @@ export class BlogService{
             title: blog.title,
             content: blog.content,
             id: blog._id,
-            imagePath: blog.imagePath,
-            creator: blog.creator
+            imagePath: blog.imagePath
           };
         }), maxblogs: blogData.maxBlogs
       };
@@ -62,8 +67,45 @@ export class BlogService{
     return this.blogsUpdated.asObservable();
   }
 
+  //update single post
+  updateBlogPost(id: string, title: string, content: string, image: File | string){
+    let blogData: Blog | FormData;
+    if(typeof(image) === 'object') {
+      //create new form data object
+      blogData = new FormData();
+      blogData.append('id', id);
+      blogData.append('title', title);
+      blogData.append('content', content);
+      //pass in title as well to help name the image
+      blogData.append('image', image, title);
+    } else {
+      //create new post data
+      blogData = {id: id, title: title, content: content, imagePath: image};
+    }
+    this.http.put(BACKEND_URL + id, blogData)
+    //subscribe to obervable
+    .subscribe( response => {
+      this.navigateToBlogPage();
+    });
+    return true;
+  }
+
+  //delete single post
+  deleteBlogPost(blogId: string){
+    return this.http.delete(BACKEND_URL +  blogId);
+  }
+
+
+
+  //navigation functions
+
   navigateToHomePage(){
     this.router.navigate(["/"]);
+  }
+
+  navigateToBlogPage(){
+    this.router.navigate(["/admin/blog"]);
+    window.location.reload();
   }
 
 }

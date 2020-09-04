@@ -39,12 +39,6 @@
       </mat-action-row>
     </mat-expansion-panel>
   </mat-accordion>
-  <mat-paginator
-    [length]='totalBlogs'
-    [pageSize]='blogsPerPage'
-    [pageSizeOptions]='pageSizeOptions'
-    (page)="onChangedPage($event)"
-    *ngIf="blogs.length > 0">
-  </mat-paginator>
+  <mat-paginator [length]='totalBlogs' [pageSize]='blogsPerPage' [pageSizeOptions]='pageSizeOptions' (page)="onChangedPage($event)" *ngIf="blogs.length > 0"></mat-paginator>
   <p *ngIf="blogs.length <= 0 && !isLoading" class="info-text mat-body1">No Posts Added Yet</p>
 </div>

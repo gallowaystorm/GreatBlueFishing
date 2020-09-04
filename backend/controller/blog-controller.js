@@ -27,6 +27,23 @@ exports.createBlogPost = (req, res, next) => {
     });
 };
 
+exports.getSinglePost = (req, res, next) => {
+    Blog.findById(req.params.id).then( blog => {
+        //check if exist
+        if (blog) {
+            res.status(200).json(blog)
+        } else {
+            res.status(404).json({message: 'Blog post not found!'})
+        }
+    })
+    //to catch technical issues
+    .catch( error => {
+        res.status(500).json({
+            message: "Fetching blog post failed!"
+        });
+    });
+};
+
 exports.getAllBlogPosts = (req, res, next) => {
     //for paginator
         //the plus in front of variables converts to type numbers beacause they are stings comming from the url
@@ -67,3 +84,58 @@ exports.getAllBlogPosts = (req, res, next) => {
             });
         });
     };
+
+exports.deleteBlogPost = (req, res, next) => {
+    //params pulls id from url
+    Blog.deleteOne( {_id: req.params.id})
+    //to get result
+    .then(result => {
+        //for error catching
+        if (result.n > 0){
+            res.status(200).json({message: 'Deletion Successful'});
+        } else {
+            res.status(401).json({message: 'Not Authroized!'});
+        }
+    })
+    //to catch technical issues
+    .catch( error => {
+        res.status(500).json({
+            message: "Deleting post failed!"
+        });
+    });
+};
+
+exports.updateSingleBlogPost = (req, res, next) => {
+    //check if string or req already has the path
+    let imagePath = req.body.imagePath;
+    if (req.file) {
+        //set image path to url of image
+        const url = req.protocol + '://' + req.get('host');
+        imagePath = url + '/images/' + req.file.filename; 
+    }
+    //creates new post
+    const blog = new Blog ({
+        _id: req.body.id,
+        title: req.body.title,
+        content: req.body.content,
+        imagePath: imagePath
+    });
+    //update post based off id passed in through browser
+    //creator checks to see if the id of one updating matches the one creating
+    Blog.updateOne( {_id: req.params.id }, blog )
+        //if post is successfully updated
+        .then( result => {
+            //for error catching
+            if (result.n > 0){
+                res.status(200).json({message: 'Update Successful'});
+            } else {
+                res.status(401).json({message: 'Not Authroized!'});
+            }
+        })
+        //to catch tecnical errors as well
+        .catch(error => {
+            res.status(500).json({
+                message: "Couldn't update blog post!"
+            });
+        });  
+};

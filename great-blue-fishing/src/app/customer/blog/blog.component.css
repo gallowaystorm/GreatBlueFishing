@@ -1,0 +1,35 @@
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+mat-card {
+  width: 75%;
+  margin: auto;
+  margin-bottom: 3%;
+}
+
+mat-paginator{
+  margin-top: 1rem;
+}
+
+.blog-list{
+  margin-top: 5%;
+  width: 75%;
+  margin: auto;
+}
+
+.info-text {
+  text-align: center;
+}
+
+.blog-image {
+  width: 80%;
+  margin: auto;
+}
+
+.blog-image img {
+  height: auto;
+  width: 100%;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
