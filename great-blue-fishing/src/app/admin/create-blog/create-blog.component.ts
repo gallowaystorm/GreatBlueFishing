@@ -31,7 +31,7 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
 
   //for paginator
   totalBlogs = 0;
-  blogsPerPage = 2;
+  blogsPerPage = 5;
   pageSizeOptions = [1, 2, 5, 10];
   currentPage = 1;
 
@@ -121,6 +121,7 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
       var confirmUpdate = confirm("Are you sure you want to update this blog post?");
       if (confirmUpdate == true){
         var blogUpdated = this.blogService.updateBlogPost(this.blogId, this.form.value.title, this.form.value.content, this.form.value.image);
+        this.isLoading = false;
         if (blogUpdated == true) {
           alert("Blog post has been updated!");
         }

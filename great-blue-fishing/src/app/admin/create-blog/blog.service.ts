@@ -105,6 +105,7 @@ export class BlogService{
 
   navigateToBlogPage(){
     this.router.navigate(["/admin/blog"]);
+    window.location.reload();
   }
 
 }

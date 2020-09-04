@@ -18,5 +18,8 @@ router.get('/:id', BlogController.getSinglePost)
 //delete single post
 router.delete('/:id', BlogController.deleteBlogPost);
 
+//update single post
+router.put('/:id', extractFile, BlogController.updateSingleBlogPost)
+
 //export all routes
 module.exports = router;
