@@ -129,7 +129,15 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
         return;
       }
     }
-    this.blogPostSubscription();
+    //blog posts subscription
+    this.blogsSub = this.blogService.getBlogPostUpdateListener().subscribe((blogData: { blogs: Blog[]; blogCount: number }) => {
+      this.isLoading = false;
+      //to set total posts on paginator
+      this.totalBlogs = blogData.blogCount;
+      this.blogs = blogData.blogs;
+    });
+    //for posts list
+    this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
     this.form.reset();
   }
 
@@ -157,10 +165,6 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
     this.currentPage = pageData.pageIndex + 1;
     this.blogsPerPage = pageData.pageSize;
     this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
-  }
-
-  blogPostSubscription(){
-
   }
 
   ngOnDestroy(){
