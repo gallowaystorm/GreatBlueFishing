@@ -26,6 +26,7 @@ import { ProductsComponent } from './admin/products/products.component';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RegistrationComponent } from './customer/registration/registration.component';
 
 
 
@@ -44,7 +45,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CreateBlogComponent,
     ManageDonationsComponent,
     ManageUsersComponent,
-    ProductsComponent
+    ProductsComponent,
+    RegistrationComponent
    ],
   imports: [
     BrowserModule,
