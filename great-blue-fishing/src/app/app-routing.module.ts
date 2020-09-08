@@ -12,6 +12,7 @@ import { ProductsComponent } from './admin/products/products.component';
 import { ManageDonationsComponent } from './admin/manage-donations/manage-donations.component';
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 import { RegistrationComponent } from './customer/registration/registration.component';
+import { LoginComponent } from './customer/login/login.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'blog', component: BlogComponent },
   { path: 'contact', component: ContactComponent},
   { path: 'register', component: RegistrationComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'admin/blog', component: CreateBlogComponent},
   { path: 'edit/:blogId', component: CreateBlogComponent },
   { path: 'admin/products', component: ProductsComponent },

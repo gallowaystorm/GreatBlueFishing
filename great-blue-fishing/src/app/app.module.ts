@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +29,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegistrationComponent } from './customer/registration/registration.component';
+import { LoginComponent } from './customer/login/login.component';
 
 
 
@@ -46,7 +49,8 @@ import { RegistrationComponent } from './customer/registration/registration.comp
     ManageDonationsComponent,
     ManageUsersComponent,
     ProductsComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LoginComponent
    ],
   imports: [
     BrowserModule,
@@ -61,7 +65,9 @@ import { RegistrationComponent } from './customer/registration/registration.comp
     MatPaginatorModule,
     MatDialogModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

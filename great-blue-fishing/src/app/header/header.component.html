@@ -21,7 +21,20 @@
       <a mat-button routerLink='/contact' routerLinkActive='mat-accent'>Contact Us</a>
     </li>
     <li>
-      <a mat-button routerLink='/register' routerLinkActive='mat-accent'>Register</a>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon aria-hidden="false" aria-label="home icon">person_outline</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <a mat-button color='primary' routerLink='/register' routerLinkActive='mat-accent'>Register</a>
+        </button>
+        <button mat-menu-item>
+          <a mat-button color='primary' routerLink='/login' routerLinkActive='mat-accent'>Sign In</a>
+        </button>
+      </mat-menu>
+    </li>
+    <li>
+
     </li>
   </ul>
 </mat-toolbar>
