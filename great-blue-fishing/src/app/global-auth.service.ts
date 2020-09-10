@@ -99,6 +99,11 @@ export class GlobalAuthService{
     return this.authStatusListener.asObservable();
   }
 
+  //for sending back the token
+  getToken() {
+    return this.token;
+  }
+
   //for getting auth data from local storage
   private getAuthData() {
     const token = localStorage.getItem('token');

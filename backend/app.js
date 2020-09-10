@@ -3,8 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const blogRoutes = require('./routes/blog-route');
-const customerUserRoutes = require('./routes/customer-user-route')
-const globalUserRoutes = require('./routes/global-user-route')
+const customerUserRoutes = require('./routes/customer-user-route');
+const globalUserRoutes = require('./routes/global-user-route');
+const adminUserRoutes = require('./routes/admin-user-route');
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use((req, res, next) => {
   app.use('/api/blog', blogRoutes);
   app.use('/api/customer', customerUserRoutes);
   app.use('/api/global/user', globalUserRoutes);
+  app.use('/api/admin/user', adminUserRoutes);
 
 
   module.exports = app;

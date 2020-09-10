@@ -13,6 +13,8 @@ import { ManageDonationsComponent } from './admin/manage-donations/manage-donati
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 import { RegistrationComponent } from './customer/registration/registration.component';
 import { LoginComponent } from './customer/login/login.component';
+import { GlobalAuthGuard } from './auth-guards/global-auth-guard';
+import { AdminAuthGuard } from './auth-guards/admin-auth-guard';
 
 
 const routes: Routes = [
@@ -25,7 +27,7 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent},
   { path: 'register', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'admin/blog', component: CreateBlogComponent},
+  { path: 'admin/blog', component: CreateBlogComponent, canActivate: [AdminAuthGuard]},
   { path: 'edit/:blogId', component: CreateBlogComponent },
   { path: 'admin/products', component: ProductsComponent },
   { path: 'admin/donations', component: ManageDonationsComponent },
@@ -34,6 +36,10 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    GlobalAuthGuard,
+    AdminAuthGuard
+  ]
 })
 export class AppRoutingModule { }

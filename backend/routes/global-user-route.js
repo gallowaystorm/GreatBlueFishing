@@ -1,9 +1,9 @@
 const express = require('express');
-const GlobalUserController = require('../controller/global-user.conroller');
+const GlobalUserController = require('../controller/global-user.controller');
 
 const router = express.Router();
 
-//for signup
+//for login
 router.post('/login', GlobalUserController.globalUserLogin);
 
 module.exports = router;

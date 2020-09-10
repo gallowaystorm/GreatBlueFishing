@@ -26,10 +26,11 @@ import { ManageDonationsComponent } from './admin/manage-donations/manage-donati
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 import { ProductsComponent } from './admin/products/products.component';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegistrationComponent } from './customer/registration/registration.component';
 import { LoginComponent } from './customer/login/login.component';
+import { GlobalAuthInterceptor } from './interceptors/global-auth.interceptor';
 
 
 
@@ -69,7 +70,9 @@ import { LoginComponent } from './customer/login/login.component';
     MatIconModule,
     MatMenuModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: GlobalAuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
