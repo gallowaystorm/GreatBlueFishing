@@ -1,8 +1,41 @@
-const User = require('../models/user-model');
+const AdminUser = require('../models/user-model');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
+//to create admin user
+exports.createAdminUser = (req, res, next) => {
+    //encrypt password in database so we or anybody else cant see passwords
+    bcrypt.hash(req.body.password, 10)
+    .then(hash => {
+        const adminUser = new AdminUser({
+            email: req.body.email,
+            password: hash,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            isAdmin: true
+        });
+        //save to database
+        adminUser.save()
+            .then(result => {
+                res.status(201).json({
+                    message: 'Admin was created!',
+                    result: result
+                });
+            })
+            //for error catching
+            .catch(error => {
+                res.status(500).json({
+                    message: "Something went wrong when creating admin user!"
+                });
+            });
+    });
+};
+
+
+//return if admin or not
 exports.getIsAdmin = (req, res ,next) => {
     try {
-        User.findOne({_id: req.body.id})
+        AdminUser.findOne({_id: req.body.id})
             .then(user => {
                 if (!user) {
                     return res.status(404).json({

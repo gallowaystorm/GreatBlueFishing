@@ -1,3 +1,23 @@
-<p>
-  manage-users works!
-</p>
+<h1>Manage Admin Users</h1>
+<mat-card>
+  <mat-spinner *ngIf='isLoading'></mat-spinner>
+  <form [formGroup]="form" (submit)='onAdminCreation()' *ngIf='!isLoading'>
+    <mat-form-field>
+      <input matInput type="email" formControlName="adminEmail" placeholder="Email">
+      <mat-error *ngIf="form.get('adminEmail').invalid">Please enter a valid email.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="password" formControlName='adminPassword' placeholder="Password">
+      <mat-error *ngIf="form.get('adminPassword').invalid">Please enter a valid password.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" formControlName="adminFirstName" placeholder="First Name">
+      <mat-error *ngIf="form.get('adminFirstName').invalid">Please enter a your first name.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" formControlName="adminLastName" placeholder="Last Name">
+      <mat-error *ngIf="form.get('adminLastName').invalid">Please enter a your first name.</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="submit">Create Admin User</button>
+  </form>
+</mat-card>

@@ -4,7 +4,7 @@ import { UserData } from '../user-model';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
-const BAKCEND_URL = environment.apiUrl + '/customer/'
+const BACKEND_URL = environment.apiUrl + '/customer/'
 
 @Injectable({ providedIn: 'root' })
 export class CustomerAuthService{
@@ -13,7 +13,7 @@ export class CustomerAuthService{
 
   createCustomerUser(email: string, password: string, firstName: string, lastName: string){
     const userData: UserData = {email: email, password: password, firstName: firstName, lastName: lastName, isAdmin: null};
-    this.http.post(BAKCEND_URL + 'registration', userData)
+    this.http.post(BACKEND_URL + 'registration', userData)
       .subscribe ( () => {
         this.navigateToHomePage();
         return true;

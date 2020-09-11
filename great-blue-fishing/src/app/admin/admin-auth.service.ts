@@ -11,6 +11,7 @@ const BACKEND_URL = environment.apiUrl + '/admin/user/'
 export class AdminAuthService{
 
   private adminStatusListener = new Subject<boolean>();
+  private adminCreationStatusListener = new Subject<boolean>();
   private isAdmin = false;
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -24,7 +25,6 @@ export class AdminAuthService{
     //find user that matches and tell if admin
     this.http.post<{ isAdmin: boolean }>(BACKEND_URL + 'find', userData)
       .subscribe( response => {
-        console.log(response);
         this.isAdmin = response.isAdmin;
         this.adminStatusListener.next(this.isAdmin);
       }, error => {
@@ -35,5 +35,25 @@ export class AdminAuthService{
 
   getAdminStatusListener(){
     return this.adminStatusListener.asObservable();
+  }
+
+  getAdminCreationStatusListener(){
+    return this.adminCreationStatusListener.asObservable();
+  }
+
+  createAdminUser(email: string, password: string, firstName: string, lastName: string){
+    const adminUserData: UserData = {email: email, password: password, firstName: firstName, lastName: lastName, isAdmin: null};
+    this.http.post(BACKEND_URL + 'registration', adminUserData)
+      .subscribe ( () => {
+        this.navigateToAdminUserPage();
+        this.adminCreationStatusListener.next(true);
+      }, error => {
+        console.log(error);
+      })
+      return this.getAdminCreationStatusListener();
+  }
+
+  navigateToAdminUserPage(){
+    this.router.navigate(['/admin/users']);
   }
 }
