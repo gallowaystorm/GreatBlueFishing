@@ -22,3 +22,8 @@ textarea {
 mat-spinner {
   margin: auto;
 }
+
+table {
+  width: 80%;
+  margin: auto;
+}

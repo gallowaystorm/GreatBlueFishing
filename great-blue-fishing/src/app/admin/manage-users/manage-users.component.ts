@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AdminAuthService } from '../admin-auth.service';
+import { UserData } from '../../user-model';
 
 @Component({
   selector: 'app-manage-users',
@@ -11,6 +12,10 @@ export class ManageUsersComponent implements OnInit {
 
   isLoading = false;
   form: FormGroup;
+
+  //for users list
+  adminUsersList: UserData[] = [];
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
 
   constructor(public adminAuthService: AdminAuthService) { }
 
