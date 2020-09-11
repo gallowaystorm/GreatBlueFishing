@@ -27,11 +27,11 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent},
   { path: 'register', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'admin/blog', component: CreateBlogComponent, canActivate: [AdminAuthGuard]},
-  { path: 'edit/:blogId', component: CreateBlogComponent },
-  { path: 'admin/products', component: ProductsComponent },
-  { path: 'admin/donations', component: ManageDonationsComponent },
-  { path: 'admin/users', component: ManageUsersComponent }
+  { path: 'admin/blog', component: CreateBlogComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard]},
+  { path: 'admin/edit/:blogId', component: CreateBlogComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
+  { path: 'admin/products', component: ProductsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
+  { path: 'admin/donations', component: ManageDonationsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
+  { path: 'admin/users', component: ManageUsersComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] }
 ];
 
 @NgModule({

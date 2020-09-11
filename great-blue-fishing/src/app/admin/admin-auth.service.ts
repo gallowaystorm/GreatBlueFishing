@@ -5,24 +5,35 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
-const BAKCEND_URL = environment.apiUrl + '/admin/user/'
+const BACKEND_URL = environment.apiUrl + '/admin/user/'
 
 @Injectable({ providedIn: 'root'})
 export class AdminAuthService{
 
-  constructor(private http: HttpClient, private router: Router) {}
+  private adminStatusListener = new Subject<boolean>();
+  private isAdmin = false;
 
+  constructor(private http: HttpClient, private router: Router) {}
   //to check if admin
   getIsAdmin(){
     const userId = localStorage.getItem('userId');
+    const userData = { id: userId };
     if (!userId){
       return false;
     }
     //find user that matches and tell if admin
-    this.http.post<{ isAdmin: boolean }>(BAKCEND_URL + 'find', userId).subscribe( response => {
-      console.log(response);
-      const isAdmin = response.isAdmin;
-      return isAdmin;
+    this.http.post<{ isAdmin: boolean }>(BACKEND_URL + 'find', userData)
+      .subscribe( response => {
+        console.log(response);
+        this.isAdmin = response.isAdmin;
+        this.adminStatusListener.next(this.isAdmin);
+      }, error => {
+        this.adminStatusListener.next(false);
     });
+      return this.getAdminStatusListener();
+  }
+
+  getAdminStatusListener(){
+    return this.adminStatusListener.asObservable();
   }
 }

@@ -34,7 +34,7 @@
       </div>
       <p>{{ blog.content }}</p>
       <mat-action-row>
-        <a mat-button color="primary" [routerLink]="['/edit', blog.id]">Edit</a>
+        <a mat-button color="primary" [routerLink]="['/admin/edit', blog.id]">Edit</a>
         <button mat-button color="warn" (click)="onDelete(blog.id)">Delete</button>
       </mat-action-row>
     </mat-expansion-panel>
