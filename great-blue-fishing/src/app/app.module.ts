@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -24,8 +26,11 @@ import { ManageDonationsComponent } from './admin/manage-donations/manage-donati
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 import { ProductsComponent } from './admin/products/products.component';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RegistrationComponent } from './customer/registration/registration.component';
+import { LoginComponent } from './customer/login/login.component';
+import { GlobalAuthInterceptor } from './interceptors/global-auth.interceptor';
 
 
 
@@ -44,7 +49,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     CreateBlogComponent,
     ManageDonationsComponent,
     ManageUsersComponent,
-    ProductsComponent
+    ProductsComponent,
+    RegistrationComponent,
+    LoginComponent
    ],
   imports: [
     BrowserModule,
@@ -59,9 +66,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatPaginatorModule,
     MatDialogModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule,
+    MatMenuModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: GlobalAuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

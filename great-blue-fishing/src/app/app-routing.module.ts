@@ -11,6 +11,10 @@ import { CreateBlogComponent } from './admin/create-blog/create-blog.component';
 import { ProductsComponent } from './admin/products/products.component';
 import { ManageDonationsComponent } from './admin/manage-donations/manage-donations.component';
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
+import { RegistrationComponent } from './customer/registration/registration.component';
+import { LoginComponent } from './customer/login/login.component';
+import { GlobalAuthGuard } from './auth-guards/global-auth-guard';
+import { AdminAuthGuard } from './auth-guards/admin-auth-guard';
 
 
 const routes: Routes = [
@@ -21,15 +25,21 @@ const routes: Routes = [
   { path: 'gallery', component: GalleryComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'contact', component: ContactComponent},
-  { path: 'admin/blog', component: CreateBlogComponent},
-  { path: 'edit/:blogId', component: CreateBlogComponent },
-  { path: 'admin/products', component: ProductsComponent },
-  { path: 'admin/donations', component: ManageDonationsComponent },
-  { path: 'admin/users', component: ManageUsersComponent }
+  { path: 'register', component: RegistrationComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'admin/blog', component: CreateBlogComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard]},
+  { path: 'admin/edit/:blogId', component: CreateBlogComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
+  { path: 'admin/products', component: ProductsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
+  { path: 'admin/donations', component: ManageDonationsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
+  { path: 'admin/users', component: ManageUsersComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    GlobalAuthGuard,
+    AdminAuthGuard
+  ]
 })
 export class AppRoutingModule { }

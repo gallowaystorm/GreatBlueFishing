@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-//export function
+//for checking if logged in when making request
 module.exports = (req, res, next) => {
     //try to catch error if possible (error happens if no token)
     try {
