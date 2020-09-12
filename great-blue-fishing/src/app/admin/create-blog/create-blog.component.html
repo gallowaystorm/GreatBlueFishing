@@ -1,7 +1,7 @@
 <!-- blog creation -->
 <mat-card>
   <mat-spinner *ngIf='isLoading'></mat-spinner>
-  <form [formGroup]="form" (submit)="onSavePost()" *ngIf="!isLoading">
+  <form [formGroup]="form" #formDirective="ngForm" (submit)="onSavePost(formDirective)" *ngIf="!isLoading">
     <mat-form-field>
       <input matInput type='text' formControlName="title" placeholder="Blog Title">
       <mat-error *ngIf="form.get('title').invalid">Please enter a blog title!</mat-error>

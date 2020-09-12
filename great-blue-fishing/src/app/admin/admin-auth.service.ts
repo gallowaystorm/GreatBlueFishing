@@ -61,7 +61,8 @@ export class AdminAuthService{
               lastName: adminUser.lastName,
               email: adminUser.email,
               password: null,
-              isAdmin: null
+              isAdmin: null,
+              id: adminUser._id
             };
           })
         };
@@ -83,6 +84,10 @@ export class AdminAuthService{
         console.log(error);
       })
       return this.getAdminCreationStatusListener();
+  }
+
+  deleteAdminUser(id: string){
+    return this.http.delete(BACKEND_URL + id);
   }
 
   navigateToAdminUserPage(){

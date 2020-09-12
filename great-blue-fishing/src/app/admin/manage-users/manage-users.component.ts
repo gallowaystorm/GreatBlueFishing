@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { AdminAuthService } from '../admin-auth.service';
 import { UserData } from '../../user-model';
 import { Subscription } from 'rxjs';
@@ -17,7 +17,7 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
 
   //for users list
   adminUsersList: UserData[] = [];
-  displayedColumns: string[] = ['email', 'lastName', 'firstName'];
+  displayedColumns: string[] = ['email', 'lastName', 'firstName', 'delete'];
 
   constructor(public adminAuthService: AdminAuthService) { }
 
@@ -40,7 +40,7 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
     this.adminAuthService.getAdminUsers();
   }
 
-  onAdminCreation(){
+  onAdminCreation(formDirective: FormGroupDirective){
     if (this.form.invalid) {
       return
     }
@@ -50,7 +50,24 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
       this.isLoading = false;
       alert("You have created an admin user successfully!");
     }
+    formDirective.resetForm();
     this.form.reset();
+    this.adminAuthService.getAdminUsers();
+  }
+
+  onDelete(id: string){
+    var confirmDelete = confirm('Are you sure you want to delete this user?  This cannot be undone!');
+    if (confirmDelete) {
+      this.isLoading = true;
+      this.adminAuthService.deleteAdminUser(id).subscribe( () => {
+        //to update post list on frontend on delete
+        this.adminAuthService.getAdminUsers();
+      }, () => {
+        //this method helps handle erros
+        this.isLoading = false;
+      });
+    }
+    return
   }
 
   ngOnDestroy(){

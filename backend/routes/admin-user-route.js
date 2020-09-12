@@ -12,4 +12,7 @@ router.get('/find', AdminUserController.getAllAdminUsers)
 //create admin user
 router.post('/registration', AdminUserController.createAdminUser);
 
+//delete admin user
+router.delete('/:id', AdminUserController.deleteAdminUser)
+
 module.exports = router;

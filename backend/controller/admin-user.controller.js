@@ -78,3 +78,24 @@ exports.getAllAdminUsers = (req, res, next) => {
             });
         });
 };
+
+//delete admin user
+exports.deleteAdminUser = (req, res, next) => {
+    //params pulls id from url
+    AdminUser.deleteOne( {_id: req.params.id})
+        //to get result
+        .then(result => {
+            //for error catching
+            if (result.n > 0){
+                res.status(200).json({message: 'Deletion Successful'});
+            } else {
+                res.status(401).json({message: 'Not Authroized!'});
+            }
+        })
+        //to catch technical issues
+        .catch( error => {
+            res.status(500).json({
+                message: "Deleting admin user failed!"
+            });
+        });
+};

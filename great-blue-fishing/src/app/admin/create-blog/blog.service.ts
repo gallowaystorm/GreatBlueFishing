@@ -26,7 +26,6 @@ export class BlogService{
     blogData.append('image', image, title);
     this.http.post<{message: string, blog: Blog}>(BACKEND_URL, blogData)
       .subscribe( (responseData) => {
-        this.navigateToBlogPage();
         return true;
       });
   }
