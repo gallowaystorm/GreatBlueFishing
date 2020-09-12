@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Blog } from 'src/app/admin/create-blog/blog.model';
 import { Subscription } from 'rxjs';
 import { BlogService } from 'src/app/admin/create-blog/blog.service';
@@ -9,7 +9,7 @@ import { PageEvent } from '@angular/material/paginator';
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.css']
 })
-export class BlogComponent implements OnInit {
+export class BlogComponent implements OnInit, OnDestroy {
 
   blogs: Blog[] = [];
   private blogsSub: Subscription;
@@ -42,6 +42,12 @@ export class BlogComponent implements OnInit {
     this.currentPage = pageData.pageIndex + 1;
     this.blogsPerPage = pageData.pageSize;
     this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
+  }
+
+  ngOnDestroy(){
+    this.blogsSub.unsubscribe();
+    // //unsubscribe to listener
+    // this.authListenerSubscription.unsubscribe();
   }
 
 }

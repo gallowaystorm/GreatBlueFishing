@@ -13,7 +13,6 @@ export class AdminAuthGuard implements CanActivate{
      state: RouterStateSnapshot): boolean | import("@angular/router").UrlTree | import("rxjs").Observable<boolean | import("@angular/router").UrlTree> | Promise<boolean | import("@angular/router").UrlTree> {
 
     const isAdmin = this.adminAuthService.getIsAdmin();
-    console.log(isAdmin);
     if (!isAdmin){
       this.router.navigate(['/login']);
       alert('You are not authorized to view this page!');

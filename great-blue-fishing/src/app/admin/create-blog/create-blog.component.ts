@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';
 import { Blog } from './blog.model';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
@@ -105,7 +105,7 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
      reader.readAsDataURL(file);
   }
 
-  onSavePost(){
+  onSavePost(formDirective: FormGroupDirective){
     //check if form is complete
     if (this.form.invalid){
       return
@@ -138,12 +138,13 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
     });
     //for posts list
     this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
+    formDirective.resetForm();
     this.form.reset();
   }
 
   onDelete(blogId: string){
     var confirmDelete = confirm("Are you sure you want to delete this post? This cannot be undone.");
-    if (confirmDelete == true){
+    if (confirmDelete){
       this.isLoading = true;
       this.blogService.deleteBlogPost(blogId).subscribe( () => {
         //to update post list on frontend on delete

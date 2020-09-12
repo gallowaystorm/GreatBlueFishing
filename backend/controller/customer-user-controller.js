@@ -24,7 +24,7 @@ exports.createCustomerUser = (req, res, next) => {
             //for error catching
             .catch(error => {
                 res.status(500).json({
-                    message: "Invalid authentication credentials!"
+                    message: "Something went wrong when creating customer account!"
                 });
             });
     });

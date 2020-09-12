@@ -1,0 +1,29 @@
+
+:host {
+  display: block;
+  margin-top: 2rem;
+}
+
+h1 {
+  text-align: center;
+}
+
+mat-card {
+  width: 50%;
+  margin: auto;
+  margin-bottom: 3%;
+}
+
+mat-form-field,
+textarea {
+  width: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+table {
+  width: 80%;
+  margin: auto;
+}
