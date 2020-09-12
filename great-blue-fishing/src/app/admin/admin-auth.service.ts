@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 const BACKEND_URL = environment.apiUrl + '/admin/user/'
 
@@ -12,7 +13,9 @@ export class AdminAuthService{
 
   private adminStatusListener = new Subject<boolean>();
   private adminCreationStatusListener = new Subject<boolean>();
+  private adminUsersUpdated = new Subject<{adminUsers: UserData[]}>();
   private isAdmin = false;
+  private adminUsers: UserData[] = [];
 
   constructor(private http: HttpClient, private router: Router) {}
   //to check if admin
@@ -39,6 +42,35 @@ export class AdminAuthService{
 
   getAdminCreationStatusListener(){
     return this.adminCreationStatusListener.asObservable();
+  }
+
+  getAdminUserUpdateListener(){
+    return this.adminUsersUpdated.asObservable();
+  }
+
+
+  getAdminUsers(){
+    //get all admin users
+    this.http.get<{adminUsers: any, message: string}>(BACKEND_URL + 'find')
+      .pipe(map((adminUserData => {
+        //replace every admin user with...
+        return {
+          adminUsers: adminUserData.adminUsers.map( adminUser => {
+            return {
+              firstName: adminUser.firstName,
+              lastName: adminUser.lastName,
+              email: adminUser.email,
+              password: null,
+              isAdmin: null
+            };
+          })
+        };
+      })))
+      //subscribe to remapped posts
+      .subscribe( (transformedAdminUsers) => {
+        this.adminUsers = transformedAdminUsers.adminUsers;
+        this.adminUsersUpdated.next( { adminUsers: [...this.adminUsers] } );
+      });
   }
 
   createAdminUser(email: string, password: string, firstName: string, lastName: string){

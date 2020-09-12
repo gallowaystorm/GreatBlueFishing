@@ -62,3 +62,19 @@ exports.getIsAdmin = (req, res ,next) => {
         })
     }
 };
+
+//find all admin users
+
+exports.getAllAdminUsers = (req, res, next) => {
+    AdminUser.find({ isAdmin: true })
+        .then( adminUsers => {
+            res.status(200).json({
+                message: 'Fetched admin users successfully!',
+                adminUsers: adminUsers
+            });
+        }).catch( error => {
+            res.status(500).json({
+                message: "Fetching admin users failed!"
+            });
+        });
+};
