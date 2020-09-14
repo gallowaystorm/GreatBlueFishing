@@ -124,6 +124,7 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
         this.isLoading = false;
         if (blogUpdated == true) {
           alert("Blog post has been updated!");
+          this.mode = "create";
         }
       } else {
         return;
