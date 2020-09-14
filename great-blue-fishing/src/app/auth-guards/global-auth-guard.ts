@@ -15,7 +15,7 @@ export class GlobalAuthGuard implements CanActivate{
     const isAuth = this.globalAuthService.getIsAuth();
     if (!isAuth){
       this.router.navigate(['/login']);
-      alert('You need to be logged in!')
+      alert('You need to be logged in!');
     }
     return isAuth;
   }

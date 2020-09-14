@@ -78,7 +78,6 @@ export class AdminAuthService{
     const adminUserData: UserData = {email: email, password: password, firstName: firstName, lastName: lastName, isAdmin: null};
     this.http.post(BACKEND_URL + 'registration', adminUserData)
       .subscribe ( () => {
-        this.navigateToAdminUserPage();
         this.adminCreationStatusListener.next(true);
       }, error => {
         console.log(error);
