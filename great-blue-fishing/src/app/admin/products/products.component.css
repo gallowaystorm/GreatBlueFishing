@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+h1{
+  text-align: center;
+}
+
+mat-grid-list {
+  width: 60%;
+  height: auto;
+  margin: auto;
+  border: solid black 1px;
+}
+
+mat-grid-tile {
+  background: lightblue;
+}

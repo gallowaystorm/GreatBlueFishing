@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductsComponent implements OnInit {
 
+  public product;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onDelete(){
+
   }
 
 }
