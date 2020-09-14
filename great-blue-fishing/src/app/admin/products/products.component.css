@@ -7,6 +7,15 @@ h1{
   text-align: center;
 }
 
+mat-card{
+  width: 85%;
+}
+
+img {
+  height: 30%;
+  width: auto;
+}
+
 mat-grid-list {
   width: 60%;
   height: auto;
