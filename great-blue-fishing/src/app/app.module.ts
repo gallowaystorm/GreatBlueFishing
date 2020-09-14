@@ -32,49 +32,54 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RegistrationComponent } from './customer/registration/registration.component';
 import { LoginComponent } from './customer/login/login.component';
 import { GlobalAuthInterceptor } from './interceptors/global-auth.interceptor';
+import { ErrorsComponent } from './errors/errors.component';
+import { ErrorInterceptor } from './interceptors/error-interceptor';
 
 
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HeaderComponent,
-    HomeComponent,
-    AboutComponent,
-    StoreComponent,
-    DonationsComponent,
-    GalleryComponent,
-    BlogComponent,
-    ContactComponent,
-    CreateBlogComponent,
-    ManageDonationsComponent,
-    ManageUsersComponent,
-    ProductsComponent,
-    RegistrationComponent,
-    LoginComponent
+      AppComponent,
+      HeaderComponent,
+      HomeComponent,
+      AboutComponent,
+      StoreComponent,
+      DonationsComponent,
+      GalleryComponent,
+      BlogComponent,
+      ContactComponent,
+      CreateBlogComponent,
+      ManageDonationsComponent,
+      ManageUsersComponent,
+      ProductsComponent,
+      RegistrationComponent,
+      LoginComponent,
+      ErrorsComponent
    ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatInputModule,
-    MatCardModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatExpansionModule,
-    MatProgressSpinnerModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatMenuModule,
-    MatTableModule
+      BrowserModule,
+      AppRoutingModule,
+      BrowserAnimationsModule,
+      MatInputModule,
+      MatCardModule,
+      MatButtonModule,
+      MatToolbarModule,
+      MatExpansionModule,
+      MatProgressSpinnerModule,
+      MatPaginatorModule,
+      MatDialogModule,
+      HttpClientModule,
+      ReactiveFormsModule,
+      MatIconModule,
+      MatMenuModule,
+      MatTableModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: GlobalAuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: GlobalAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorsComponent]
 })
 export class AppModule { }
