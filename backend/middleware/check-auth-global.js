@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
     } catch (error) {
         console.log(error);
         res.status(401).json({
-            message: "You are not authroized to perform this action!"
+            message: "You need to be logged in to perform this action!"
         });
     }
 }
