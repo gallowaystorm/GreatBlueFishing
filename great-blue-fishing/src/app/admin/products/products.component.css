@@ -3,11 +3,40 @@
   margin-top: 1rem;
 }
 
+mat-card {
+  width: 55%;
+  margin: auto;
+  margin-bottom: 3%;
+}
+
+
+mat-form-field,
+textarea {
+  width: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+input[type='file']{
+  visibility: hidden;
+}
+
+.image-preview{
+  height: 5rem;
+  margin: 1rem 0;
+}
+
+.image-preview img {
+  height: 100%;
+}
+
 h1{
   text-align: center;
 }
 
-mat-card{
+mat-grid-tile mat-card{
   width: 85%;
 }
 
