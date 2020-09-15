@@ -3,7 +3,7 @@
   margin-top: 1rem;
 }
 
-mat-card {
+.product-creation {
   width: 55%;
   margin: auto;
   margin-bottom: 3%;
@@ -36,22 +36,27 @@ h1{
   text-align: center;
 }
 
-mat-grid-tile mat-card{
+.product-list{
   width: 85%;
-}
-
-img {
-  height: 30%;
-  width: auto;
 }
 
 mat-grid-list {
   width: 60%;
   height: auto;
   margin: auto;
-  border: solid black 1px;
 }
 
-mat-grid-tile {
-  background: lightblue;
+.product-list mat-card {
+  width: 85%;
+  margin: auto;
+}
+.product-list mat-card-title {
+  text-align: center;
+}
+
+.product-list img {
+  height: auto;
+  width: 80%;
+  display: block;
+  margin: 5% auto 5% auto;
 }

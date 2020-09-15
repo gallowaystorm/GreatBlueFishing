@@ -40,13 +40,7 @@ export class ProductsComponent implements OnInit {
     this.mode = 'create';
     this.productId = null;
 
-    //for product list
-    this.productsService.getProducts();
-    //blog posts subscription
-    this.productsSub = this.productsService.getProductUpdateListener().subscribe((productData: { products: Product[] }) => {
-      this.isLoading = false;
-      this.products = productData.products;
-    });
+    this.getProducts();
   }
 
   onSaveProduct(formDirective: FormGroupDirective){
@@ -62,7 +56,8 @@ export class ProductsComponent implements OnInit {
         alert('Product saved successfully');
       }
     }
-
+    
+    this.getProducts();
     formDirective.resetForm();
     this.form.reset();
   }
@@ -85,6 +80,16 @@ export class ProductsComponent implements OnInit {
 
   onDelete(){
 
+  }
+
+  getProducts(){
+    //for product list
+    this.productsService.getProducts();
+    //blog posts subscription
+    this.productsSub = this.productsService.getProductUpdateListener().subscribe((productData: { products: Product[] }) => {
+      this.isLoading = false;
+      this.products = productData.products;
+    });
   }
 
 }

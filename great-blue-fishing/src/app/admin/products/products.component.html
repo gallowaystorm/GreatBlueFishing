@@ -1,7 +1,7 @@
 <h1>Manage Products</h1>
 <!-- Product Creation -->
 
-<mat-card>
+<mat-card class="product-creation">
   <mat-spinner *ngIf='isLoading'></mat-spinner>
   <form [formGroup]="form" #formDirective="ngForm" (submit)="onSaveProduct(formDirective)" *ngIf="!isLoading">
     <mat-form-field>
@@ -29,14 +29,14 @@
 
 <!-- Product List -->
 
-<!-- <mat-grid-list cols="3" rowHeight="1:1">
-  <mat-grid-tile>
+<mat-grid-list cols="3" rowHeight="1:1" class="product-list">
+  <mat-grid-tile *ngFor="let product of products">
     <mat-card>
-      <mat-card-title>Test Title</mat-card-title>
-      <img mat-card-image src="../../../../../backend/images/test-1599739266269.jpg">
+      <mat-card-title>{{ product.name }}</mat-card-title>
+      <img [src]="product.imagePath" [alt]="product.name">
       <mat-card-content>
-        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."</p>
-        <h4>$3.99</h4>
+        <p>{{ product.description }}</p>
+        <h4>${{ product.price }}</h4>
       </mat-card-content>
       <mat-card-actions>
         <a mat-button color="primary" [routerLink]="['/admin/products/edit']">Edit</a>
@@ -44,7 +44,4 @@
       </mat-card-actions>
     </mat-card>
   </mat-grid-tile>
-  <mat-grid-tile>2</mat-grid-tile>
-  <mat-grid-tile>3</mat-grid-tile>
-  <mat-grid-tile>4</mat-grid-tile>
-</mat-grid-list> -->
+</mat-grid-list>

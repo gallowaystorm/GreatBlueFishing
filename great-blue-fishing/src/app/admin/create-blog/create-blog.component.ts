@@ -77,16 +77,8 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
           this.blogId = null;
         }
       });
-    //blog posts subscription
-    this.blogsSub = this.blogService.getBlogPostUpdateListener().subscribe((blogData: { blogs: Blog[]; blogCount: number }) => {
-      this.isLoading = false;
-      //to set total posts on paginator
-      this.totalBlogs = blogData.blogCount;
-      this.blogs = blogData.blogs;
-    });
-    //for posts list
-    this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
 
+      this.getBlogs();
   }
 
   onImagePicked(event: Event){
@@ -130,15 +122,7 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
         return;
       }
     }
-    //blog posts subscription
-    this.blogsSub = this.blogService.getBlogPostUpdateListener().subscribe((blogData: { blogs: Blog[]; blogCount: number }) => {
-      this.isLoading = false;
-      //to set total posts on paginator
-      this.totalBlogs = blogData.blogCount;
-      this.blogs = blogData.blogs;
-    });
-    //for posts list
-    this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
+    this.getBlogs();
     formDirective.resetForm();
     this.form.reset();
   }
@@ -166,6 +150,18 @@ export class CreateBlogComponent implements OnInit, OnDestroy {
       //adding 1 becuase this index starts at zero
     this.currentPage = pageData.pageIndex + 1;
     this.blogsPerPage = pageData.pageSize;
+    this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
+  }
+
+  getBlogs(){
+    //blog posts subscription
+    this.blogsSub = this.blogService.getBlogPostUpdateListener().subscribe((blogData: { blogs: Blog[]; blogCount: number }) => {
+      this.isLoading = false;
+      //to set total posts on paginator
+      this.totalBlogs = blogData.blogCount;
+      this.blogs = blogData.blogs;
+    });
+    //for posts list
     this.blogService.getBlogs(this.blogsPerPage, this.currentPage);
   }
 
