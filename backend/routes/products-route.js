@@ -9,5 +9,9 @@ router.post('', checkAuth, extractFile, productController.addProduct);
 
 router.get('', productController.getAllProducts);
 
+router.get('/:id', checkAuth, productController.getSingleProduct);
+
+router.put('/:id', checkAuth, extractFile, productController.updateSingleProduct);
+
 //export all routes
 module.exports = router;

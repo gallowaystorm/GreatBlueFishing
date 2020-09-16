@@ -47,3 +47,57 @@ exports.getAllProducts = (req, res, next) => {
             });
         });
     };
+
+exports.getSingleProduct = (req, res, next) => {
+    Product.findById(req.params.id).then( product => {
+        //check if exist
+        if (product) {
+            res.status(200).json(product)
+        } else {
+            res.status(404).json({message: 'Product not found!'})
+        }
+    })
+    //to catch technical issues
+    .catch( error => {
+        res.status(500).json({
+            message: "Fetching product failed!"
+        });
+    });
+};
+
+exports.updateSingleProduct = (req, res, next) => {
+    //check if string or req already has the path
+    let imagePath = req.body.imagePath;
+    const price = parseFloat(req.body.price, 10);
+    if (req.file) {
+        //set image path to url of image
+        const url = req.protocol + '://' + req.get('host');
+        imagePath = url + '/images/' + req.file.filename; 
+    }
+    //creates new post
+    const product = new Product ({
+        _id: req.body.id,
+        name: req.body.name,
+        description: req.body.description,
+        imagePath: imagePath,
+        price: price
+    });
+    //update product based off id passed in through browser
+    //creator checks to see if the id of one updating matches the one creating
+    Product.updateOne( {_id: req.params.id }, product )
+        //if post is successfully updated
+        .then( result => {
+            //for error catching
+            if (result.n > 0){
+                res.status(200).json({message: 'Update Successful'});
+            } else {
+                res.status(401).json({message: 'Not Authroized!'});
+            }
+        })
+        //to catch tecnical errors as well
+        .catch(error => {
+            res.status(500).json({
+                message: "Couldn't update product!"
+            });
+        });  
+};

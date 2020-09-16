@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { mimeType } from '../create-blog/mime-type.validator';
 import { Product } from './product.model';
@@ -25,7 +26,7 @@ export class ProductsComponent implements OnInit {
   products: Product[] = [];
   private productsSub: Subscription;
 
-  constructor(public productsService: ProductsService) { }
+  constructor(public productsService: ProductsService, public route: ActivatedRoute) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -37,9 +38,33 @@ export class ProductsComponent implements OnInit {
       'price': new FormControl(null, {validators: [Validators.required]})
     });
 
-    this.mode = 'create';
-    this.productId = null;
-
+    //for create vs edit mode
+      //pulls the path that you are at to determine between /create and /edit/:postID
+      this.route.paramMap
+      //subscribes to observable
+      .subscribe( (paramMap: ParamMap) => {
+        //check if path exists
+        if (paramMap.has('productId')) {
+          this.mode = 'edit';
+          //sets productId in the path equal to productId variable
+          this.productId = paramMap.get('productId');
+          //spinner on load
+          this.isLoading = true;
+          //call overloaded getPost function that finds post in database that matches id
+          this.productsService.getSingleProduct(this.productId)
+            //subscribe to observable
+            .subscribe(productData => {
+              //stop spinner
+              this.isLoading = false;
+              this.product = {id: productData._id, name: productData.name, description: productData.description, imagePath: productData.imagePath, price: productData.price};
+              //overite default form value on init
+              this.form.setValue({'productName': this.product.name, 'productDescription': this.product.description, 'image': this.product.imagePath, price: this.product.price});
+            });
+        } else {
+          this.mode = 'create';
+          this.productId = null;
+        }
+      });
     this.getProducts();
   }
 
@@ -55,8 +80,20 @@ export class ProductsComponent implements OnInit {
         this.isLoading = false;
         alert('Product saved successfully');
       }
+    } else {
+      var confirmUpdate = confirm("Are you sure you want to update this product?");
+      if (confirmUpdate == true){
+        var productUpdated = this.productsService.updateProduct(this.productId, this.form.value.productName, this.form.value.productDescription, this.form.value.image, this.form.value.price);
+        this.isLoading = false;
+        if (productUpdated == true) {
+          alert("Product has been updated!");
+          this.mode = "create";
+        }
+      } else {
+        return;
+      }
     }
-    
+
     this.getProducts();
     formDirective.resetForm();
     this.form.reset();
@@ -85,7 +122,7 @@ export class ProductsComponent implements OnInit {
   getProducts(){
     //for product list
     this.productsService.getProducts();
-    //blog posts subscription
+    //product posts subscription
     this.productsSub = this.productsService.getProductUpdateListener().subscribe((productData: { products: Product[] }) => {
       this.isLoading = false;
       this.products = productData.products;
