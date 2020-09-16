@@ -84,6 +84,10 @@ export class ProductsService{
     return true;
   }
 
+  deleteProduct(productId: string){
+    return this.http.delete(BACKEND_URL +  productId);
+  }
+
   navigateToProductPage(){
     this.router.navigate(["/admin/products"]);
   }

@@ -13,5 +13,7 @@ router.get('/:id', checkAuth, productController.getSingleProduct);
 
 router.put('/:id', checkAuth, extractFile, productController.updateSingleProduct);
 
+router.delete('/:id', checkAuth, productController.deleteSingleProduct);
+
 //export all routes
 module.exports = router;

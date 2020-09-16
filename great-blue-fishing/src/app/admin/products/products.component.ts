@@ -115,8 +115,20 @@ export class ProductsComponent implements OnInit {
     reader.readAsDataURL(file);
  }
 
-  onDelete(){
-
+  onDelete(productId: string){
+    var confirmDelete = confirm("Are you sure you want to delete this product? This cannot be undone.");
+    if (confirmDelete){
+      this.isLoading = true;
+      this.productsService.deleteProduct(productId).subscribe( () => {
+        //to update product list on frontend on delete
+        this.productsService.getProducts();
+      }, () => {
+        //this method helps handle erros
+        this.isLoading = false;
+      });
+    } else {
+      return;
+    }
   }
 
   getProducts(){
