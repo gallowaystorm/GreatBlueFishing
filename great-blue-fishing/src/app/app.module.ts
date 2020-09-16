@@ -8,7 +8,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -73,7 +74,8 @@ import { ErrorInterceptor } from './interceptors/error-interceptor';
       ReactiveFormsModule,
       MatIconModule,
       MatMenuModule,
-      MatTableModule
+      MatTableModule,
+      MatGridListModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: GlobalAuthInterceptor, multi: true },

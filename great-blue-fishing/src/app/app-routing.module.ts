@@ -30,6 +30,7 @@ const routes: Routes = [
   { path: 'admin/blog', component: CreateBlogComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard]},
   { path: 'admin/edit/:blogId', component: CreateBlogComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
   { path: 'admin/products', component: ProductsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
+  { path: 'admin/products/edit/:productId', component: ProductsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
   { path: 'admin/donations', component: ManageDonationsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
   { path: 'admin/users', component: ManageUsersComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] }
 ];

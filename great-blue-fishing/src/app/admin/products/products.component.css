@@ -1,0 +1,62 @@
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+.product-creation {
+  width: 55%;
+  margin: auto;
+  margin-bottom: 3%;
+}
+
+
+mat-form-field,
+textarea {
+  width: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+input[type='file']{
+  visibility: hidden;
+}
+
+.image-preview{
+  height: 5rem;
+  margin: 1rem 0;
+}
+
+.image-preview img {
+  height: 100%;
+}
+
+h1{
+  text-align: center;
+}
+
+.product-list{
+  width: 85%;
+}
+
+mat-grid-list {
+  width: 60%;
+  height: auto;
+  margin: auto;
+}
+
+.product-list mat-card {
+  width: 85%;
+  margin: auto;
+}
+.product-list mat-card-title {
+  text-align: center;
+}
+
+.product-list img {
+  height: auto;
+  width: 80%;
+  display: block;
+  margin: 5% auto 5% auto;
+}
