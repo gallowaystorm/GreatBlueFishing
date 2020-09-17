@@ -141,4 +141,8 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(){
+    this.productsSub.unsubscribe();
+  }
+
 }

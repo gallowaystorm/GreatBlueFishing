@@ -5,6 +5,7 @@ exports.addProduct = (req, res, next) => {
     //get image url
     const url = req.protocol + '://' + req.get('host');
     //change back to number for database
+    //TODO: format price to always be in x.xx format
     const price = parseFloat(req.body.price, 10);
     const product = new Product({ 
         name: req.body.name,
