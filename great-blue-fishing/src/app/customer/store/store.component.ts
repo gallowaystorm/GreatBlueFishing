@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/admin/products/product.model';
 import { ProductsService } from 'src/app/admin/products/products.service';
+import { StoreService } from './store.service';
 
 @Component({
   selector: 'app-store',
@@ -17,11 +20,16 @@ export class StoreComponent implements OnInit, OnDestroy {
   private productId: string;
   products: Product[] = [];
   private productsSub: Subscription;
+  form: FormGroup;
 
-  constructor(public productsService: ProductsService, public route: ActivatedRoute) { }
+  constructor(public productsService: ProductsService, public route: ActivatedRoute, public storeService: StoreService, private router: Router) { }
 
   ngOnInit() {
     this.getProducts();
+    this.form = new FormGroup({
+      'quantity': new FormControl(1, {validators: [Validators.required, Validators.min(1)]}),
+    });
+
   }
 
   getProducts(){
@@ -34,8 +42,18 @@ export class StoreComponent implements OnInit, OnDestroy {
     });
   }
 
-  addToCart(productId: string){
-    console.log(productId + " is added to cart")
+  addToCart(productId: string, price: number, formDirective: FormGroupDirective){
+    console.log(productId + " " + this.form.value.quantity);
+    this.storeService.addToCart(productId, this.form.value.quantity, price);
+    //to reset the form back to 1
+    formDirective.resetForm();
+    this.form = new FormGroup({
+      'quantity': new FormControl(1, {validators: [Validators.required, Validators.min(1)]}),
+    });
+  }
+
+  goToShoppingCart(){
+    this.router.navigate(['/shoppingcart']);
   }
 
   ngOnDestroy(){
