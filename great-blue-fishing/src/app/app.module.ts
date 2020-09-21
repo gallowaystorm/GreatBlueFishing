@@ -35,6 +35,7 @@ import { LoginComponent } from './customer/login/login.component';
 import { GlobalAuthInterceptor } from './interceptors/global-auth.interceptor';
 import { ErrorsComponent } from './errors/errors.component';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
+import { CheckoutComponent } from './customer/checkout/checkout.component';
 
 
 
@@ -56,7 +57,8 @@ import { ErrorInterceptor } from './interceptors/error-interceptor';
       ProductsComponent,
       RegistrationComponent,
       LoginComponent,
-      ErrorsComponent
+      ErrorsComponent,
+      CheckoutComponent
    ],
   imports: [
       BrowserModule,
@@ -74,8 +76,8 @@ import { ErrorInterceptor } from './interceptors/error-interceptor';
       ReactiveFormsModule,
       MatIconModule,
       MatMenuModule,
-      MatTableModule,
-      MatGridListModule
+      MatGridListModule,
+      MatTableModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: GlobalAuthInterceptor, multi: true },

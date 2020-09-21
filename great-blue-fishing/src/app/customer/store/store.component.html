@@ -15,7 +15,7 @@
         <h4>${{ product.price }}</h4>
       </mat-card-content>
       <mat-card-actions>
-        <form [formGroup]="form" #formDirective="ngForm" (submit)="addToCart(product.id, product.price, formDirective)">
+        <form [formGroup]="form" #formDirective="ngForm" (submit)="addToCart(product.id, product.price, product.name, formDirective)">
           <input id='quantity' type='number' matInput formControlName="quantity">
           <button mat-button color="primary" type="submit">
             <mat-icon aria-hidden="false" aria-label="home icon">add_shopping_cart</mat-icon>

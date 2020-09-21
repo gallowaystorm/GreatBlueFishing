@@ -1,3 +1,61 @@
-<p>
-  checkout works!
-</p>
+<h1>Checkout</h1>
+
+<!-- CART -->
+
+<table mat-table [dataSource]="cart" class="mat-elevation-z8" *ngIf='!isLoading'>
+  <mat-spinner *ngIf='isLoading'></mat-spinner>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="productName">
+    <th mat-header-cell *matHeaderCellDef> Product Name </th>
+    <td mat-cell *matCellDef="let cart"> {{cart.productName}} </td>
+  </ng-container>
+
+  <!-- Image Column -->
+  <ng-container matColumnDef="image">
+    <th mat-header-cell *matHeaderCellDef> Image </th>
+    <td mat-cell *matCellDef="let cart"> {{cart.image}} </td>
+  </ng-container>
+
+  <!-- Price Column -->
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef> Price </th>
+    <td mat-cell *matCellDef="let cart"> {{cart.price}} </td>
+  </ng-container>
+
+  <!-- Quantity Column -->
+  <ng-container matColumnDef="quantity">
+    <th mat-header-cell *matHeaderCellDef> Quantity </th>
+    <td mat-cell *matCellDef="let cart"> {{cart.quantity}} </td>
+  </ng-container>
+
+
+  <!-- Delete Button Column -->
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef> Delete? </th>
+    <td mat-cell *matCellDef="let cart">
+      <button mat-button color="warn" (click)="onDelete(cart.id)">X</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<!-- TOTAL -->
+<table mat-table [dataSource]="total" class="mat-elevation-z8" *ngIf='!isLoading'>
+  <mat-spinner *ngIf='isLoading'></mat-spinner>
+
+  <!-- Total Column -->
+  <ng-container matColumnDef="price">
+    <td mat-cell> Total </td>
+  </ng-container>
+
+  <!-- Quantity Column -->
+  <ng-container matColumnDef="total">
+    <td mat-cell> Will be a Number </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

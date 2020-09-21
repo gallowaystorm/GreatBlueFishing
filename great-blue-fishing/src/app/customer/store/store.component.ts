@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/admin/products/product.model';
 import { ProductsService } from 'src/app/admin/products/products.service';
+import { GlobalAuthService } from 'src/app/global-auth.service';
 import { StoreService } from './store.service';
 
 @Component({
@@ -21,8 +22,9 @@ export class StoreComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   private productsSub: Subscription;
   form: FormGroup;
+  isAuth = false;
 
-  constructor(public productsService: ProductsService, public route: ActivatedRoute, public storeService: StoreService, private router: Router) { }
+  constructor(public productsService: ProductsService, public route: ActivatedRoute, public storeService: StoreService, private router: Router, private globalAuthService: GlobalAuthService) { }
 
   ngOnInit() {
     this.getProducts();
@@ -42,14 +44,19 @@ export class StoreComponent implements OnInit, OnDestroy {
     });
   }
 
-  addToCart(productId: string, price: number, formDirective: FormGroupDirective){
+  addToCart(productId: string, price: number, name: string, formDirective: FormGroupDirective){
     console.log(productId + " " + this.form.value.quantity);
-    this.storeService.addToCart(productId, this.form.value.quantity, price);
-    //to reset the form back to 1
-    formDirective.resetForm();
-    this.form = new FormGroup({
-      'quantity': new FormControl(1, {validators: [Validators.required, Validators.min(1)]}),
-    });
+    this.isAuth = this.globalAuthService.getIsAuth()
+    if (this.isAuth){
+      this.storeService.addToCart(productId, this.form.value.quantity, price, name);
+      //to reset the form back to 1
+      formDirective.resetForm();
+      this.form = new FormGroup({
+        'quantity': new FormControl(1, {validators: [Validators.required, Validators.min(1)]}),
+      });
+      return
+    }
+    alert("You need to be logged in first!");
   }
 
   goToShoppingCart(){

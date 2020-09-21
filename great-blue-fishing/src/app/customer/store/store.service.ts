@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CartData } from './cart.model'
 
@@ -8,14 +9,26 @@ const BACKEND_URL = environment.apiUrl + '/store/'
 export class StoreService{
 
   cart: CartData[] = [];
+  private cartDataListener = new Subject<CartData[]>();
 
-  addToCart(productId: string, itemQuantity: number, price: number){
+  addToCart(productId: string, itemQuantity: number, price: number, productName: string){
     const cartData: CartData = {
       productId: productId,
+      productName: productName,
       quantity: itemQuantity,
       price: price
     }
     this.cart.push(cartData);
     localStorage.setItem('cart', JSON.stringify(this.cart));
   }
+
+  getCart(){
+    //retrieves cart from local storage and changes it back to an object
+    this.cart = JSON.parse(localStorage.getItem('cart'));
+    return this.cart;
+  }
+
+//   getCartDataListener(){
+//     return this.cartDataListener.asObservable();
+//   }
 }

@@ -1,0 +1,18 @@
+
+:host {
+  display: block;
+  margin-top: 2rem;
+}
+
+h1 {
+  text-align: center;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+table {
+  width: 40%;
+  margin: 2% auto;
+}
