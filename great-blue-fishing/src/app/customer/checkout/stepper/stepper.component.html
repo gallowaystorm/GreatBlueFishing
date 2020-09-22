@@ -1,0 +1,114 @@
+
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <!-- NAME -->
+  <mat-step [stepControl]="name">
+    <form [formGroup]="name">
+      <ng-template matStepLabel>Fill out your name</ng-template>
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <!-- SHIPPPING -->
+  <mat-step [stepControl]="shippingAddress" label="Fill out your shipping address">
+    <form [formGroup]="shippingAddress">
+      <mat-form-field>
+        <mat-label>Street Address</mat-label>
+        <input matInput formControlName="shippingStreetAddress" placeholder="Ex. 1 Main St." required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Address Line Two</mat-label>
+        <input matInput formControlName="shippingAddressLineTwo" placeholder="Ex. APT 1234" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>City</mat-label>
+        <input matInput formControlName="shippingCity" placeholder="Baltimore" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>State</mat-label>
+        <mat-select formControlName="shippingState" >
+          <mat-option *ngFor="let state of states" [value]="state.value" required> {{state.viewValue}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Postal Code</mat-label>
+        <input matInput formControlName="shippingPostal" placeholder="12345" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <!-- BILLING -->
+  <mat-step [stepControl]="billing" label="Fill out your billing information">
+    <form [formGroup]="billing">
+      <div class='payment-info'>
+        <mat-form-field>
+          <mat-label>Card Type</mat-label>
+          <input matInput formControlName="cardType" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Card Number</mat-label>
+          <input matInput formControlName="cardNumber" placeholder="xxxxxxxxxxxxxxxx" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Security Code</mat-label>
+          <input matInput formControlName="securityCode" placeholder="123" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Expiration</mat-label>
+          <input matInput formControlName="expiration" placeholder="MM/YY" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Name On Card</mat-label>
+          <input matInput formControlName="nameOnCard" placeholder="John Doe" required>
+        </mat-form-field>
+      </div><br>
+      <div class="shipping-address">
+        <mat-form-field>
+          <mat-label>Street Address</mat-label>
+          <input matInput formControlName="billingStreetAddress" placeholder="Ex. 1 Main St." required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Address Line Two</mat-label>
+          <input matInput formControlName="billingAddressLineTwo" placeholder="Ex. APT 1234" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>City</mat-label>
+          <input matInput formControlName="billingCity" placeholder="Baltimore" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>State</mat-label>
+          <mat-select formControlName="billingState" >
+            <mat-option *ngFor="let state of states" [value]="state.value" required> {{state.viewValue}} </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Postal Code</mat-label>
+          <input matInput formControlName="billingPostal" placeholder="12345" required>
+        </mat-form-field>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>Press submit to place your order.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button type="submit" (click)="onPlaceOrder()">Submt</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

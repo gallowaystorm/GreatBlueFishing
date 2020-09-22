@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatSelectModule } from '@angular/material/select';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -36,6 +38,7 @@ import { GlobalAuthInterceptor } from './interceptors/global-auth.interceptor';
 import { ErrorsComponent } from './errors/errors.component';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
 import { CheckoutComponent } from './customer/checkout/checkout.component';
+import { StepperComponent } from './customer/checkout/stepper/stepper.component';
 
 
 
@@ -58,7 +61,8 @@ import { CheckoutComponent } from './customer/checkout/checkout.component';
       RegistrationComponent,
       LoginComponent,
       ErrorsComponent,
-      CheckoutComponent
+      CheckoutComponent,
+      StepperComponent
    ],
   imports: [
       BrowserModule,
@@ -77,7 +81,9 @@ import { CheckoutComponent } from './customer/checkout/checkout.component';
       MatIconModule,
       MatMenuModule,
       MatGridListModule,
-      MatTableModule
+      MatTableModule,
+      MatStepperModule,
+      MatSelectModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: GlobalAuthInterceptor, multi: true },

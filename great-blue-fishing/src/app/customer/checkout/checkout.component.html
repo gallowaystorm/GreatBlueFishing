@@ -2,7 +2,7 @@
 
 <!-- CART -->
 
-<table mat-table [dataSource]="cart" class="mat-elevation-z8" *ngIf='!isLoading'>
+<table mat-table [dataSource]="cart" class="mat-elevation-z8" *ngIf='!isLoading' class='cart-table'>
   <mat-spinner *ngIf='isLoading'></mat-spinner>
 
   <!-- Name Column -->
@@ -43,19 +43,23 @@
 </table>
 
 <!-- TOTAL -->
-<table mat-table [dataSource]="total" class="mat-elevation-z8" *ngIf='!isLoading'>
+<table mat-table [dataSource]="total" class="mat-elevation-z8" *ngIf='!isLoading' class='total-table'>
   <mat-spinner *ngIf='isLoading'></mat-spinner>
 
   <!-- Total Column -->
-  <ng-container matColumnDef="price">
-    <td mat-cell> Total </td>
-  </ng-container>
-
-  <!-- Quantity Column -->
   <ng-container matColumnDef="total">
-    <td mat-cell> Will be a Number </td>
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let total"> {{total.total}} </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <!-- Amount Column -->
+  <ng-container matColumnDef="totalAmount">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let total"> {{total.totalAmount}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumnsTotal"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumnsTotal;"></tr>
 </table>
+
+<app-stepper></app-stepper>

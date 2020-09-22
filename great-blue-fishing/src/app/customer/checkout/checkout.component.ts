@@ -14,12 +14,13 @@ import { StoreService } from '../store/store.service';
 export class CheckoutComponent implements OnInit {
 
   isLoading = false;
+  showTableHeader = false;
 
   //for users list
   cart: CartData[] = [{productId: "id", productName: "Test Name", quantity: 3, price: 5.99}];
   displayedColumns: string[] = ['productName', 'price', 'quantity', 'delete'];
   //for total
-  total: TotalData[] = [];
+  total: TotalData[] = [{total: "Total", totalAmount: 3.99}];
   displayedColumnsTotal: string[] = ['total', 'totalAmount'];
 
 
@@ -28,13 +29,18 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
     this.isLoading = true;
     this.getCart();
+    this.getTotal();
+    this.isLoading = false;
   }
 
   getCart(){
     const cartData = this.storeService.getCart();
     console.log(cartData);
     this.cart = cartData;
-    this.isLoading = false;
+  }
+
+  getTotal(){
+    return true;
   }
 
   onDelete(id: string){

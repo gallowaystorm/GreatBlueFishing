@@ -44,6 +44,7 @@ export class StoreComponent implements OnInit, OnDestroy {
     });
   }
 
+  // TODO: need to link cart to userID to keep it in one account (probably in localstorage)
   addToCart(productId: string, price: number, name: string, formDirective: FormGroupDirective){
     console.log(productId + " " + this.form.value.quantity);
     this.isAuth = this.globalAuthService.getIsAuth()
