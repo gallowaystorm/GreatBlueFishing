@@ -12,6 +12,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatListModule } from '@angular/material/list';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -39,6 +41,8 @@ import { ErrorsComponent } from './errors/errors.component';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
 import { CheckoutComponent } from './customer/checkout/checkout.component';
 import { StepperComponent } from './customer/checkout/stepper/stepper.component';
+import { ReviewOrderComponent } from './customer/checkout/review-order/review-order.component';
+import { Data } from './data';
 
 
 
@@ -62,7 +66,8 @@ import { StepperComponent } from './customer/checkout/stepper/stepper.component'
       LoginComponent,
       ErrorsComponent,
       CheckoutComponent,
-      StepperComponent
+      StepperComponent,
+      ReviewOrderComponent
    ],
   imports: [
       BrowserModule,
@@ -83,11 +88,14 @@ import { StepperComponent } from './customer/checkout/stepper/stepper.component'
       MatGridListModule,
       MatTableModule,
       MatStepperModule,
-      MatSelectModule
+      MatSelectModule,
+      MatRadioModule,
+      MatListModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: GlobalAuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    [Data]
   ],
   bootstrap: [AppComponent],
   entryComponents: [ErrorsComponent]

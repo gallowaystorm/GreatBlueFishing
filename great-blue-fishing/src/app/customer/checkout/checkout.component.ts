@@ -17,7 +17,7 @@ export class CheckoutComponent implements OnInit {
   showTableHeader = false;
 
   //for users list
-  cart: CartData[] = [{productId: "id", productName: "Test Name", quantity: 3, price: 5.99}];
+  cart: CartData[] = [];
   displayedColumns: string[] = ['productName', 'price', 'quantity', 'delete'];
   //for total
   total: TotalData[] = [{total: "Total", totalAmount: 3.99}];
@@ -35,7 +35,6 @@ export class CheckoutComponent implements OnInit {
 
   getCart(){
     const cartData = this.storeService.getCart();
-    console.log(cartData);
     this.cart = cartData;
   }
 

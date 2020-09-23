@@ -54,7 +54,9 @@
       <div class='payment-info'>
         <mat-form-field>
           <mat-label>Card Type</mat-label>
-          <input matInput formControlName="cardType" required>
+          <mat-select formControlName="cardType" >
+            <mat-option *ngFor="let cardType of creditCardTypes" [value]="cardType.value" required> {{cardType.viewValue}} </mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Card Number</mat-label>
@@ -108,7 +110,7 @@
     <p>Press submit to place your order.</p>
     <div>
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button type="submit" (click)="onPlaceOrder()">Submt</button>
+      <button mat-button type="submit" (click)="onReviewOrder()">Review Order</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

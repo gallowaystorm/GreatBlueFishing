@@ -10,13 +10,16 @@ export class StoreService{
 
   cart: CartData[] = [];
   private cartDataListener = new Subject<CartData[]>();
+  public userId: string;
 
   addToCart(productId: string, itemQuantity: number, price: number, productName: string){
+    this.userId = localStorage.getItem('userId')
     const cartData: CartData = {
       productId: productId,
       productName: productName,
       quantity: itemQuantity,
-      price: price
+      price: price,
+      userId: this.userId
     }
     this.cart.push(cartData);
     localStorage.setItem('cart', JSON.stringify(this.cart));

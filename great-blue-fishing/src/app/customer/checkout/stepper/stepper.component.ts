@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavigationExtras, Router } from '@angular/router';
+import { Data } from 'src/app/data';
 import { CardType } from './payments.model';
 import { State } from './states.model';
 
@@ -22,21 +24,21 @@ export class StepperComponent implements OnInit {
   //for credit cards
   creditCardTypes = CardType;
 
-  constructor(private _formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private data: Data) { }
 
   ngOnInit() {
-    this.name = this._formBuilder.group({
+    this.name = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required]
     });
-    this.shippingAddress = this._formBuilder.group({
+    this.shippingAddress = this.formBuilder.group({
       shippingStreetAddress: ['', Validators.required],
       shippingAddressLineTwo: ['', Validators.required],
       shippingCity: ['', Validators.required],
       shippingState: ['', Validators.required],
       shippingPostal: ['', Validators.required]
     });
-    this.billing = this._formBuilder.group({
+    this.billing = this.formBuilder.group({
       cardType: ['', Validators.required],
       cardNumber: ['', Validators.required],
       securityCode: ['', Validators.required],
@@ -50,8 +52,20 @@ export class StepperComponent implements OnInit {
     });
   }
 
-  onPlaceOrder(){
-    
+  onReviewOrder(){
+    // const navParamas: NavigationExtras = {
+    //   queryParams: {
+    //     nameInformation: JSON.stringify(this.name),
+    //     shippingInformation: JSON.stringify(this.shippingAddress),
+    //     billingInformation: JSON.stringify(this.billing)
+    //   }
+    // }
+    this.data.storage = {
+      nameInformation: this.name,
+      shippingInformation: this.shippingAddress,
+      billingInformation: this.billing
+    }
+    this.router.navigate(['/review']);
   }
 
 }
