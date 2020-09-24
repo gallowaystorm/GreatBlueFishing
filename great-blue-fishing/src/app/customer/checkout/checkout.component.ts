@@ -42,7 +42,7 @@ export class CheckoutComponent implements OnInit {
     return true;
   }
 
-  onDelete(id: string){
+  onDelete(productId: string){
 
   }
 

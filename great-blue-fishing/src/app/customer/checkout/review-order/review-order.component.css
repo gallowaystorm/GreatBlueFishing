@@ -6,3 +6,52 @@
 h1 {
   text-align: center;
 }
+
+.cart-table {
+  width: 40%;
+  margin: 2% auto 0 auto;
+}
+
+.total-table {
+  width: 30%;
+  margin: auto;
+}
+
+.total-table mat-header-cell{
+  display: none;
+}
+
+.name-card{
+  margin: 5% auto 1% auto;
+  width: 35%;
+}
+
+.shipping-card{
+  margin: 1% auto 1% auto;
+  width: 35%;
+}
+
+.billing-card {
+  margin: 1% auto 1% auto;
+  width: 35%;
+}
+
+.billing-container{
+  display: flex;
+}
+
+.billing-card .billing-payment-info {
+  flex: 1;
+}
+
+mat-card input {
+  margin-left: 2%;
+}
+
+mat-card mat-label{
+  font-weight: bold;
+}
+
+mat-card-title {
+  text-align: center;
+}
