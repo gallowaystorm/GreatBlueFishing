@@ -33,7 +33,7 @@ export class StepperComponent implements OnInit {
     });
     this.shippingAddress = this.formBuilder.group({
       shippingStreetAddress: ['', Validators.required],
-      shippingAddressLineTwo: ['', Validators.required],
+      shippingAddressLineTwo: [null],
       shippingCity: ['', Validators.required],
       shippingState: ['', Validators.required],
       shippingPostal: ['', Validators.required]
@@ -45,7 +45,7 @@ export class StepperComponent implements OnInit {
       expiration: ['', Validators.required],
       nameOnCard: ['', Validators.required],
       billingStreetAddress: ['', Validators.required],
-      billingAddressLineTwo: ['', Validators.required],
+      billingAddressLineTwo: [null],
       billingCity: ['', Validators.required],
       billingState: ['', Validators.required],
       billingPostal: ['', Validators.required]
@@ -53,18 +53,12 @@ export class StepperComponent implements OnInit {
   }
 
   onReviewOrder(){
-    // const navParamas: NavigationExtras = {
-    //   queryParams: {
-    //     nameInformation: JSON.stringify(this.name),
-    //     shippingInformation: JSON.stringify(this.shippingAddress),
-    //     billingInformation: JSON.stringify(this.billing)
-    //   }
-    // }
     this.data.storage = {
       nameInformation: this.name,
       shippingInformation: this.shippingAddress,
       billingInformation: this.billing
     }
+    // this.router.navigate(['/review'], { skipLocationChange: true });
     this.router.navigate(['/review']);
   }
 

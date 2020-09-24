@@ -20,8 +20,10 @@ export class CheckoutComponent implements OnInit {
   cart: CartData[] = [];
   displayedColumns: string[] = ['productName', 'price', 'quantity', 'delete'];
   //for total
-  total: TotalData[] = [{total: "Total", totalAmount: 3.99}];
+  totalPrice = 0;
+  total: TotalData[] = [{total: "Total", totalAmount: this.totalPrice}];
   displayedColumnsTotal: string[] = ['total', 'totalAmount'];
+
 
 
   constructor(public storeService: StoreService) { }
@@ -29,7 +31,7 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
     this.isLoading = true;
     this.getCart();
-    this.getTotal();
+    this.totalPrice = this.getTotal();
     this.isLoading = false;
   }
 
@@ -39,7 +41,10 @@ export class CheckoutComponent implements OnInit {
   }
 
   getTotal(){
-    return true;
+    for (let i = 0; i < this.cart.length; i++){
+      this.totalPrice = (this.cart[i].price * this.cart[i].quantity) + this.totalPrice;
+    }
+    return this.totalPrice;
   }
 
   onDelete(productId: string){

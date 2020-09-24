@@ -22,7 +22,8 @@ export class ReviewOrderComponent implements OnInit {
   cart: CartData[] = [];
   displayedColumns: string[] = ['productName', 'price', 'quantity'];
   //for total
-  total: TotalData[] = [{total: "Total", totalAmount: 3.99}];
+  totalPrice = 0;
+  total: TotalData[] = [{total: "Total", totalAmount: this.totalPrice}];
   displayedColumnsTotal: string[] = ['total', 'totalAmount'];
 
   constructor(private data: Data, public storeService: StoreService) {
@@ -31,23 +32,27 @@ export class ReviewOrderComponent implements OnInit {
   ngOnInit() {
     this.isLoading = true;
     this.getCart();
-    this.isLoading = false;
-    console.log(this.data.storage)
+    this.totalPrice = this.getTotal();
     this.nameInformation = this.data.storage['nameInformation']['value'];
     this.shippingInformation = this.data.storage['shippingInformation']['value'];
     this.billingInformation = this.data.storage['billingInformation']['value'];
-
-
-    //delete eventually
-    console.log(this.nameInformation);
-    console.log(this.shippingInformation);
-    console.log(this.billingInformation);
+    this.isLoading = false;
   }
 
   getCart(){
     const cartData = this.storeService.getCart();
     this.cart = cartData;
-    console.log(this.cart)
+  }
+
+  getTotal(){
+    for (let i = 0; i < this.cart.length; i++){
+      this.totalPrice = (this.cart[i].price * this.cart[i].quantity) + this.totalPrice;
+    }
+    return this.totalPrice;
+  }
+
+  onSubmitOrder(){
+
   }
 
 }
