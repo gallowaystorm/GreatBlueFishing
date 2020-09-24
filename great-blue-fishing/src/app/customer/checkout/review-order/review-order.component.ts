@@ -52,7 +52,8 @@ export class ReviewOrderComponent implements OnInit {
   }
 
   onSubmitOrder(){
-
+    this.isLoading = true;
+    this.storeService.placeOrder(this.nameInformation, this.shippingInformation, this.billingInformation);
   }
 
 }

@@ -118,5 +118,7 @@
     </div>
 </div>
 </mat-card>
-<button mat-raised-button color="primary">Back</button>
-<button mat-raised-button color="primary">Place Order</button>
+<div class='buttons'>
+  <button mat-raised-button color="primary">Back</button>
+  <button mat-raised-button color="primary" (click)="onSubmitOrder()">Place Order</button>
+</div>

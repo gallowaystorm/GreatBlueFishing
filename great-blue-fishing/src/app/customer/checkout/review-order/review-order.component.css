@@ -55,3 +55,13 @@ mat-card mat-label{
 mat-card-title {
   text-align: center;
 }
+
+.buttons {
+  width: 35%;
+  margin: auto;
+  text-align:  center;
+}
+
+.buttons button{
+  margin: 0 1% 5% 1%;
+}
