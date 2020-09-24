@@ -26,8 +26,8 @@ const orderSchema = mongoose.Schema({
             postal: { type: Number, required: true }
         }
     },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true  },
-    orderDetailsId: { type: mongoose.Schema.Types.ObjectId, ref: 'OrderDetails', required: true  }
+    userId: { type: String, required: true },
+    orderDetailsId: { type: String, required: true }
 })
 
 

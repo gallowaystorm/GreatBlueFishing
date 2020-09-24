@@ -6,4 +6,4 @@ const orderDetailsSchema = mongoose.Schema({
     total: { type: Number, required: true }
 })
 
-module.exports = mongoose.model('OrderDetails', orderSchema);
+module.exports = mongoose.model('OrderDetails', orderDetailsSchema);
