@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Data } from 'src/app/data';
 import { CartData } from '../../store/cart.model';
 import { StoreService } from '../../store/store.service';
@@ -15,6 +15,7 @@ export class ReviewOrderComponent implements OnInit {
   nameInformation: any;
   shippingInformation: any;
   billingInformation: any;
+  cartData: any;
   isLoading = false;
   showTableHeader = false;
 
@@ -26,7 +27,7 @@ export class ReviewOrderComponent implements OnInit {
   total: TotalData[] = [{total: "Total", totalAmount: this.totalPrice}];
   displayedColumnsTotal: string[] = ['total', 'totalAmount'];
 
-  constructor(private data: Data, public storeService: StoreService) {
+  constructor(private data: Data, public storeService: StoreService, private router: Router) {
    }
 
   ngOnInit() {
@@ -36,6 +37,7 @@ export class ReviewOrderComponent implements OnInit {
     this.nameInformation = this.data.storage['nameInformation']['value'];
     this.shippingInformation = this.data.storage['shippingInformation']['value'];
     this.billingInformation = this.data.storage['billingInformation']['value'];
+    this.cartData = this.data.storage['cartData'];
     this.isLoading = false;
   }
 
@@ -51,9 +53,13 @@ export class ReviewOrderComponent implements OnInit {
     return this.totalPrice;
   }
 
+  onNavigateBack(){
+    this.router.navigate(['/checkout']);
+  }
+
   onSubmitOrder(){
     this.isLoading = true;
-    this.storeService.placeOrder(this.nameInformation, this.shippingInformation, this.billingInformation);
+    this.storeService.placeOrder(this.nameInformation, this.shippingInformation, this.billingInformation, this.cartData);
   }
 
 }

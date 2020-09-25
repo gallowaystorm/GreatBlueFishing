@@ -17,6 +17,7 @@ import { GlobalAuthGuard } from './auth-guards/global-auth-guard';
 import { AdminAuthGuard } from './auth-guards/admin-auth-guard';
 import { CheckoutComponent } from './customer/checkout/checkout.component';
 import { ReviewOrderComponent } from './customer/checkout/review-order/review-order.component';
+import { OrderCreationStatusComponent } from './customer/checkout/order-creation-status/order-creation-status.component';
 
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'store', component: StoreComponent },
   { path: 'checkout', component: CheckoutComponent, canActivate: [GlobalAuthGuard] },
   { path: 'review', component: ReviewOrderComponent, canActivate: [GlobalAuthGuard]},
+  { path: 'order-status', component: OrderCreationStatusComponent, canActivate: [GlobalAuthGuard]},
   { path: 'donations', component: DonationsComponent },
   { path: 'gallery', component: GalleryComponent },
   { path: 'blog', component: BlogComponent },

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { Data } from 'src/app/data';
+import { StoreService } from '../../store/store.service';
 import { CardType } from './payments.model';
 import { State } from './states.model';
 
@@ -24,7 +25,7 @@ export class StepperComponent implements OnInit {
   //for credit cards
   creditCardTypes = CardType;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private data: Data) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private data: Data, public storeService: StoreService) { }
 
   ngOnInit() {
     this.name = this.formBuilder.group({
@@ -56,7 +57,8 @@ export class StepperComponent implements OnInit {
     this.data.storage = {
       nameInformation: this.name,
       shippingInformation: this.shippingAddress,
-      billingInformation: this.billing
+      billingInformation: this.billing,
+      cartData: this.storeService.getCart()
     }
     // this.router.navigate(['/review'], { skipLocationChange: true });
     this.router.navigate(['/review']);

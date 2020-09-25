@@ -43,6 +43,7 @@ import { CheckoutComponent } from './customer/checkout/checkout.component';
 import { StepperComponent } from './customer/checkout/stepper/stepper.component';
 import { ReviewOrderComponent } from './customer/checkout/review-order/review-order.component';
 import { Data } from './data';
+import { OrderCreationStatusComponent } from './customer/checkout/order-creation-status/order-creation-status.component';
 
 
 
@@ -67,7 +68,8 @@ import { Data } from './data';
       ErrorsComponent,
       CheckoutComponent,
       StepperComponent,
-      ReviewOrderComponent
+      ReviewOrderComponent,
+      OrderCreationStatusComponent
    ],
   imports: [
       BrowserModule,

@@ -6,6 +6,8 @@ import { OrderData } from '../checkout/stepper/orders.model';
 import { PaymentData } from '../checkout/stepper/payments.model';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Data } from 'src/app/data';
+import { repeat } from 'rxjs/operators';
 
 const BACKEND_URL = environment.apiUrl + '/store/'
 
@@ -20,7 +22,7 @@ export class StoreService{
   paymentData: PaymentData[] = [];
   cartAfterCheckingUser: CartData[] = [];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private data: Data) {}
 
   addToCart(productId: string, itemQuantity: number, price: number, productName: string){
     this.userId = localStorage.getItem('userId')
@@ -36,10 +38,10 @@ export class StoreService{
   }
 
   getCart(){
+    this.cartAfterCheckingUser = [];
     //retrieves cart from local storage and changes it back to an object
     this.userId = localStorage.getItem('userId');
     let cartBeforeCheckingUser =  JSON.parse(localStorage.getItem('cart'));
-    console.log(cartBeforeCheckingUser);
     //iterate through cart data and only pull for user currently logged in
     for (let i = 0; i < cartBeforeCheckingUser.length; i++) {
       if(this.userId === cartBeforeCheckingUser[i].userId) {
@@ -49,10 +51,16 @@ export class StoreService{
     return this.cartAfterCheckingUser;
   }
 
-  placeOrder(nameInformation: any, shippingInformation:any, billingInformation: any){
-    this.http.post<{message: string, createdOrder: any}>(BACKEND_URL + 'order', {cartDetails: this.cart, nameInformation, shippingInformation, billingInformation})
+  placeOrder(nameInformation: any, shippingInformation:any, billingInformation: any, cartData: any){
+    this.http.post<{message: string, orderId: any}>(BACKEND_URL + 'order', {cartData, nameInformation, shippingInformation, billingInformation})
       .subscribe(response => {
-        console.log(response);
+        //#TODO need to delete cart for that user
+        this.data.storage = {
+          message: response.message,
+          orderId: response.orderId
+        }
+        // this.router.navigate(['/review'], { skipLocationChange: true });
+        this.router.navigate(['/order-status']);
       });
   }
 
