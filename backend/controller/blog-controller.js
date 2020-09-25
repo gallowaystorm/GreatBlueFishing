@@ -11,6 +11,7 @@ exports.createBlogPost = (req, res, next) => {
     //saves to database and get result back of save
     blog.save().then(createdBlog => {
         //sends status and then sends back a message and the id of post that was saved
+        console.log(createdBlog);
         res.status(201).json({
             message: 'Blog added successfully',
             blog: {

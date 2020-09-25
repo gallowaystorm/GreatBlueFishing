@@ -60,10 +60,17 @@ exports.placeOrder = (req, res, next) => {
                 orderId: createdOrder._id
             });
             orderDetails.save().then(createdOrderDetails => {
-                res.status(201).json({
-                    message: 'Order created successfully',
-                    orderId: createdOrder._id
-                });
+                console.log(createdOrderDetails);
+            })
+        }
+        if (createdOrderDetails) {
+            return res.status(201).json({
+                message: 'Order created successfully',
+                orderId: createdOrder._id
+            });
+        } else {
+            return res.status(500).json({
+                message: "Creating order details failed!"
             });
         }
     }).catch( error => {
