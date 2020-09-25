@@ -39,8 +39,7 @@ exports.placeOrder = (req, res, next) => {
                 postal: billingInformation.billingPostal
             }
         },
-        userId: 123,
-        orderDetailsId: 123
+        userId: 123
     }) 
 
     //save order to database

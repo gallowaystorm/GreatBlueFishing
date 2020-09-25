@@ -18,6 +18,7 @@ export class StoreService{
   //for orders
   orderData: OrderData[] = [];
   paymentData: PaymentData[] = [];
+  cartAfterCheckingUser: CartData[] = [];
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -36,8 +37,16 @@ export class StoreService{
 
   getCart(){
     //retrieves cart from local storage and changes it back to an object
-    this.cart = JSON.parse(localStorage.getItem('cart'));
-    return this.cart;
+    this.userId = localStorage.getItem('userId');
+    let cartBeforeCheckingUser =  JSON.parse(localStorage.getItem('cart'));
+    console.log(cartBeforeCheckingUser);
+    //iterate through cart data and only pull for user currently logged in
+    for (let i = 0; i < cartBeforeCheckingUser.length; i++) {
+      if(this.userId === cartBeforeCheckingUser[i].userId) {
+        this.cartAfterCheckingUser.push(cartBeforeCheckingUser[i]);
+      }
+    }
+    return this.cartAfterCheckingUser;
   }
 
   placeOrder(nameInformation: any, shippingInformation:any, billingInformation: any){

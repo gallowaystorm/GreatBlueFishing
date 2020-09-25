@@ -26,8 +26,7 @@ const orderSchema = mongoose.Schema({
             postal: { type: Number, required: true }
         }
     },
-    userId: { type: String, required: true },
-    orderDetailsId: { type: String, required: true }
+    userId: { type: String, required: true }
 })
 
 
