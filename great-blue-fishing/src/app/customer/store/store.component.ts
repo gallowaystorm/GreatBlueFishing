@@ -34,6 +34,8 @@ export class StoreComponent implements OnInit, OnDestroy {
 
   }
 
+  //TODO: fix bug with picture size cutting off mat actions row
+
   getProducts(){
     //for product list
     this.productsService.getProducts();

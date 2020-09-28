@@ -55,12 +55,14 @@ export class StoreService{
     this.http.post<{message: string, orderId: any}>(BACKEND_URL + 'order', {cartData, nameInformation, shippingInformation, billingInformation})
       .subscribe(response => {
         //#TODO need to delete cart for that user
+        console.log(response.message);
         this.data.storage = {
           message: response.message,
           orderId: response.orderId
         }
-        // this.router.navigate(['/review'], { skipLocationChange: true });
         this.router.navigate(['/order-status']);
+
+        return true;
       });
   }
 

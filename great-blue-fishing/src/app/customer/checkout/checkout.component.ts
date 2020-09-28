@@ -24,7 +24,7 @@ export class CheckoutComponent implements OnInit {
   total: TotalData[] = [{total: "Total", totalAmount: this.totalPrice}];
   displayedColumnsTotal: string[] = ['total', 'totalAmount'];
 
-
+  //TODO: limit total to only two decimal places
 
   constructor(public storeService: StoreService) { }
 
