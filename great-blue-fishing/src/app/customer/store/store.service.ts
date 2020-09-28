@@ -54,15 +54,28 @@ export class StoreService{
   placeOrder(nameInformation: any, shippingInformation:any, billingInformation: any, cartData: any){
     this.http.post<{message: string, orderId: any}>(BACKEND_URL + 'order', {cartData, nameInformation, shippingInformation, billingInformation})
       .subscribe(response => {
-        //#TODO need to delete cart for that user
-        console.log(response.message);
         this.data.storage = {
           message: response.message,
           orderId: response.orderId
         }
-        this.router.navigate(['/order-status']);
+        this.router.navigate(['/order-status'], { skipLocationChange: true });
 
-        return true;
+        //delete cart for user who placed order
+        if (response.orderId !== null || response.orderId !== undefined) {
+          const userId = cartData[0].userId
+          let cartBeforeCheckingUser =  JSON.parse(localStorage.getItem('cart'));
+          for (var i = 0; i < cartBeforeCheckingUser.length; i++) {
+            if (cartBeforeCheckingUser[i].userId === userId) {
+              console.log(cartBeforeCheckingUser);
+              //delete single array index
+              cartBeforeCheckingUser.splice(i);
+              console.log("Cart has been cleared");
+              //reset cart in localstorage
+            }
+          }
+          localStorage.setItem('cart', JSON.stringify(cartBeforeCheckingUser));
+        }
+        return response.message;
       });
   }
 

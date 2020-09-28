@@ -10,19 +10,18 @@ export class OrderCreationStatusComponent implements OnInit {
 
   message: string;
   createdOrder: any;
-  createdOrderDetais: any;
 
   constructor(private data: Data) { }
 
 
   ngOnInit() {
     console.log(this.data.storage);
-    // this.message = this.data.storage['message']['value'];
-    // this.createdOrder = this.data.storage['createdOrder']['value'];
-    // this.createdOrderDetais = this.data.storage['createdOrderDetais']['value'];
-    // console.log(this.message);
-    // console.log(this.createdOrder);
-    // console.log(this.createdOrder);
+    this.message = this.data.storage['message'];
+    if (this.data.storage['orderId'] !== null || this.data.storage['orderId'] !== undefined) {
+      this.createdOrder = this.data.storage['orderId'];
+    }
+    console.log(this.message);
+    console.log(this.createdOrder);
   }
 
 }
