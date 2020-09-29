@@ -47,8 +47,14 @@ export class CheckoutComponent implements OnInit {
     return this.totalPrice;
   }
 
-  onDelete(productId: string){
-
+  onDelete(productId: string, userId: string){
+    const isDeleted = this.storeService.deleteItemFromCart(productId, userId);
+    if (isDeleted) {
+      alert("Product has been deleted from cart!");
+      window.location.reload();
+    } else {
+      alert("Something went wrong when deleting item.");
+    }
   }
 
 }

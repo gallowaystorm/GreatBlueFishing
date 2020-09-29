@@ -26,6 +26,11 @@ export class StoreService{
 
   addToCart(productId: string, itemQuantity: number, price: number, productName: string){
     this.userId = localStorage.getItem('userId')
+    if (JSON.parse(localStorage.getItem('cart'))){
+      this.cart = JSON.parse(localStorage.getItem('cart'));
+    } else {
+      this.cart = [];
+    }
     const cartData: CartData = {
       productId: productId,
       productName: productName,
@@ -35,6 +40,22 @@ export class StoreService{
     }
     this.cart.push(cartData);
     localStorage.setItem('cart', JSON.stringify(this.cart));
+  }
+
+  deleteItemFromCart(productId: string, userId: string){
+    var isDeleted = false;
+    console.log("product: " + productId + "userId " + userId);
+    let cartBeforeCheckingUser = JSON.parse(localStorage.getItem('cart'));
+    //iterate through to find corresponding cart entry
+    for (let i = 0; i < cartBeforeCheckingUser.length; i++) {
+      if(userId === cartBeforeCheckingUser[i].userId && productId === cartBeforeCheckingUser[i].productId){
+        cartBeforeCheckingUser.splice(i, 1);
+        isDeleted = true;
+        break;
+      }
+    }
+    localStorage.setItem('cart', JSON.stringify(cartBeforeCheckingUser));
+    return isDeleted;
   }
 
   getCart(){
@@ -68,12 +89,12 @@ export class StoreService{
             if (cartBeforeCheckingUser[i].userId === userId) {
               console.log(cartBeforeCheckingUser);
               //delete single array index
-              cartBeforeCheckingUser.splice(i);
-              console.log("Cart has been cleared");
-              //reset cart in localstorage
+              cartBeforeCheckingUser.splice(i, 1);
             }
           }
+          //reset cart in localstorage
           localStorage.setItem('cart', JSON.stringify(cartBeforeCheckingUser));
+          console.log("Cart has been cleared");
         }
         return response.message;
       });
