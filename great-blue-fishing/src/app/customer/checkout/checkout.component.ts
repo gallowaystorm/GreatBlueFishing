@@ -44,6 +44,8 @@ export class CheckoutComponent implements OnInit {
     for (let i = 0; i < this.cart.length; i++){
       this.totalPrice = (this.cart[i].price * this.cart[i].quantity) + this.totalPrice;
     }
+    //format to two decimal places
+    this.totalPrice = Number((Math.round(this.totalPrice * 100) / 100).toFixed(2));
     return this.totalPrice;
   }
 
