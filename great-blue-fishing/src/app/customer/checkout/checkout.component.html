@@ -2,7 +2,7 @@
 
 <!-- CART -->
 
-<table mat-table [dataSource]="cart" class="mat-elevation-z8" *ngIf='!isLoading' class='cart-table'>
+<table mat-table [dataSource]="cart" class="mat-elevation-z8" *ngIf='!isLoading && this.cart' class='cart-table'>
   <mat-spinner *ngIf='isLoading'></mat-spinner>
 
   <!-- Name Column -->
@@ -56,4 +56,4 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumnsTotal;"></tr>
 </table>
 
-<app-stepper></app-stepper>
+<app-stepper *ngIf='this.totalPrice !== 0'></app-stepper>

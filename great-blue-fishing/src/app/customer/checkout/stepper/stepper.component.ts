@@ -15,7 +15,7 @@ export class StepperComponent implements OnInit {
 
   //for stepper
     //linear forces them to complete the first step before moving to next
-  isLinear = false;
+  isLinear = true;
   name: FormGroup;
   shippingAddress: FormGroup;
   billing: FormGroup;
