@@ -7,6 +7,7 @@ const customerUserRoutes = require('./routes/customer-user-route');
 const globalUserRoutes = require('./routes/global-user-route');
 const adminUserRoutes = require('./routes/admin-user-route');
 const productRoutes = require('./routes/products-route');
+const storeRoutes = require('./routes/store-route');
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 
 //to grant backend access to images folder and forwards requests to images to backend images
-app.use('/images', express.static(path.join('../backend/images')))
+app.use('/images', express.static(path.join('../backend/images')));
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -44,6 +45,7 @@ app.use((req, res, next) => {
   app.use('/api/global/user', globalUserRoutes);
   app.use('/api/admin/user', adminUserRoutes);
   app.use('/api/products', productRoutes);
+  app.use('/api/store', storeRoutes)
 
 
   module.exports = app;

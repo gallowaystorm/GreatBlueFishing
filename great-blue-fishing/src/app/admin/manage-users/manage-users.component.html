@@ -29,19 +29,19 @@
 
 <table mat-table [dataSource]="adminUsersList" class="mat-elevation-z8">
 
-  <!-- Name Column -->
+  <!-- First Name Column -->
   <ng-container matColumnDef="firstName">
     <th mat-header-cell *matHeaderCellDef> First Name </th>
     <td mat-cell *matCellDef="let user"> {{user.firstName}} </td>
   </ng-container>
 
-  <!-- Weight Column -->
+  <!-- Last Name Column -->
   <ng-container matColumnDef="lastName">
     <th mat-header-cell *matHeaderCellDef> Last Name </th>
     <td mat-cell *matCellDef="let user"> {{user.lastName}} </td>
   </ng-container>
 
-  <!-- Symbol Column -->
+  <!-- Email Column -->
   <ng-container matColumnDef="email">
     <th mat-header-cell *matHeaderCellDef> Email </th>
     <td mat-cell *matCellDef="let user"> {{user.email}} </td>

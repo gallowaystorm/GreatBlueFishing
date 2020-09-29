@@ -1,8 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/admin/products/product.model';
 import { ProductsService } from 'src/app/admin/products/products.service';
+import { GlobalAuthService } from 'src/app/global-auth.service';
+import { StoreService } from './store.service';
 
 @Component({
   selector: 'app-store',
@@ -17,12 +21,20 @@ export class StoreComponent implements OnInit, OnDestroy {
   private productId: string;
   products: Product[] = [];
   private productsSub: Subscription;
+  form: FormGroup;
+  isAuth = false;
 
-  constructor(public productsService: ProductsService, public route: ActivatedRoute) { }
+  constructor(public productsService: ProductsService, public route: ActivatedRoute, public storeService: StoreService, private router: Router, private globalAuthService: GlobalAuthService) { }
 
   ngOnInit() {
     this.getProducts();
+    this.form = new FormGroup({
+      'quantity': new FormControl(1, {validators: [Validators.required, Validators.min(1)]}),
+    });
+
   }
+
+  //TODO: fix bug with picture size cutting off mat actions row
 
   getProducts(){
     //for product list
@@ -34,8 +46,24 @@ export class StoreComponent implements OnInit, OnDestroy {
     });
   }
 
-  addToCart(productId: string){
-    console.log(productId + " is added to cart")
+  // TODO: need to link cart to userID to keep it in one account (probably in localstorage)
+  addToCart(productId: string, price: number, name: string, formDirective: FormGroupDirective){
+    console.log(productId + " " + this.form.value.quantity);
+    this.isAuth = this.globalAuthService.getIsAuth()
+    if (this.isAuth){
+      this.storeService.addToCart(productId, this.form.value.quantity, price, name);
+      //to reset the form back to 1
+      formDirective.resetForm();
+      this.form = new FormGroup({
+        'quantity': new FormControl(1, {validators: [Validators.required, Validators.min(1)]}),
+      });
+      return
+    }
+    alert("You need to be logged in first!");
+  }
+
+  goToShoppingCart(){
+    this.router.navigate(['/shoppingcart']);
   }
 
   ngOnDestroy(){

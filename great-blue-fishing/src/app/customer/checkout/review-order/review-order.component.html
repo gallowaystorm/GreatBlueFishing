@@ -1,0 +1,104 @@
+<h1>Review Order</h1>
+<!-- CART -->
+
+<table mat-table [dataSource]="cart" class="mat-elevation-z8" *ngIf='!isLoading' class='cart-table'>
+  <mat-spinner *ngIf='isLoading'></mat-spinner>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="productName">
+    <th mat-header-cell *matHeaderCellDef> Product Name </th>
+    <td mat-cell *matCellDef="let cart"> {{cart.productName}} </td>
+  </ng-container>
+
+  <!-- Price Column -->
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef> Price </th>
+    <td mat-cell *matCellDef="let cart"> ${{cart.price}} </td>
+  </ng-container>
+
+  <!-- Quantity Column -->
+  <ng-container matColumnDef="quantity">
+    <th mat-header-cell *matHeaderCellDef> Quantity </th>
+    <td mat-cell *matCellDef="let cart"> {{cart.quantity}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<!-- TOTAL -->
+<table mat-table [dataSource]="total" class="mat-elevation-z8" *ngIf='!isLoading' class='total-table'>
+  <mat-spinner *ngIf='isLoading'></mat-spinner>
+
+  <!-- Total Column -->
+  <ng-container matColumnDef="total">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let total"> {{total.total}} </td>
+  </ng-container>
+
+  <!-- Amount Column -->
+  <ng-container matColumnDef="totalAmount">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let total"> ${{this.totalPrice}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumnsTotal"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumnsTotal;"></tr>
+</table>
+
+<!-- NAME INFORMATION -->
+<mat-card class="name-card">
+  <mat-card-title>Name Information</mat-card-title>
+  <mat-label>First Name</mat-label><br>
+  <input matInput value="{{ nameInformation.firstName }}" readonly><br>
+  <mat-label>Last Name</mat-label><br>
+  <input matInput value="{{ nameInformation.lastName }}" readonly>
+</mat-card>
+<!-- SHIPPPING INFORMATION -->
+<mat-card class="shipping-card">
+  <mat-card-title>Shipping Information</mat-card-title>
+  <mat-label>Street Address</mat-label><br>
+  <input matInput value="{{ shippingInformation.shippingStreetAddress }}" readonly><br>
+  <mat-label>Address Line Two</mat-label><br>
+  <input matInput value="{{ shippingInformation.shippingAddressLineTwo }}" readonly><br>
+  <mat-label>City</mat-label><br>
+  <input matInput value="{{ shippingInformation.shippingCity }}" readonly><br>
+  <mat-label>State</mat-label><br>
+  <input matInput value="{{ shippingInformation.shippingState }}" readonly><br>
+  <mat-label>Postal</mat-label><br>
+  <input matInput value="{{ shippingInformation.shippingPostal}}" readonly><br>
+</mat-card>
+<!-- BILLING INFORMATION -->
+<mat-card class="billing-card">
+  <mat-card-title>Billing Information</mat-card-title>
+  <div class="billing-container">
+    <div class='billing-payment-info'>
+      <mat-label>Card Type</mat-label><br>
+      <input matInput value="{{ billingInformation.cardType }}" readonly><br>
+      <mat-label>Card Number</mat-label><br>
+      <input matInput value="{{ billingInformation.cardNumber }}" readonly><br>
+      <mat-label>Security Code</mat-label><br>
+      <input matInput value="{{ billingInformation.securityCode }}" readonly><br>
+      <mat-label>Expiration</mat-label><br>
+      <input matInput value="{{ billingInformation.expiration }}" readonly><br>
+      <mat-label>Name On Card</mat-label><br>
+      <input matInput value="{{ billingInformation.nameOnCard }}" readonly><br>
+    </div>
+    <div class='billing-address'>
+      <mat-label>Street Address</mat-label><br>
+      <input matInput value="{{ billingInformation.billingStreetAddress }}" readonly><br>
+      <mat-label>Address Line Two</mat-label><br>
+      <input matInput value="{{ billingInformation.billingAddressLineTwo}}" readonly><br>
+      <mat-label>City</mat-label><br>
+      <input matInput value="{{ billingInformation.billingCity }}" readonly><br>
+      <mat-label>State</mat-label><br>
+      <input matInput value="{{ billingInformation.billingState }}" readonly><br>
+      <mat-label>Postal</mat-label><br>
+      <input matInput value="{{ billingInformation.billingPostal }}" readonly><br>
+    </div>
+</div>
+</mat-card>
+<div class='buttons'>
+  <button mat-raised-button color="primary" (click)="onNavigateBack()">Back</button>
+  <button mat-raised-button color="primary" (click)="onSubmitOrder()">Place Order</button>
+</div>

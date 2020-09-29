@@ -10,6 +10,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatListModule } from '@angular/material/list';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -35,6 +39,11 @@ import { LoginComponent } from './customer/login/login.component';
 import { GlobalAuthInterceptor } from './interceptors/global-auth.interceptor';
 import { ErrorsComponent } from './errors/errors.component';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
+import { CheckoutComponent } from './customer/checkout/checkout.component';
+import { StepperComponent } from './customer/checkout/stepper/stepper.component';
+import { ReviewOrderComponent } from './customer/checkout/review-order/review-order.component';
+import { Data } from './data';
+import { OrderCreationStatusComponent } from './customer/checkout/order-creation-status/order-creation-status.component';
 
 
 
@@ -56,7 +65,11 @@ import { ErrorInterceptor } from './interceptors/error-interceptor';
       ProductsComponent,
       RegistrationComponent,
       LoginComponent,
-      ErrorsComponent
+      ErrorsComponent,
+      CheckoutComponent,
+      StepperComponent,
+      ReviewOrderComponent,
+      OrderCreationStatusComponent
    ],
   imports: [
       BrowserModule,
@@ -74,12 +87,17 @@ import { ErrorInterceptor } from './interceptors/error-interceptor';
       ReactiveFormsModule,
       MatIconModule,
       MatMenuModule,
+      MatGridListModule,
       MatTableModule,
-      MatGridListModule
+      MatStepperModule,
+      MatSelectModule,
+      MatRadioModule,
+      MatListModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: GlobalAuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    [Data]
   ],
   bootstrap: [AppComponent],
   entryComponents: [ErrorsComponent]

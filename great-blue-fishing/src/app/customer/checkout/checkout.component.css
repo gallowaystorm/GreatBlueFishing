@@ -1,0 +1,31 @@
+
+:host {
+  display: block;
+  margin-top: 2rem;
+}
+
+h1 {
+  text-align: center;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+.cart-table {
+  width: 40%;
+  margin: 2% auto 0 auto;
+}
+
+.total-table {
+  width: 30%;
+  margin: auto;
+}
+
+.total-table mat-header-cell{
+  display: none;
+}
+
+app-stepper {
+  margin: auto;
+}

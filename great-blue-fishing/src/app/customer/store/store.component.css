@@ -8,6 +8,11 @@ h1 {
   text-align: center;
 }
 
+.view-shopping-cart{
+  text-align: right;
+  margin-right: 2.5%;
+}
+
 .product-list{
   width: 85%;
 }
@@ -31,4 +36,7 @@ mat-grid-list {
   width: 80%;
   display: block;
   margin: 5% auto 5% auto;
+}
+#quantity {
+  width: 35px;
 }
