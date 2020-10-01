@@ -12,11 +12,13 @@ exports.placeOrder = (req, res, next) => {
 
     //excrypt payment info
     const stringCardNumber = billingInformation.cardNumber.toString();
+    //encrypt card number
     bcrypt.hash(stringCardNumber, 10)
-        .then(encryptedCardNumber => {
+        .then(hashCardNumber => {
+            //encrypt security code 
             const stringSecurityCode = billingInformation.securityCode.toString();
             bcrypt.hash(stringSecurityCode, 10)
-                .then(encryptedSecurityCode => {
+                .then(hashSecurityCode => {
                     //for date of order
                     var today = new Date();
                     var orderDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -35,8 +37,8 @@ exports.placeOrder = (req, res, next) => {
                         },
                         paymentInformation: {
                             cardType: billingInformation.cardType,
-                            cardNumber: encryptedCardNumber,
-                            securityCode: encryptedSecurityCode,
+                            cardNumber: hashCardNumber,
+                            securityCode: hashSecurityCode,
                             expiration: billingInformation.expiration,
                             nameOnCard: billingInformation.nameOnCard,
                             billingAddress: {
