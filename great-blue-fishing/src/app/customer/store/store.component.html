@@ -9,7 +9,9 @@
   <mat-grid-tile *ngFor="let product of products">
     <mat-card>
       <mat-card-title>{{ product.name }}</mat-card-title>
-      <img [src]="product.imagePath" [alt]="product.name">
+      <a href='{{product.imagePath }}'>
+        <img [src]="product.imagePath" [alt]="product.name">
+      </a>
       <mat-card-content>
         <p>{{ product.description }}</p>
         <h4>${{ product.price }}</h4>
