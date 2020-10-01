@@ -14,8 +14,8 @@ const orderSchema = mongoose.Schema({
     },
     paymentInformation : {
         cardType: { type: String, required: true },
-        cardNumber: { type: Number, required: true },
-        securityCode: { type: Number, required: true },
+        cardNumber: { type: String, required: true },
+        securityCode: { type: String, required: true },
         expiration: { type: Date, required: true },
         nameOnCard: { type: String, required: true },
         billingAddress: {

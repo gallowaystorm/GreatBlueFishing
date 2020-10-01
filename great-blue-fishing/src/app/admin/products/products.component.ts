@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { mimeType } from '../create-blog/mime-type.validator';
 import { Product } from './product.model';
@@ -26,7 +26,7 @@ export class ProductsComponent implements OnInit {
   products: Product[] = [];
   private productsSub: Subscription;
 
-  constructor(public productsService: ProductsService, public route: ActivatedRoute) { }
+  constructor(public productsService: ProductsService, public route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.form = new FormGroup({

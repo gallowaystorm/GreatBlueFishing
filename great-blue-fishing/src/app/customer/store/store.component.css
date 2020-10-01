@@ -32,11 +32,12 @@ mat-grid-list {
 }
 
 .product-list img {
-  height: auto;
-  width: 80%;
+  height: 60%;
+  width: 60%;
   display: block;
-  margin: 5% auto 5% auto;
+  margin: 5% auto 2% auto;
 }
+
 #quantity {
   width: 35px;
 }
