@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { Data } from 'src/app/data';
 import { CartData } from '../../store/cart.model';
 import { StoreService } from '../../store/store.service';
@@ -65,25 +66,26 @@ export class ReviewOrderComponent implements OnInit {
   }
 
   pay(amount){
-    var handler = (<any>window).StripeCheckout.configure({
-      key: 'pk_test_51HX4yUDEnGCSjwlXYRIFs3Wj9fFXw8DW7kLUacKFKPIcC0P96E6C4I9kVku5brUOGR33O2KKH6NkfIawr3oo11eU00eL9q8lAk',
-      locale: 'auto',
-      token: function (token: any) {
-        // You can access the token ID with `token.id`.
-        // Get the token ID to your server-side code for use.
-        this.stripeToken = token.id;
-      }
-    });
+      const token$ = new Subject();
 
-    console.log('token is ' + this.stripeToken);
+      var handler = ( <any> window).StripeCheckout.configure({
+        key: 'pk_test_51HX4yUDEnGCSjwlXYRIFs3Wj9fFXw8DW7kLUacKFKPIcC0P96E6C4I9kVku5brUOGR33O2KKH6NkfIawr3oo11eU00eL9q8lAk',
+        locale: 'auto',
+        token: function(token: any) {
+          token$.next(token.id);
+        }
+      });
 
-    handler.open({
-      name: 'Demo Site',
-      description: '2 widgets',
-      amount: amount * 100
-    });
+      handler.open({
+        name: 'Demo Site',
+        description: '2 widgets',
+        amount: amount * 100
+      });
 
-    console.log(this.stripeToken + ' again')
+      token$.subscribe((token) => {
+        console.log('token is ' + token);
+      })
+
   }
 
 }
