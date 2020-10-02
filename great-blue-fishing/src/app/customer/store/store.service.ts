@@ -100,4 +100,11 @@ export class StoreService{
       });
   }
 
+  testOrder(stripeToken){
+    this.http.post<{message: string}>(BACKEND_URL + 'stripe', stripeToken)
+      .subscribe(response => {
+        console.log(response);
+      })
+  }
+
 }

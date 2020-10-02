@@ -18,6 +18,7 @@ export class ReviewOrderComponent implements OnInit {
   cartData: any;
   isLoading = false;
   showTableHeader = false;
+  public stripeToken: any;
 
   //for users list
   cart: CartData[] = [];
@@ -61,6 +62,28 @@ export class ReviewOrderComponent implements OnInit {
     this.isLoading = true;
     this.storeService.placeOrder(this.nameInformation, this.shippingInformation, this.billingInformation, this.cartData);
     this.isLoading = false;
+  }
+
+  pay(amount){
+    var handler = (<any>window).StripeCheckout.configure({
+      key: 'pk_test_51HX4yUDEnGCSjwlXYRIFs3Wj9fFXw8DW7kLUacKFKPIcC0P96E6C4I9kVku5brUOGR33O2KKH6NkfIawr3oo11eU00eL9q8lAk',
+      locale: 'auto',
+      token: function (token: any) {
+        // You can access the token ID with `token.id`.
+        // Get the token ID to your server-side code for use.
+        this.stripeToken = token.id;
+      }
+    });
+
+    console.log('token is ' + this.stripeToken);
+
+    handler.open({
+      name: 'Demo Site',
+      description: '2 widgets',
+      amount: amount * 100
+    });
+
+    console.log(this.stripeToken + ' again')
   }
 
 }

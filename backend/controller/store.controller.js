@@ -2,6 +2,21 @@
 const Order = require('../models/order-model');
 const OrderDetails = require('../models/order-details-model');
 const bcrypt = require('bcrypt');
+const stripe = require('stripe')('sk_test_51HX4yUDEnGCSjwlXTwF3zHZ9UDmJ1KyicNOqdii6T4PyL7CQc8UqcnZ2TWJ9rnHxlY1oedwQgnVjsPYWkfNbm3Bn00N7JwRJbt')
+
+exports.testStripe = async (req, res, next) => {
+  console.log('hello');
+  const token = req.body.stripeToken;
+  console.log(token);
+  const charge = await stripe.charges.create({
+    amount: 999,
+    currency: 'usd',
+    description: 'Example charge',
+    source: token,
+  });
+  console.log(charge);
+  return charge;
+}
 
 exports.placeOrder = (req, res, next) => {
     const nameInformation = req.body.nameInformation;
