@@ -66,26 +66,22 @@ export class ReviewOrderComponent implements OnInit {
   }
 
   pay(amount){
-      const token$ = new Subject();
+    var handler = (<any>window).StripeCheckout.configure({
+      key: 'pk_test_51HX4yUDEnGCSjwlXYRIFs3Wj9fFXw8DW7kLUacKFKPIcC0P96E6C4I9kVku5brUOGR33O2KKH6NkfIawr3oo11eU00eL9q8lAk',
+      locale: 'auto',
+      token: (token: any) => {
+        // You can access the token ID with `token.id`.
+        // Get the token ID to your server-side code for use.
+        this.stripeToken = token.id;
+        this.storeService.testOrder(this.stripeToken);
+      }
+    });
 
-      var handler = ( <any> window).StripeCheckout.configure({
-        key: 'pk_test_51HX4yUDEnGCSjwlXYRIFs3Wj9fFXw8DW7kLUacKFKPIcC0P96E6C4I9kVku5brUOGR33O2KKH6NkfIawr3oo11eU00eL9q8lAk',
-        locale: 'auto',
-        token: function(token: any) {
-          token$.next(token.id);
-        }
-      });
-
-      handler.open({
-        name: 'Demo Site',
-        description: '2 widgets',
-        amount: amount * 100
-      });
-
-      token$.subscribe((token) => {
-        console.log('token is ' + token);
-      })
-
+    handler.open({
+      name: 'Demo Site',
+      description: '2 widgets',
+      amount: amount * 100
+    });
   }
 
 }

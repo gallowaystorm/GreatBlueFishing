@@ -6,6 +6,7 @@ const stripe = require('stripe')('sk_test_51HX4yUDEnGCSjwlXTwF3zHZ9UDmJ1KyicNOqd
 
 exports.testStripe = async (req, res, next) => {
   console.log('hello');
+  console.log(req.body.stripeToken);
   const token = req.body.stripeToken;
   console.log(token);
   const charge = await stripe.charges.create({
@@ -15,7 +16,15 @@ exports.testStripe = async (req, res, next) => {
     source: token,
   });
   console.log(charge);
-  return charge;
+  if (charge) {
+    return res.status(201).json({
+        message: "Stripe charge successful"
+        });
+  } else {
+    return res.status(500).json({
+        message: "Creating stripe charge failed"
+    });
+  }   
 }
 
 exports.placeOrder = (req, res, next) => {
@@ -24,6 +33,7 @@ exports.placeOrder = (req, res, next) => {
     const billingInformation = req.body.billingInformation;
     const cartData = req.body.cartData;
     const userId = cartData[0].userId;
+    console.log(req.body);
 
     //excrypt payment info
     const stringCardNumber = billingInformation.cardNumber.toString();
