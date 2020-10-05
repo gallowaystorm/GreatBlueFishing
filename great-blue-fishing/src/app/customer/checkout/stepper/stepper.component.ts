@@ -15,7 +15,7 @@ export class StepperComponent implements OnInit {
 
   //for stepper
     //linear forces them to complete the first step before moving to next
-  isLinear = true;
+  isLinear = false;
   name: FormGroup;
   shippingAddress: FormGroup;
   billing: FormGroup;
@@ -37,11 +37,11 @@ export class StepperComponent implements OnInit {
       shippingAddressLineTwo: [null],
       shippingCity: ['', Validators.required],
       shippingState: ['', Validators.required],
-      shippingPostal: ['', Validators.required]
+      shippingPostal: ['', {validators: [Validators.required, Validators.pattern('^[0-9]{5}(?:-[0-9]{4})?$')]}]
     });
     this.billing = this.formBuilder.group({
       cardType: ['', Validators.required],
-      cardNumber: ['', Validators.required],
+      cardNumber: ['', {validators: [Validators.required, Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,2})?$'), Validators.maxLength(19)]}],
       securityCode: ['', Validators.required],
       expiration: ['', Validators.required],
       nameOnCard: ['', Validators.required],
