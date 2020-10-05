@@ -60,3 +60,14 @@ mat-grid-list {
   display: block;
   margin: 5% auto 2% auto;
 }
+
+mat-form-field.ng-invalid.ng-touched {
+  animation: example;
+  animation-duration: 0.3s;
+  margin-bottom: 13px;
+}
+
+@keyframes example {
+  from {margin-bottom: 0;}
+  to {margin-bottom: 13px;}
+}

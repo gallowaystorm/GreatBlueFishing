@@ -11,7 +11,11 @@
     </mat-form-field>
     <mat-form-field>
       <input matInput type="password" formControlName='adminPassword' placeholder="Password">
-      <mat-error *ngIf="form.get('adminPassword').invalid">Please enter a valid password.</mat-error>
+      <mat-error *ngIf="form.get('adminPassword').invalid">Passwords must be at least 8 characters and include the following:<br>
+        One lowercase letter<br>
+        One uppercase letter<br>
+        One special character.  The special chracters are: !@#$%^&<br>
+      </mat-error>
     </mat-form-field>
     <mat-form-field>
       <input matInput type="text" formControlName="adminFirstName" placeholder="First Name">

@@ -26,7 +26,7 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       'adminEmail': new FormControl(null, {validators: [Validators.required, Validators.email]}),
       //password must contain one digit, one lowercase alpha, one uppercase alpha, one special character, and be 8 >= x <= 32 characters
-      'adminPassword': new FormControl(null, {validators: [Validators.required]}),
+      'adminPassword': new FormControl(null, {validators: [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{8,}')]}),
       'adminFirstName': new FormControl(null, {validators: [Validators.required]}),
       'adminLastName': new FormControl(null, {validators: [Validators.required]})
     });
