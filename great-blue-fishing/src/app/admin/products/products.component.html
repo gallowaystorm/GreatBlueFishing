@@ -20,8 +20,8 @@
       <mat-error *ngIf="form.get('productDescription').invalid">Please enter product desscription.</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type='number' formControlName='price' placeholder="Price (x.xx)">
-      <mat-error *ngIf="form.get('price').invalid">Please enter product price.</mat-error>
+      <input matInput type='number' formControlName='price' placeholder="Price">
+      <mat-error *ngIf="form.get('price').invalid">Please enter product price in the format x.xx.</mat-error>
     </mat-form-field>
     <button mat-raised-button color="accent" type="submit">Save Product</button>
   </form>
