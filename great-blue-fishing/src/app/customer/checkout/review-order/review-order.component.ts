@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 import { Data } from 'src/app/data';
 import { CartData } from '../../store/cart.model';
 import { StoreService } from '../../store/store.service';
@@ -19,7 +18,6 @@ export class ReviewOrderComponent implements OnInit {
   cartData: any;
   isLoading = false;
   showTableHeader = false;
-  public stripeToken: any;
 
   //for users list
   cart: CartData[] = [];
