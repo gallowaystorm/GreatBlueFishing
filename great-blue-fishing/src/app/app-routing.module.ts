@@ -22,7 +22,6 @@ import { OrderCreationStatusComponent } from './customer/checkout/order-creation
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: '**', redirectTo: '', pathMatch: 'full' },
   { path: 'about', component: AboutComponent },
   { path: 'store', component: StoreComponent },
   { path: 'checkout', component: CheckoutComponent, canActivate: [GlobalAuthGuard] },
