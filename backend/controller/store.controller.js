@@ -5,27 +5,77 @@ const bcrypt = require('bcrypt');
 const stripe = require('stripe')('sk_test_51HX4yUDEnGCSjwlXTwF3zHZ9UDmJ1KyicNOqdii6T4PyL7CQc8UqcnZ2TWJ9rnHxlY1oedwQgnVjsPYWkfNbm3Bn00N7JwRJbt')
 
 exports.testStripe = async (req, res, next) => {
-  const token = req.body.stripeToken;
-  const charge = await stripe.charges.create({
-    amount: 999,
-    currency: 'usd',
-    description: 'Example charge',
-    source: token,
-  }).catch(error => {
-    return res.status(500).json({
-        message: "Something went wrong when charging card to Stripe"
-    });
-  });
-  console.log(charge);
-  if (charge) {
-    return res.status(201).json({
-        message: "Stripe charge successful"
-        });
-  } else {
-    return res.status(500).json({
-        message: "Creating stripe charge failed"
-    });
-  }   
+    const nameInformation = req.body.nameInformation;
+    const shippingInformation = req.body.shippingInformation;
+    const billingInformation = req.body.billingInformation;
+    const cartData = req.body.cartData;
+    const fullName = nameInformation.firstName + ' ' + nameInformation.lastName;
+    //create token
+    const token = await stripe.tokens.create({
+        card: {
+          number: billingInformation.cardNumber,
+          exp_month: 10,
+          exp_year: 2021,
+          name: billingInformation.nameOnCard,
+          cvc: billingInformation.securityCode,
+          address_line1: billingInformation.billingStreetAddress,
+          address_line2: billingInformation.billingAddressLineTwo,
+          address_city: billingInformation.billingCity,
+          address_state: billingInformation.billingState,
+          address_zip: billingInformation.billingPostal
+        },
+      }).then(createdToken => {
+          console.log(createdToken)
+        const charge = stripe.charges.create({
+            amount: 300,
+            currency: 'usd',
+            receipt_email: 'gallowaystorm1724@gmail.com',
+            source: createdToken.id,
+            capture: true,
+            shipping: {
+                address: {
+                    line1: shippingInformation.shippingAddress,
+                    line2: shippingInformation.shippingAddressLineTwo,
+                    city: shippingInformation.shippingCity,
+                    state: shippingInformation.shippingState,
+                    postal_code: shippingInformation.shippingPostal
+                },
+                name: fullName
+            }
+        }).then(response => {
+            console.log(response);
+            return res.status(201).json({
+                message: "Stripe charge successful"
+            });
+        }).catch(error => {
+            console.log(error);
+            return res.status(500).json({
+                message: error
+            });
+        }); 
+        console.log(charge);  
+      }); 
+//   const token = req.body.stripeToken;
+//   const charge = await stripe.charges.create({
+//     amount: 999,
+//     currency: 'usd',
+//     description: 'Example charge',
+//     source: token,
+//   }).catch(error => {
+//     return res.status(500).json({
+//         message: "Something went wrong when charging card to Stripe"
+//     });
+//   });
+//   console.log(charge);
+//   if (charge) {
+//     return res.status(201).json({
+//         message: "Stripe charge successful"
+//         });
+//   } else {
+//     return res.status(500).json({
+//         message: "Creating stripe charge failed"
+//     });
+//   }   
 }
 
 exports.placeOrder = (req, res, next) => {

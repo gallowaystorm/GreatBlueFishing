@@ -36,6 +36,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   getCart(){
+    //TODO: store cart data in backend to prevent manipulation of price on front end
     const cartData = this.storeService.getCart();
     this.cart = cartData;
   }
