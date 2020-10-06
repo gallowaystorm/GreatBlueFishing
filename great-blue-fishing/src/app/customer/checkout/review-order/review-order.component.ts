@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Data } from 'src/app/data';
 import { CartData } from '../../store/cart.model';
 import { StoreService } from '../../store/store.service';
@@ -62,5 +62,4 @@ export class ReviewOrderComponent implements OnInit {
     this.storeService.placeOrder(this.nameInformation, this.shippingInformation, this.billingInformation, this.cartData);
     this.isLoading = false;
   }
-
 }

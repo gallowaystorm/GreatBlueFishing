@@ -79,7 +79,8 @@ export class StoreService{
           message: response.message,
           orderId: response.orderId
         }
-        this.router.navigate(['/order-status'], { skipLocationChange: true });
+        this.router.navigate(['/order-status'], { skipLocationChange: true }
+      );
 
         //delete cart for user who placed order
         if (response.orderId !== null || response.orderId !== undefined) {
@@ -99,5 +100,4 @@ export class StoreService{
         return response.message;
       });
   }
-
 }
