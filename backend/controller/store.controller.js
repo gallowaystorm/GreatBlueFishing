@@ -4,14 +4,14 @@ const OrderDetails = require('../models/order-details-model');
 const bcrypt = require('bcrypt');
 const stripe = require('stripe')('sk_test_51HX4yUDEnGCSjwlXTwF3zHZ9UDmJ1KyicNOqdii6T4PyL7CQc8UqcnZ2TWJ9rnHxlY1oedwQgnVjsPYWkfNbm3Bn00N7JwRJbt')
 
-exports.testStripe = async (req, res, next) => {
+exports.testStripe = (req, res, next) => {
     const nameInformation = req.body.nameInformation;
     const shippingInformation = req.body.shippingInformation;
     const billingInformation = req.body.billingInformation;
     const cartData = req.body.cartData;
     const fullName = nameInformation.firstName + ' ' + nameInformation.lastName;
     //create token
-    const token = await stripe.tokens.create({
+    const token = stripe.tokens.create({
         card: {
           number: billingInformation.cardNumber,
           exp_month: 10,
@@ -34,14 +34,14 @@ exports.testStripe = async (req, res, next) => {
             capture: true,
             shipping: {
                 address: {
-                    line1: shippingInformation.shippingAddress,
+                    line1: shippingInformation.shippingStreetAddress,
                     line2: shippingInformation.shippingAddressLineTwo,
                     city: shippingInformation.shippingCity,
                     state: shippingInformation.shippingState,
                     postal_code: shippingInformation.shippingPostal
                 },
                 name: fullName
-            }
+            },
         }).then(response => {
             console.log(response);
             return res.status(201).json({
