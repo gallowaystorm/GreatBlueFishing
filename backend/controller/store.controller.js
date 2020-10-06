@@ -1,6 +1,7 @@
 
 const Order = require('../models/order-model');
 const OrderDetails = require('../models/order-details-model');
+const User = require('../models/user-model')
 const bcrypt = require('bcrypt');
 const stripe = require('stripe')('sk_test_51HX4yUDEnGCSjwlXTwF3zHZ9UDmJ1KyicNOqdii6T4PyL7CQc8UqcnZ2TWJ9rnHxlY1oedwQgnVjsPYWkfNbm3Bn00N7JwRJbt')
 
@@ -9,7 +10,22 @@ exports.testStripe = (req, res, next) => {
     const shippingInformation = req.body.shippingInformation;
     const billingInformation = req.body.billingInformation;
     const cartData = req.body.cartData;
+    const userId = cartData[0].userId;
     const fullName = nameInformation.firstName + ' ' + nameInformation.lastName;
+    const cardExpiration = billingInformation.expiration.split('/');
+    //get user email
+    User.findOne({ _id: userId })
+        .then(user => {
+            if (!user) {
+                return res.status(401).json({
+                    message: "Auth not successful!"
+                });
+            }
+        }).catch(error => {
+            return res.status(500).json({
+                message: "Could not find user in database. Make sure you have an account and try again"
+            });
+        })
     //create token
     const token = stripe.tokens.create({
         card: {
@@ -50,32 +66,11 @@ exports.testStripe = (req, res, next) => {
         }).catch(error => {
             console.log(error);
             return res.status(500).json({
-                message: error
+                message: "Something went wrong when charging credit card."
             });
         }); 
         console.log(charge);  
       }); 
-//   const token = req.body.stripeToken;
-//   const charge = await stripe.charges.create({
-//     amount: 999,
-//     currency: 'usd',
-//     description: 'Example charge',
-//     source: token,
-//   }).catch(error => {
-//     return res.status(500).json({
-//         message: "Something went wrong when charging card to Stripe"
-//     });
-//   });
-//   console.log(charge);
-//   if (charge) {
-//     return res.status(201).json({
-//         message: "Stripe charge successful"
-//         });
-//   } else {
-//     return res.status(500).json({
-//         message: "Creating stripe charge failed"
-//     });
-//   }   
 }
 
 exports.placeOrder = (req, res, next) => {
@@ -84,7 +79,7 @@ exports.placeOrder = (req, res, next) => {
     const billingInformation = req.body.billingInformation;
     const cartData = req.body.cartData;
     const userId = cartData[0].userId;
-    console.log(req.body);
+    
 
     //excrypt payment info
     const stringCardNumber = billingInformation.cardNumber.toString();
