@@ -41,6 +41,7 @@
       <mat-form-field>
         <mat-label>Postal Code</mat-label>
         <input matInput formControlName="shippingPostal" placeholder="12345" required>
+        <mat-error *ngIf="shippingAddress.get('shippingPostal').invalid">Please enter a valid zip code.</mat-error>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
@@ -61,14 +62,17 @@
         <mat-form-field>
           <mat-label>Card Number</mat-label>
           <input matInput formControlName="cardNumber" placeholder="xxxxxxxxxxxxxxxx" required>
+          <mat-error *ngIf="billing.get('cardNumber').invalid">Please enter a valid credit card number with no hyphens</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Security Code</mat-label>
           <input matInput formControlName="securityCode" placeholder="123" required>
+          <mat-error *ngIf="billing.get('securityCode').invalid">Please enter a valid security code</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Expiration</mat-label>
           <input matInput formControlName="expiration" placeholder="MM/YY" required>
+          <mat-error *ngIf="billing.get('expiration').invalid">Please enter a valid credit card expiration date in the following format: MM/YY</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Name On Card</mat-label>
@@ -97,6 +101,7 @@
         <mat-form-field>
           <mat-label>Postal Code</mat-label>
           <input matInput formControlName="billingPostal" placeholder="12345" required>
+          <mat-error *ngIf="billing.get('billingPostal').invalid">Please enter a valid zip code.</mat-error>
         </mat-form-field>
       </div>
       <div>

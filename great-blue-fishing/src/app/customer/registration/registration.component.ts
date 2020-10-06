@@ -18,9 +18,9 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     //for mapping
     this.form = new FormGroup({
-      'email': new FormControl(null, {validators: [Validators.required, Validators.email]}),
-      //password must contain one digit, one lowercase alpha, one uppercase alpha, one special character, and be 8 >= x <= 32 characters
-      'password': new FormControl(null, {validators: [Validators.required]}),
+      'email': new FormControl(null, {validators: [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]}),
+      //password must contain one digit, one lowercase alpha, one uppercase alpha, one special character, and have at least 8 characters
+      'password': new FormControl(null, {validators: [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{8,}')]}),
       'firstName': new FormControl(null, {validators: [Validators.required]}),
       'lastName': new FormControl(null, {validators: [Validators.required]})
     });

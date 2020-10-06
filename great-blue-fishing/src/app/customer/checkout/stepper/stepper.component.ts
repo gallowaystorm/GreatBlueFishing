@@ -37,13 +37,13 @@ export class StepperComponent implements OnInit {
       shippingAddressLineTwo: [null],
       shippingCity: ['', Validators.required],
       shippingState: ['', Validators.required],
-      shippingPostal: ['', Validators.required]
+      shippingPostal: ['', {validators: [Validators.required, Validators.pattern('^[0-9]{5}(?:-[0-9]{4})?$')]}]
     });
     this.billing = this.formBuilder.group({
       cardType: ['', Validators.required],
-      cardNumber: ['', Validators.required],
-      securityCode: ['', Validators.required],
-      expiration: ['', Validators.required],
+      cardNumber: ['', {validators: [Validators.required, Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,2})?$'), Validators.maxLength(19)]}],
+      securityCode: ['', {validators: [Validators.required, Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,2})?$'), Validators.maxLength(4)]}],
+      expiration: ['', {validators: [Validators.required, Validators.pattern('^(0[1-9]|1[0-2])\/[0-9]{2}$'), Validators.maxLength(5)]}],
       nameOnCard: ['', Validators.required],
       billingStreetAddress: ['', Validators.required],
       billingAddressLineTwo: [null],

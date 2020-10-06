@@ -35,7 +35,7 @@ export class ProductsComponent implements OnInit {
       'image': new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]}),
       'productDescription': new FormControl(null, {validators: [Validators.required]}),
       //#TODO: regex pattern for price to be x.xx
-      'price': new FormControl(null, {validators: [Validators.required]})
+      'price': new FormControl(null, {validators: [Validators.required, Validators.pattern('\\d+\\.\\d{2}')]})
     });
 
     //for create vs edit mode
