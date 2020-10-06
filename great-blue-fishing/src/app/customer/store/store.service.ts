@@ -73,7 +73,7 @@ export class StoreService{
   }
 
   placeOrder(nameInformation: any, shippingInformation:any, billingInformation: any, cartData: any){
-    this.http.post<{message: string, orderId: any}>(BACKEND_URL + 'stripe', {cartData, nameInformation, shippingInformation, billingInformation})
+    this.http.post<{message: string, orderId: any}>(BACKEND_URL + 'order', {cartData, nameInformation, shippingInformation, billingInformation})
       .subscribe(response => {
         this.data.storage = {
           message: response.message,
