@@ -45,7 +45,7 @@ exports.placeOrder = (req, res, next) => {
         const paymentMethod = stripe.paymentMethods.create({
             type: 'card',
             card: {
-                number: '4000002500003155',
+                number: '4242424242424242',
                 exp_month: 10,
                 exp_year: 2021,
                 cvc: '314',
@@ -89,53 +89,57 @@ exports.placeOrder = (req, res, next) => {
                     redirectURL = createdPaymentIntent.next_action.use_stripe_sdk.stripe_js;
                 } else if (createdPaymentIntent.status === 'requires_payment_method') {
                     return res.status(500).json({
-                        message: "Creating order details failed!",
+                        message: createdPaymentIntent.raw.message,
                         redirectURL: null
                     });
                 }
             }).then(result => {
                 //TODO: Keep in mind that you also should use a transaction here because if one of order details fails to be created then an order and previously created order details still stay in the DB.
                 //TODO: look into promise.all for this
-
+                console.log(result);
                 //save to database
-                try {
-                    isCreated = true;
-                    order.save()
-                    .then(createdOrder => {
-                        console.log(createdOrder);
-                        //create order details
-                        for (let i = 0; i < cartData.length; i++){
-                            const total = parseFloat((cartData[i].price * cartData[i].quantity), 10);
-                            const orderDetails = new OrderDetails({
-                                productId: cartData[i].productId,
-                                quantity: cartData[i].quantity,
-                                total: total,
-                                orderId: createdOrder._id
-                            });
-                            orderDetails.save().then(createdOrderDetails => {
-                                if (!createdOrderDetails) {
-                                    isCreated = false;
-                                }
-                            })
-                        }
-                        //TODO: look into promise.all for this
-                        if (isCreated) {
-                            return res.status(201).json({
-                                message: 'Order created successfully',
-                                orderId: createdOrder._id
-                            });
-                        } else {
-                            return res.status(500).json({
-                                message: "Creating order details failed!"
-                            });
-                        }
-                    })
-                } catch {
-                    return res.status(500).json({
-                                message: "Creating order failed!"
-                            });
-                }
-            });
+                // isCreated = true;
+                // order.save()
+                // .then(createdOrder => {
+                //     console.log(createdOrder);
+                //     //create order details
+                //     for (let i = 0; i < cartData.length; i++){
+                //         const total = parseFloat((cartData[i].price * cartData[i].quantity), 10);
+                //         const orderDetails = new OrderDetails({
+                //             productId: cartData[i].productId,
+                //             quantity: cartData[i].quantity,
+                //             total: total,
+                //             orderId: createdOrder._id
+                //         });
+                //         orderDetails.save().then(createdOrderDetails => {
+                //             if (!createdOrderDetails) {
+                //                 isCreated = false;
+                //             }
+                //         })
+                //     }
+                //     //TODO: look into promise.all for this
+                //     if (isCreated) {
+                //         return res.status(201).json({
+                //             message: 'Order created successfully',
+                //             orderId: createdOrder._id
+                //         });
+                //     } else {
+                //         return res.status(500).json({
+                //             message: "Creating order details failed!"
+                //         });
+                //     }
+                // }).catch(error => {
+                //     console.log(error);
+                //     return res.status(500).json({
+                //         message: "Something went wrong when saving your order to the database."
+                //     });
+                // })
+            }).catch(error => {
+                console.log(error);
+                return res.status(500).json({
+                    message: "Something went wrong when charging your card."
+                });
+            })
         }).catch(error => {
             console.log(error);
             return res.status(500).json({
