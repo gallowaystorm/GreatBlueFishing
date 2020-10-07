@@ -10,3 +10,10 @@ This is a MEAN stack application that I am building for two reasons:
   * Donations to Non-Profits
 
 > “Fishing is not an escape from life, but often a deeper immersion into it,” - Harry Middleton
+
+
+# To Run Dev Envrionment
+  1. Run 'npm install' in both the great-blue-fishing and backend folders
+  2. Run 'ng serve' in the great-blue-fishing folder
+  3. In a seperate terminal, run 'nodmeon server.js' in the backend folder
+  4. Navigate to http://localhost:4200 
