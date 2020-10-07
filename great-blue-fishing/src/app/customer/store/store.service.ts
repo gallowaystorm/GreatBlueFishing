@@ -77,6 +77,8 @@ export class StoreService{
       .subscribe(response => {
         console.log(response.redirectURL);
         if (response.redirectURL !== null) {
+          alert('You will now be redirected to complete transaction. This is due to your card needing more authentication to process');
+          //TODO: redirect on backend so we can cancel order if they do not complete authorization
           window.location.href = response.redirectURL;
         }
         this.data.storage = {
