@@ -41,6 +41,7 @@ exports.placeOrder = (req, res, next) => {
     //     })
 
         //start of new stripe api
+        redirectURl = null;
         const paymentMethod = stripe.paymentMethods.create({
             type: 'card',
             card: {
@@ -84,7 +85,13 @@ exports.placeOrder = (req, res, next) => {
                 console.log(createdPaymentIntent);
                 //for if card needs additional steps for confirmation
                 if (createdPaymentIntent.status === 'requires_action') {
-                    window.location = createdPaymentIntent.next_action.use_stipe_sdk.stripe_js;
+                    console.log(createdPaymentIntent.next_action.use_stripe_sdk.stripe_js)
+                    redirectURL = createdPaymentIntent.next_action.use_stripe_sdk.stripe_js;
+                    return res.status(201).json({
+                        message: 'Order created successfully',
+                        orderId: null,
+                        redirectURL: redirectURL
+                    });
                 }
                 //confirm card payment
                 // const confirmCard = stripe.confirmCardPayment(createdPaymentIntent.client_secret, {
