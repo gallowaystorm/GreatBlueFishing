@@ -10,54 +10,56 @@ exports.testStripe = (req, res, next) => {
 }
 
 exports.placeOrder = (req, res, next) => {
-    // const nameInformation = req.body.nameInformation;
-    // const shippingInformation = req.body.shippingInformation;
-    // const billingInformation = req.body.billingInformation;
-    // const cartData = req.body.cartData;
-    // // const userId = cartData[0].userId;
-    // let userEmail = '';
-    // const fullName = nameInformation.firstName + ' ' + nameInformation.lastName;
-    // const cardExpiration = billingInformation.expiration.split('/');
-    // const expirationMonth = cardExpiration[0];
-    // const expirationYear = '20' + cardExpiration[1]; 
-    // //create total
-    // let total = 0;
-    // for (let i = 0; i < cartData.length; i++){
-    //     total = parseFloat((cartData[i].price * cartData[i].quantity), 10) + total;
-    // }
+    const nameInformation = req.body.nameInformation;
+    const shippingInformation = req.body.shippingInformation;
+    const billingInformation = req.body.billingInformation;
+    const cartData = req.body.cartData;
+    const userId = cartData[0].userId;
+    let userEmail = '';
+    const fullName = nameInformation.firstName + ' ' + nameInformation.lastName;
+    const cardExpiration = billingInformation.expiration.split('/');
+    const expirationMonth = cardExpiration[0];
+    const expirationYear = '20' + cardExpiration[1]; 
+    redirectURl = null;
+    //create total
+    let total = 0;
+    for (let i = 0; i < cartData.length; i++){
+        total = parseFloat((cartData[i].price * cartData[i].quantity), 10) + total;
+    }
     //get user email
-    // User.findOne({ _id: userId })
-    //     .then(user => {
-    //         if (!user) {
-    //             return res.status(401).json({
-    //                 message: "Could not find user in database. Make sure you have an account and try again"
-    //             });
-    //         }
-    //         userEmail = user.email;
-    //     }).catch(error => {
-    //         return res.status(500).json({
-    //             message: "Something went wrong with the server. Please try again."
-    //         });
-    //     })
+    User.findOne({ _id: userId })
+        .then(user => {
+            if (!user) {
+                return res.status(401).json({
+                    message: "Could not find user in database. Make sure you have an account and try again"
+                });
+            }
+            userEmail = user.email;
+        }).catch(error => {
+            return res.status(500).json({
+                message: "Something went wrong with the server. Please try again."
+            });
+        })
 
         //start of new stripe api
-        redirectURl = null;
         const paymentMethod = stripe.paymentMethods.create({
             type: 'card',
             card: {
-                number: '4242424242424242',
-                exp_month: 10,
-                exp_year: 2021,
-                cvc: '314',
+                number: billingInformation.cardNumber,
+                exp_month: expirationMonth,
+                exp_year: expirationYear,
+                cvc: billingInformation.securityCode
             },
             billing_details: {
                 address: {
-                    city: 'Baltimore',
-                    line1: '123 Main Street',
-                    line2: 'APT 4012',
-                    postal_code: '12345',
-                    state: 'Maryland'
-                }
+                    city: billingInformation.billingCity,
+                    line1: billingInformation.billingStreetAddress,
+                    line2: billingInformation.billingAddressLineTwo,
+                    postal_code: billingInformation.billingPostal,
+                    state: billingInformation.billingState
+                },
+                name: billingInformation.nameOnCard,
+                email: 'gallowaystorm1724@gmail.com'
             }
         }).then(createdPaymentMethod =>{
             console.log('payment method');
@@ -65,25 +67,26 @@ exports.placeOrder = (req, res, next) => {
 
             //create payment intent
             const paymentIntent =  stripe.paymentIntents.create({
-                amount: 2023,
+                amount: total * 100,
                 currency: 'usd',
                 payment_method: createdPaymentMethod.id,
                 confirm: true,
-                receipt_email: 'gallowaystorm1724@gmail.com',
+                receipt_email: userEmail,
                 shipping: {
                     address: {
-                        line1: '123 Main Street',
-                        line2: "APT 2012",
-                        city: 'Batlimore',
-                        state: 'Maryland',
-                        postal_code: 12345
+                        line1: shippingInformation.shippingStreetAddress,
+                        line2: shippingInformation.shippingAddressLineTwo,
+                        city: shippingInformation.shippingCity,
+                        state: shippingInformation.shippingState,
+                        postal_code: shippingInformation.shippingPostal
                     },
-                    name: 'Storm Galloway'
+                    name: fullName
                 }
             }).then(createdPaymentIntent => {
                 console.log('payment intent');
                 console.log(createdPaymentIntent);
                 //for if card needs additional steps for confirmation
+                //TODO: need to look into how to only create order in database once this authentication has been complete (probably through search of payment intent)
                 if (createdPaymentIntent.status === 'requires_action') {
                     //set url for url where authentication is needed
                     redirectURL = createdPaymentIntent.next_action.use_stripe_sdk.stripe_js;
@@ -94,9 +97,14 @@ exports.placeOrder = (req, res, next) => {
                     });
                 }
             }).then(result => {
+                return res.status(201).json({
+                    message: 'Order created successfully',
+                    orderId: null,
+                    redirectURL: redirectURL
+                });
                 //TODO: Keep in mind that you also should use a transaction here because if one of order details fails to be created then an order and previously created order details still stay in the DB.
                 //TODO: look into promise.all for this
-                console.log(result);
+    
                 //save to database
                 // isCreated = true;
                 // order.save()
