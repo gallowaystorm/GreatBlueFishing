@@ -8,6 +8,7 @@ const globalUserRoutes = require('./routes/global-user-route');
 const adminUserRoutes = require('./routes/admin-user-route');
 const productRoutes = require('./routes/products-route');
 const storeRoutes = require('./routes/store-route');
+const galleryRoutes = require('./routes/gallery-route.js')
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use((req, res, next) => {
   app.use('/api/admin/user', adminUserRoutes);
   app.use('/api/products', productRoutes);
   app.use('/api/store', storeRoutes)
+  app.use('/api/gallery', galleryRoutes);
 
 
   module.exports = app;

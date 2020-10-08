@@ -18,6 +18,7 @@ import { AdminAuthGuard } from './auth-guards/admin-auth-guard';
 import { CheckoutComponent } from './customer/checkout/checkout.component';
 import { ReviewOrderComponent } from './customer/checkout/review-order/review-order.component';
 import { OrderCreationStatusComponent } from './customer/checkout/order-creation-status/order-creation-status.component';
+import { ManageGalleryComponent } from './admin/manage-gallery/manage-gallery.component';
 
 
 const routes: Routes = [
@@ -38,7 +39,8 @@ const routes: Routes = [
   { path: 'admin/products', component: ProductsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
   { path: 'admin/products/edit/:productId', component: ProductsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
   { path: 'admin/donations', component: ManageDonationsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
-  { path: 'admin/users', component: ManageUsersComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] }
+  { path: 'admin/users', component: ManageUsersComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
+  { path: 'admin/gallery', component: ManageGalleryComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] }
 ];
 
 @NgModule({
