@@ -73,8 +73,14 @@ export class StoreService{
   }
 
   placeOrder(nameInformation: any, shippingInformation:any, billingInformation: any, cartData: any){
-    this.http.post<{message: string, orderId: any}>(BACKEND_URL + 'order', {cartData, nameInformation, shippingInformation, billingInformation})
+    this.http.post<{message: string, orderId: any, redirectURL: string}>(BACKEND_URL + 'order', {cartData, nameInformation, shippingInformation, billingInformation})
       .subscribe(response => {
+        console.log(response.redirectURL);
+        if (response.redirectURL !== null) {
+          alert('You will now be redirected to complete transaction. This is due to your card needing more authentication to process');
+          //TODO: redirect on backend so we can cancel order if they do not complete authorization
+          window.location.href = response.redirectURL;
+        }
         this.data.storage = {
           message: response.message,
           orderId: response.orderId
