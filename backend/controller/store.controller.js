@@ -40,7 +40,7 @@ exports.placeOrder = async (req, res, next) => {
             });
         })
     //start of new stripe api
-    let paymentIntentId = '';
+    let createdPymentMethodId = null;
     const paymentMethod = await stripe.paymentMethods.create({
         type: 'card',
         card: {
@@ -61,43 +61,48 @@ exports.placeOrder = async (req, res, next) => {
             email: userEmail
         }
     }).then(createdPaymentMethod => {
-        //create payment intent
-        const paymentIntent =  stripe.paymentIntents.create({
-            amount: total * 100,
-            currency: 'usd',
-            payment_method: createdPaymentMethod.id,
-            confirm: true,
-            receipt_email: userEmail,
-            shipping: {
-                address: {
-                    line1: shippingInformation.shippingStreetAddress,
-                    line2: shippingInformation.shippingAddressLineTwo,
-                    city: shippingInformation.shippingCity,
-                    state: shippingInformation.shippingState,
-                    postal_code: shippingInformation.shippingPostal
-                },
-                name: fullName
-            }
-        }).then(createdPaymentIntent => {
-            paymentIntentId = createdPaymentIntent.id;
-            //for if card needs additional steps for confirmation
-            //TODO: need to look into how to only create order in database once this authentication has been complete (probably through search of payment intent)
-            if (createdPaymentIntent.status === 'requires_action') {
-                //set url for url where authentication is needed
-                redirectURL = createdPaymentIntent.next_action.use_stripe_sdk.stripe_js;
-            } 
-        }).catch(error => {
-            console.log(error);
-            return res.status(500).json({
-                message: error.message
-            });
-        });
+        createdPymentMethodId = createdPaymentMethod.id
     }).catch(error => {
         console.log(error);
         return res.status(500).json({
             message: error.message
         });
     });
+
+    //create payment intent
+    let paymentIntentId = '';
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: total * 100,
+        currency: 'usd',
+        payment_method: createdPaymentMethodId,
+        confirm: true,
+        receipt_email: userEmail,
+        shipping: {
+            address: {
+                line1: shippingInformation.shippingStreetAddress,
+                line2: shippingInformation.shippingAddressLineTwo,
+                city: shippingInformation.shippingCity,
+                state: shippingInformation.shippingState,
+                postal_code: shippingInformation.shippingPostal
+            },
+            name: fullName
+        }
+    }).then(createdPaymentIntent => {
+        paymentIntentId = createdPaymentIntent.id;
+        //for if card needs additional steps for confirmation
+        //TODO: need to look into how to only create order in database once this authentication has been complete (probably through search of payment intent)
+        if (createdPaymentIntent.status === 'requires_action') {
+            //set url for url where authentication is needed
+            redirectURL = createdPaymentIntent.next_action.use_stripe_sdk.stripe_js;
+        } 
+    }).catch(error => {
+        console.log(error);
+        return res.status(500).json({
+            message: error.message
+        });
+    });
+
+
     var today = new Date();
     var orderDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     //create order
