@@ -7,5 +7,7 @@ const GalleryController = require('../controller/gallery-controller');
 
 router.post('', checkAuth, extractFile, GalleryController.addGalleryImage);
 
+router.get('', GalleryController.getAllGalleryImages);
+
 //export all routes
 module.exports = router;

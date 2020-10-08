@@ -29,3 +29,19 @@ exports.addGalleryImage = (req, res, next) => {
         });
     });
 }
+
+exports.getAllGalleryImages = (req, res, next) => {
+    Gallery.find()
+        .then(gallery => {
+            res.status(200).json({
+                message: "Gallery fetched successfully!",
+                gallery: gallery
+            });
+        })
+        //to catch technical issues
+        .catch( error => {
+            res.status(500).json({
+                message: "Fetching gallery failed!"
+            });
+        });
+}

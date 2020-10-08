@@ -1,4 +1,4 @@
-<!-- blog creation -->
+<!-- gallery image creation -->
 <mat-card>
   <mat-spinner *ngIf='isLoading'></mat-spinner>
   <form [formGroup]="form" #formDirective="ngForm" (submit)="onSaveImage(formDirective)" *ngIf="!isLoading">
@@ -16,3 +16,21 @@
     <button id='submit' mat-raised-button color="accent" type="submit">Save Picture</button>
   </form>
 </mat-card>
+
+<!-- Image List -->
+
+<mat-grid-list cols="3" rowHeight="1:1" class="gallery-list">
+  <mat-grid-tile *ngFor="let gallery of gallery">
+    <mat-card>
+      <mat-card-title>{{ gallery.title }}</mat-card-title>
+      <a href='{{ gallery.imagePath }}'>
+        <img [src]="gallery.imagePath" [alt]="gallery.title">
+      </a>
+      <mat-card-actions>
+        <a mat-button color="primary" [routerLink]="['/admin/gallery/edit', gallery.id]">Edit</a>
+        <button mat-button color="warn" (click)="onDelete(gallery.id)">Delete</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+

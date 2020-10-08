@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { mimeType } from '../create-blog/mime-type.validator';
+import { Gallery } from './gallery.model';
 import { GalleryService } from './gallery.service';
 
 @Component({
@@ -12,9 +14,12 @@ export class ManageGalleryComponent implements OnInit {
 
   isLoading = false;
    //for reactive form of forms
-   form: FormGroup;
+  form: FormGroup;
    //for imagepreview
-   imagePreview: string;
+  imagePreview: string;
+
+  gallery: Gallery[] = [];
+  private gallerySub: Subscription;
 
   constructor(public galleryService: GalleryService) { }
 
@@ -25,6 +30,8 @@ export class ManageGalleryComponent implements OnInit {
       //added mie type validator
       'image': new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]})
     });
+
+    this.getGallery();
   }
 
   onImagePicked(event: Event){
@@ -54,6 +61,23 @@ export class ManageGalleryComponent implements OnInit {
         this.isLoading = false;
         alert('Gallery image saved successfully');
       }
+    formDirective.resetForm();
+    this.form.reset();
+    this.getGallery();
+  }
+
+  getGallery(){
+  //for gallery list
+  this.galleryService.getGallery();
+  //gallery posts subscription
+  this.gallerySub = this.galleryService.getGalleryUpdateListener().subscribe((galleryData: { gallery: Gallery[] }) => {
+    this.isLoading = false;
+    this.gallery = galleryData.gallery;
+});
+  }
+
+  onDelete(id: string) {
+
   }
 
 }
