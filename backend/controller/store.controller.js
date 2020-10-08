@@ -40,7 +40,6 @@ exports.placeOrder = async (req, res, next) => {
             });
         })
     //start of new stripe api
-    let createdPymentMethodId = null;
     const paymentMethod = await stripe.paymentMethods.create({
         type: 'card',
         card: {
@@ -60,8 +59,6 @@ exports.placeOrder = async (req, res, next) => {
             name: billingInformation.nameOnCard,
             email: userEmail
         }
-    }).then(createdPaymentMethod => {
-        createdPymentMethodId = createdPaymentMethod.id
     }).catch(error => {
         console.log(error);
         return res.status(500).json({
@@ -70,11 +67,10 @@ exports.placeOrder = async (req, res, next) => {
     });
 
     //create payment intent
-    let paymentIntentId = '';
     const paymentIntent = await stripe.paymentIntents.create({
         amount: total * 100,
         currency: 'usd',
-        payment_method: createdPaymentMethodId,
+        payment_method: paymentMethod.id,
         confirm: true,
         receipt_email: userEmail,
         shipping: {
@@ -88,182 +84,71 @@ exports.placeOrder = async (req, res, next) => {
             name: fullName
         }
     }).then(createdPaymentIntent => {
-        paymentIntentId = createdPaymentIntent.id;
         //for if card needs additional steps for confirmation
         //TODO: need to look into how to only create order in database once this authentication has been complete (probably through search of payment intent)
         if (createdPaymentIntent.status === 'requires_action') {
             //set url for url where authentication is needed
             redirectURL = createdPaymentIntent.next_action.use_stripe_sdk.stripe_js;
         } 
+
+        //create order for Great Blue Database
+        var today = new Date();
+        var orderDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        //create order
+        const order = new Order({
+            firstName: nameInformation.firstName,
+            lastName: nameInformation.lastName,
+            datePlaced: orderDate,
+            dateShipped: orderDate,
+            shippingAddress: {
+                streetAddress: shippingInformation.shippingStreetAddress,
+                addressLineTwo: shippingInformation.shippingAddressLineTwo,
+                city: shippingInformation.shippingCity,
+                state: shippingInformation.shippingState,
+                postal: shippingInformation.shippingPostal
+            },
+            userId: userId,
+            stripeId: createdPaymentIntent.id
+        });
+
+        //TODO: Keep in mind that you also should use a transaction here because if one of order details fails to be created then an order and previously created order details still stay in the DB.
+        //TODO: look into promise.all for this
+
+        //save to database
+        order.save()
+        .then(createdOrder => {
+            //create order details
+            for (let i = 0; i < cartData.length; i++){
+                const total = parseFloat((cartData[i].price * cartData[i].quantity), 10);
+                const orderDetails = new OrderDetails({
+                    productId: cartData[i].productId,
+                    quantity: cartData[i].quantity,
+                    total: total,
+                    orderId: createdOrder._id
+                });
+                orderDetails.save().catch(error => {
+                    return res.status(500).json({
+                        message: "Something went wrong when saving your order details to the database."
+                    });
+                })
+            }
+            //TODO: look into promise.all for this
+            return res.status(201).json({
+                message: 'Order created successfully',
+                orderId: createdOrder._id,
+                redirectURL: redirectURL
+            });
+        }).catch(error => {
+            console.log(error);
+            return res.status(500).json({
+                message: "Something went wrong when saving your order to the database."
+            });
+        });
+
     }).catch(error => {
         console.log(error);
         return res.status(500).json({
             message: error.message
         });
     });
-
-
-    var today = new Date();
-    var orderDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    //create order
-    const order = new Order({
-        firstName: nameInformation.firstName,
-        lastName: nameInformation.lastName,
-        datePlaced: orderDate,
-        dateShipped: orderDate,
-        shippingAddress: {
-            streetAddress: shippingInformation.shippingStreetAddress,
-            addressLineTwo: shippingInformation.shippingAddressLineTwo,
-            city: shippingInformation.shippingCity,
-            state: shippingInformation.shippingState,
-            postal: shippingInformation.shippingPostal
-        },
-        userId: userId,
-        stripeId: paymentIntentId
-    });
-    console.log(order);
-    //TODO: Keep in mind that you also should use a transaction here because if one of order details fails to be created then an order and previously created order details still stay in the DB.
-    //TODO: look into promise.all for this
-
-    //save to database
-    // isCreated = true;
-    // order.save()
-    // .then(createdOrder => {
-    //     console.log(createdOrder);
-    //     //create order details
-    //     for (let i = 0; i < cartData.length; i++){
-    //         const total = parseFloat((cartData[i].price * cartData[i].quantity), 10);
-    //         const orderDetails = new OrderDetails({
-    //             productId: cartData[i].productId,
-    //             quantity: cartData[i].quantity,
-    //             total: total,
-    //             orderId: createdOrder._id
-    //         });
-    //         orderDetails.save().then(createdOrderDetails => {
-    //             if (!createdOrderDetails) {
-    //                 isCreated = false;
-    //             }
-    //         })
-    //     }
-    //     //TODO: look into promise.all for this
-    //     if (isCreated) {
-    //         return res.status(201).json({
-    //             message: 'Order created successfully',
-    //             orderId: createdOrder._id
-    //         });
-    //     } else {
-    //         return res.status(500).json({
-    //             message: "Creating order details failed!"
-    //         });
-    //     }
-    // }).catch(error => {
-    //     console.log(error);
-    //     return res.status(500).json({
-    //         message: "Something went wrong when saving your order to the database."
-    //     });
-    // });
-
-    // //create token
-    // const token = stripe.tokens.create({
-    //     card: {
-    //       number: billingInformation.cardNumber,
-    //       exp_month: expirationMonth,
-    //       exp_year: expirationYear,
-    //       name: billingInformation.nameOnCard,
-    //       cvc: billingInformation.securityCode,
-    //       address_line1: billingInformation.billingStreetAddress,
-    //       address_line2: billingInformation.billingAddressLineTwo,
-    //       address_city: billingInformation.billingCity,
-    //       address_state: billingInformation.billingState,
-    //       address_zip: billingInformation.billingPostal
-    //     },
-    //   }).then(createdToken => {
-    //       console.log(createdToken)
-    //     const charge = stripe.charges.create({
-    //         amount: total * 100,
-    //         currency: 'usd',
-    //         receipt_email:  userEmail,
-    //         source: createdToken.id,
-    //         capture: true,
-    //         shipping: {
-    //             address: {
-    //                 line1: shippingInformation.shippingStreetAddress,
-    //                 line2: shippingInformation.shippingAddressLineTwo,
-    //                 city: shippingInformation.shippingCity,
-    //                 state: shippingInformation.shippingState,
-    //                 postal_code: shippingInformation.shippingPostal
-    //             },
-    //             name: fullName
-    //         },
-    //     }).then(stripeCharge => {
-    //         console.log(stripeCharge);
-    //         //create order with corresponding stripe payment ID
-    //          //for date of order
-    //          var today = new Date();
-    //          var orderDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    //          //create order
-    //          const order = new Order({
-    //              firstName: nameInformation.firstName,
-    //              lastName: nameInformation.lastName,
-    //              datePlaced: orderDate,
-    //              dateShipped: orderDate,
-    //              shippingAddress: {
-    //                  streetAddress: shippingInformation.shippingStreetAddress,
-    //                  addressLineTwo: shippingInformation.shippingAddressLineTwo,
-    //                  city: shippingInformation.shippingCity,
-    //                  state: shippingInformation.shippingState,
-    //                  postal: shippingInformation.shippingPostal
-    //              },
-    //              userId: userId,
-    //              stripeId: stripeCharge.id 
-    //          });
-
-            //  //TODO: Keep in mind that you also should use a transaction here because if one of order details fails to be created then an order and previously created order details still stay in the DB.
-            //  //TODO: look into promise.all for this
-
-            //  //save to database
-            //  try {
-            //      isCreated = true;
-            //      order.save()
-            //      .then(createdOrder => {
-            //          console.log(createdOrder);
-            //          //create order details
-            //          for (let i = 0; i < cartData.length; i++){
-            //              const total = parseFloat((cartData[i].price * cartData[i].quantity), 10);
-            //              const orderDetails = new OrderDetails({
-            //                  productId: cartData[i].productId,
-            //                  quantity: cartData[i].quantity,
-            //                  total: total,
-            //                  orderId: createdOrder._id
-            //              });
-            //              orderDetails.save().then(createdOrderDetails => {
-            //                  if (!createdOrderDetails) {
-            //                      isCreated = false;
-            //                  }
-            //              })
-            //          }
-            //          //TODO: look into promise.all for this
-            //          if (isCreated) {
-            //              return res.status(201).json({
-            //                  message: 'Order created successfully',
-            //                  orderId: createdOrder._id
-            //              });
-            //          } else {
-            //              return res.status(500).json({
-            //                  message: "Creating order details failed!"
-            //              });
-            //          }
-            //      })
-            //  } catch {
-            //      return res.status(500).json({
-            //                  message: "Creating order failed!"
-            //              });
-            //  }
-//         }).catch(error => {
-//             console.log(error);
-//             return res.status(500).json({
-//                 message: error.raw.message
-//             });
-//         }); 
-//       }); 
 }

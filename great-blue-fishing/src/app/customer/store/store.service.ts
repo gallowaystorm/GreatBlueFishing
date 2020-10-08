@@ -81,28 +81,28 @@ export class StoreService{
           //TODO: redirect on backend so we can cancel order if they do not complete authorization
           window.location.href = response.redirectURL;
         }
-      //   this.data.storage = {
-      //     message: response.message,
-      //     orderId: response.orderId
-      //   }
-      //   this.router.navigate(['/order-status'], { skipLocationChange: true }
-      // );
+        this.data.storage = {
+          message: response.message,
+          orderId: response.orderId
+        }
+        this.router.navigate(['/order-status'], { skipLocationChange: true }
+      );
 
-      //   //delete cart for user who placed order
-      //   if (response.orderId !== null || response.orderId !== undefined) {
-      //     const userId = cartData[0].userId
-      //     let cartBeforeCheckingUser =  JSON.parse(localStorage.getItem('cart'));
-      //     for (var i = 0; i < cartBeforeCheckingUser.length; i++) {
-      //       if (cartBeforeCheckingUser[i].userId === userId) {
-      //         console.log(cartBeforeCheckingUser);
-      //         //delete single array index
-      //         cartBeforeCheckingUser.splice(i, 1);
-      //       }
-      //     }
-      //     //reset cart in localstorage
-      //     localStorage.setItem('cart', JSON.stringify(cartBeforeCheckingUser));
-      //     console.log("Cart has been cleared");
-      //   }
+        //delete cart for user who placed order
+        if (response.orderId !== null || response.orderId !== undefined) {
+          const userId = cartData[0].userId
+          let cartBeforeCheckingUser =  JSON.parse(localStorage.getItem('cart'));
+          for (var i = 0; i < cartBeforeCheckingUser.length; i++) {
+            if (cartBeforeCheckingUser[i].userId === userId) {
+              console.log(cartBeforeCheckingUser);
+              //delete single array index
+              cartBeforeCheckingUser.splice(i, 1);
+            }
+          }
+          //reset cart in localstorage
+          localStorage.setItem('cart', JSON.stringify(cartBeforeCheckingUser));
+          console.log("Cart has been cleared");
+        }
         return response.message;
       });
   }
