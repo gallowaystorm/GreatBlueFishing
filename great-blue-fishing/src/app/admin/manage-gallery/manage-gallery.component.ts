@@ -76,8 +76,20 @@ export class ManageGalleryComponent implements OnInit {
 });
   }
 
-  onDelete(id: string) {
-
+  onDelete(imageId: string) {
+    var confirmDelete = confirm("Are you sure you want to delete this product? This cannot be undone.");
+    if (confirmDelete){
+      this.isLoading = true;
+      this.galleryService.deleteImage(imageId).subscribe( () => {
+        //to update product list on frontend on delete
+        this.galleryService.getGallery();
+      }, () => {
+        //this method helps handle errors
+        this.isLoading = false;
+      });
+    } else {
+      return;
+    }
   }
 
 }

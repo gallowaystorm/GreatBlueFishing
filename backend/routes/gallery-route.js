@@ -9,5 +9,7 @@ router.post('', checkAuth, extractFile, GalleryController.addGalleryImage);
 
 router.get('', GalleryController.getAllGalleryImages);
 
+router.delete('/:id', checkAuth, GalleryController.deleteGalleryImage);
+
 //export all routes
 module.exports = router;

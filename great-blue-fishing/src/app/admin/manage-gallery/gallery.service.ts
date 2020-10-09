@@ -50,4 +50,8 @@ export class GalleryService{
   getGalleryUpdateListener(){
     return this.galleryUpdated.asObservable();
   }
+
+  deleteImage(imageId: string){
+    return this.http.delete(BACKEND_URL +  imageId);
+  }
 }

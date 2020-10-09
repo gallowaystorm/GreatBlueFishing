@@ -116,7 +116,7 @@ export class ProductsComponent implements OnInit {
  }
 
   onDelete(productId: string){
-    var confirmDelete = confirm("Are you sure you want to delete this product? This cannot be undone.");
+    var confirmDelete = confirm("Are you sure you want to delete this image? This cannot be undone.");
     if (confirmDelete){
       this.isLoading = true;
       this.productsService.deleteProduct(productId).subscribe( () => {
