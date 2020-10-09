@@ -11,5 +11,9 @@ router.get('', GalleryController.getAllGalleryImages);
 
 router.delete('/:id', checkAuth, GalleryController.deleteGalleryImage);
 
+router.get('/:id', checkAuth, GalleryController.getSingleGalleryImage);
+
+router.put('/:id', checkAuth, extractFile, GalleryController.updateSingleImage);
+
 //export all routes
 module.exports = router;

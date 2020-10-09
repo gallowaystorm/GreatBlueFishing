@@ -39,7 +39,7 @@ export class ProductsComponent implements OnInit {
     });
 
     //for create vs edit mode
-      //pulls the path that you are at to determine between /create and /edit/:postID
+      //pulls the path that you are at to determine between /create and /edit/:productID
       this.route.paramMap
       //subscribes to observable
       .subscribe( (paramMap: ParamMap) => {

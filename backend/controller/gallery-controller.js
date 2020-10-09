@@ -45,6 +45,23 @@ exports.getAllGalleryImages = (req, res, next) => {
         });
 }
 
+exports.getSingleGalleryImage = (req, res, next) => {
+    Gallery.findById(req.params.id).then( gallery => {
+        //check if exist
+        if (gallery) {
+            res.status(200).json(gallery)
+        } else {
+            res.status(404).json({message: 'Image not found!'})
+        }
+    })
+    //to catch technical issues
+    .catch( error => {
+        res.status(500).json({
+            message: "Fetching image failed!"
+        });
+    });
+};
+
 exports.deleteGalleryImage = (req, res, next) => {
     //params pulls id from url
     Gallery.deleteOne( {_id: req.params.id})
@@ -63,4 +80,38 @@ exports.deleteGalleryImage = (req, res, next) => {
             message: "Deleting product failed!"
         });
     });
+};
+
+exports.updateSingleImage = (req, res, next) => {
+    //check if string or req already has the path
+    let imagePath = req.body.imagePath;
+    if (req.file) {
+        //set image path to url of image
+        const url = req.protocol + '://' + req.get('host');
+        imagePath = url + '/images/' + req.file.filename; 
+    }
+    //creates new image
+    const gallery = new Gallery ({
+        _id: req.body.id,
+        title: req.body.title,
+        imagePath: imagePath
+    });
+    //update gallery image based off id passed in through browser
+    //creator checks to see if the id of one updating matches the one creating
+    Gallery.updateOne( {_id: req.params.id }, gallery )
+        //if post is successfully updated
+        .then( result => {
+            //for error catching
+            if (result.n > 0){
+                res.status(200).json({message: 'Update Successful'});
+            } else {
+                res.status(401).json({message: 'Not Authroized!'});
+            }
+        })
+        //to catch tecnical errors as well
+        .catch(error => {
+            res.status(500).json({
+                message: "Couldn't update image!"
+            });
+        });  
 };

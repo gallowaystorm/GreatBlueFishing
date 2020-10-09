@@ -40,7 +40,8 @@ const routes: Routes = [
   { path: 'admin/products/edit/:productId', component: ProductsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
   { path: 'admin/donations', component: ManageDonationsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
   { path: 'admin/users', component: ManageUsersComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
-  { path: 'admin/gallery', component: ManageGalleryComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] }
+  { path: 'admin/gallery', component: ManageGalleryComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
+  { path: 'admin/gallery/edit/:galleryId', component: ManageGalleryComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
 ];
 
 @NgModule({
