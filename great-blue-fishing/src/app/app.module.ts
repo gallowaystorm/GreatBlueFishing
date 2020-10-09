@@ -44,6 +44,7 @@ import { StepperComponent } from './customer/checkout/stepper/stepper.component'
 import { ReviewOrderComponent } from './customer/checkout/review-order/review-order.component';
 import { Data } from './data';
 import { OrderCreationStatusComponent } from './customer/checkout/order-creation-status/order-creation-status.component';
+import { ManageGalleryComponent } from './admin/manage-gallery/manage-gallery.component';
 
 
 
@@ -69,7 +70,8 @@ import { OrderCreationStatusComponent } from './customer/checkout/order-creation
       CheckoutComponent,
       StepperComponent,
       ReviewOrderComponent,
-      OrderCreationStatusComponent
+      OrderCreationStatusComponent,
+      ManageGalleryComponent
    ],
   imports: [
       BrowserModule,

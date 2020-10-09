@@ -1,0 +1,85 @@
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+mat-card {
+  width: 75%;
+  margin: auto;
+  margin-bottom: 3%;
+}
+
+
+mat-form-field,
+textarea {
+  width: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+input[type='file']{
+  visibility: hidden;
+}
+
+.image-preview{
+  height: 5rem;
+  margin: 1rem 0;
+}
+
+.image-preview img {
+  height: 100%;
+}
+
+#submit {
+  margin-top: 2%;
+}
+
+.gallery-list{
+  width: 85%;
+}
+
+mat-grid-list {
+  width: 60%;
+  height: auto;
+  margin: auto;
+}
+
+.gallery-list mat-card {
+  width: 85%;
+  margin: auto;
+}
+.gallery-list mat-card-title {
+  text-align: center;
+}
+
+.gallery-list img {
+  height: 60%;
+  width: 70%;
+  display: block;
+  margin: 5% auto 2% auto;
+}
+
+mat-form-field.ng-invalid.ng-touched {
+  animation: example;
+  animation-duration: 0.3s;
+  margin-bottom: 13px;
+}
+
+@keyframes example {
+  from {margin-bottom: 0;}
+  to {margin-bottom: 13px;}
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

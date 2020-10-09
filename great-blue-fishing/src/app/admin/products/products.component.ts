@@ -39,7 +39,7 @@ export class ProductsComponent implements OnInit {
     });
 
     //for create vs edit mode
-      //pulls the path that you are at to determine between /create and /edit/:postID
+      //pulls the path that you are at to determine between /create and /edit/:productID
       this.route.paramMap
       //subscribes to observable
       .subscribe( (paramMap: ParamMap) => {
@@ -116,7 +116,7 @@ export class ProductsComponent implements OnInit {
  }
 
   onDelete(productId: string){
-    var confirmDelete = confirm("Are you sure you want to delete this product? This cannot be undone.");
+    var confirmDelete = confirm("Are you sure you want to delete this image? This cannot be undone.");
     if (confirmDelete){
       this.isLoading = true;
       this.productsService.deleteProduct(productId).subscribe( () => {
