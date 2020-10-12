@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { GalleryService } from './gallery.service';
   templateUrl: './manage-gallery.component.html',
   styleUrls: ['./manage-gallery.component.css']
 })
-export class ManageGalleryComponent implements OnInit {
+export class ManageGalleryComponent implements OnInit, OnDestroy {
 
   isLoading = false;
    //for reactive form of forms
@@ -113,13 +113,13 @@ export class ManageGalleryComponent implements OnInit {
   }
 
   getGallery(){
-  //for gallery list
-  this.galleryService.getGallery();
-  //gallery posts subscription
-  this.gallerySub = this.galleryService.getGalleryUpdateListener().subscribe((galleryData: { gallery: Gallery[] }) => {
-    this.isLoading = false;
-    this.gallery = galleryData.gallery;
-});
+    //for gallery list
+    this.galleryService.getGallery();
+    //gallery posts subscription
+    this.gallerySub = this.galleryService.getGalleryUpdateListener().subscribe((galleryData: { gallery: Gallery[] }) => {
+      this.isLoading = false;
+      this.gallery = galleryData.gallery;
+      });
   }
 
   onDelete(imageId: string) {
@@ -136,6 +136,10 @@ export class ManageGalleryComponent implements OnInit {
     } else {
       return;
     }
+  }
+
+  ngOnDestroy(){
+    this.gallerySub.unsubscribe();
   }
 
 }
