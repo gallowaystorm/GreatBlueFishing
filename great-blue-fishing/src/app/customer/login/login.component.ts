@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   //to handle subscription in ngoninit
   private authStatusSub: Subscription;
 
-  constructor(public globalAuthService: GlobalAuthService) { }
+  constructor(private globalAuthService: GlobalAuthService) { }
 
   ngOnInit() {
     //form mapping
