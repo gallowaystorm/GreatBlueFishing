@@ -31,6 +31,17 @@
         <button mat-menu-item *ngIf='!userIsAuthenticated'>
           <a mat-button color='primary' routerLink='/login' routerLinkActive='mat-accent'>Sign In</a>
         </button>
+        <button mat-menu-item [matMenuTriggerFor]="admin" *ngIf='isAdmin'>
+          <a mat-button color='primary' routerLinkActive='mat-accent'>Admin</a>
+        </button>
+          <!-- ADMIN SITES -->
+          <mat-menu #admin="matMenu">
+            <button mat-menu-item routerLink='/admin/blog'>Blog</button>
+            <button mat-menu-item routerLink='/admin/products'>Products</button>
+            <button mat-menu-item routerLink='/admin/donations'>Donations</button>
+            <button mat-menu-item routerLink='/admin/users'>Users</button>
+            <button mat-menu-item routerLink='/admin/gallery'>Gallery</button>
+          </mat-menu>
         <button mat-menu-item *ngIf='userIsAuthenticated'>
           <a mat-button color='primary' (click)='onLogout()' routerLinkActive='mat-accent'>Logout</a>
         </button>
