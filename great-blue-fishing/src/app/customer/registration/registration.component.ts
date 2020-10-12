@@ -13,7 +13,7 @@ export class RegistrationComponent implements OnInit {
   //for form
   form: FormGroup;
 
-  constructor(public customerAuthService: CustomerAuthService) { }
+  constructor(private customerAuthService: CustomerAuthService) { }
 
   ngOnInit() {
     //for mapping

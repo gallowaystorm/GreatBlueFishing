@@ -19,7 +19,7 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
   adminUsersList: UserData[] = [];
   displayedColumns: string[] = ['email', 'lastName', 'firstName', 'delete'];
 
-  constructor(public adminAuthService: AdminAuthService) { }
+  constructor(private adminAuthService: AdminAuthService) { }
 
   ngOnInit() {
     //for form
