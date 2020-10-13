@@ -34,6 +34,7 @@
         <button mat-menu-item [matMenuTriggerFor]="admin" *ngIf='isAdmin'>
           <a mat-button color='primary' routerLinkActive='mat-accent'>Admin</a>
         </button>
+        <!-- TODO only appear when they are admin!! -->
           <!-- ADMIN SITES -->
           <mat-menu #admin="matMenu">
             <button mat-menu-item routerLink='/admin/blog'>Blog</button>

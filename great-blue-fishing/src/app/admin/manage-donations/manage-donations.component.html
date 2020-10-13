@@ -1,3 +1,48 @@
-<p>
-  manage-donations works!
-</p>
+<h1>Manage Donations</h1>
+<!-- gallery image creation -->
+<mat-card>
+  <mat-spinner *ngIf='isLoading'></mat-spinner>
+  <form [formGroup]="form" #formDirective="ngForm" (submit)="onSubmit(formDirective)" *ngIf="!isLoading">
+    <mat-form-field>
+      <input matInput type='text' formControlName="companyName" placeholder="Company Name">
+      <mat-error *ngIf="form.get('companyName').invalid">Please enter a comapny name!</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type='text' formControlName="companyDescription" placeholder="Company Description">
+      <mat-error *ngIf="form.get('companyDescription').invalid">Please enter a comapny description!</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type='text' formControlName="addressLineOne" placeholder="Address Line One">
+      <mat-error *ngIf="form.get('addressLineOne').invalid">Please enter a comapny address!</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type='text' formControlName="addressLineTwo" placeholder="Address Line Two">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type='text' formControlName="city" placeholder="City">
+      <mat-error *ngIf="form.get('city').invalid">Please enter a comapny city!</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>State</mat-label>
+      <mat-select formControlName="state" >
+        <mat-option *ngFor="let state of states" [value]="state.value" required> {{state.viewValue}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type='text' formControlName="postal" placeholder="Zip Code">
+      <mat-error *ngIf="form.get('postal').invalid">Please enter a valid comapny zip code!</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type='text' formControlName="companyWebsite" placeholder="Company Website">
+      <mat-error *ngIf="form.get('companyWebsite').invalid">Please enter a valid comapny website!</mat-error>
+    </mat-form-field>
+    <div>
+      <button mat-stroked-button type="button" (click)="filePicker.click()">Upload Image</button>
+      <input type='file' #filePicker (change)='onImagePicked($event)'>
+    </div>
+    <div class='image-preview' *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
+      <img [src]='imagePreview' [alt]='form.value.title'>
+    </div>
+    <button id='submit' mat-raised-button color="accent" type="submit">Save Picture</button>
+  </form>
+</mat-card>

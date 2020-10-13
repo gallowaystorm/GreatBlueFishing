@@ -49,7 +49,7 @@ export class StepperComponent implements OnInit {
       billingAddressLineTwo: [null],
       billingCity: ['', Validators.required],
       billingState: ['', Validators.required],
-      billingPostal: ['', Validators.required]
+      billingPostal: ['', {validators: [Validators.required, Validators.pattern('^[0-9]{5}(?:-[0-9]{4})?$')]}]
     });
   }
 

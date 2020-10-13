@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private globalAuthService: GlobalAuthService, private adminAuthService: AdminAuthService) { }
 
   ngOnInit() {
+    this.isAdmin = false;
     //for auto authentication
     this.userIsAuthenticated = this.globalAuthService.getIsAuth();
     //subscribe to listener for status of auth
@@ -39,6 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   //for logout
   onLogout(){
     this.globalAuthService.logoutUser();
+    this.adminListenerSubscription.unsubscribe();
   }
 
   ngOnDestroy(){
