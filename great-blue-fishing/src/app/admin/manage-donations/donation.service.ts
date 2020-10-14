@@ -27,8 +27,8 @@ export class DonationService{
     donationComapnyData.append('addressLineTwo', addressLineTwo);
     donationComapnyData.append('city', city);
     donationComapnyData.append('state', state);
-    donationComapnyData.append('postal', postal);
-    donationComapnyData.append('companyWebsite', companyWebsite);
+    donationComapnyData.append('postal', postal.toString());
+    donationComapnyData.append('companyWebsite', companyWebsite.toString());
     this.http.post<{message: string, donationCompany: DonationCompany}>(BACKEND_URL, donationComapnyData)
       .subscribe( (responseData) => {
         return true;

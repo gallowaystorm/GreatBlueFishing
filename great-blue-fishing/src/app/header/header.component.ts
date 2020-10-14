@@ -41,6 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onLogout(){
     this.globalAuthService.logoutUser();
     this.adminListenerSubscription.unsubscribe();
+    this.isAdmin = false;
   }
 
   ngOnDestroy(){
