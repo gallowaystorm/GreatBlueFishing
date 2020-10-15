@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { AdminAuthService } from './admin/admin-auth.service';
 
 const BAKCEND_URL = environment.apiUrl + '/global/user/'
 
@@ -19,7 +20,7 @@ export class GlobalAuthService{
   //for token timer
   private tokenTimer: any;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private adminAuthService: AdminAuthService) {}
 
   //for logging in users
   loginUser(email: string, password: string){
@@ -45,6 +46,8 @@ export class GlobalAuthService{
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
           this.saveAuthData(token, expirationDate, this.userId);
+          //to set observable if admin or not
+          this.adminAuthService.getIsAdmin();
           //navigate to home page
           this.router.navigate(['/']);
         }

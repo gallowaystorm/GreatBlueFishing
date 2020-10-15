@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { GlobalAuthService } from '../global-auth.service';
 import { Subscription } from 'rxjs';
 import { AdminAuthService } from '../admin/admin-auth.service';
@@ -8,19 +8,18 @@ import { AdminAuthService } from '../admin/admin-auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy{
 
   userIsAuthenticated = false;
   isAdmin = false;
   //to subscribe to observable made in global-auth-service.ts
-  private authListenerSubscription: Subscription
+  private authListenerSubscription: Subscription;
   //to subscribe to observable made in admin-auth-service.ts
-  private adminListenerSubscription: Subscription
+  private adminListenerSubscription: Subscription;
 
   constructor(private globalAuthService: GlobalAuthService, private adminAuthService: AdminAuthService) { }
 
   ngOnInit() {
-    this.isAdmin = false;
     //for auto authentication
     this.userIsAuthenticated = this.globalAuthService.getIsAuth();
     //subscribe to listener for status of auth
@@ -29,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         //set based off result of above call to authService
         this.userIsAuthenticated = isAuthenticated;
       });
-    this.adminAuthService.getIsAdmin();
+    this.isAdmin = this.adminAuthService.getIsAdmin();
     this.adminListenerSubscription = this.adminAuthService.getAdminStatusListener()
       .subscribe( isAdmin  => {
         //set based off result of above call to authService
@@ -40,14 +39,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   //for logout
   onLogout(){
     this.globalAuthService.logoutUser();
-    this.adminListenerSubscription.unsubscribe();
-    this.isAdmin = false;
+    //ensures that system thinks isAdmin == false
+    this.adminAuthService.setAdminStatusListner(false);
   }
 
   ngOnDestroy(){
     //unsubscribe to listener
     this.authListenerSubscription.unsubscribe();
     this.adminListenerSubscription.unsubscribe();
-  }
+   }
 
 }

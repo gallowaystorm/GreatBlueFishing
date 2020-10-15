@@ -45,6 +45,7 @@ import { ReviewOrderComponent } from './customer/checkout/review-order/review-or
 import { Data } from './data';
 import { OrderCreationStatusComponent } from './customer/checkout/order-creation-status/order-creation-status.component';
 import { ManageGalleryComponent } from './admin/manage-gallery/manage-gallery.component';
+import { AdminAuthService } from './admin/admin-auth.service';
 
 
 
@@ -102,6 +103,7 @@ import { ManageGalleryComponent } from './admin/manage-gallery/manage-gallery.co
     [Data]
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorsComponent]
+  entryComponents: [ErrorsComponent],
+
 })
 export class AppModule { }
