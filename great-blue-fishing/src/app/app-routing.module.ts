@@ -19,10 +19,12 @@ import { CheckoutComponent } from './customer/checkout/checkout.component';
 import { ReviewOrderComponent } from './customer/checkout/review-order/review-order.component';
 import { OrderCreationStatusComponent } from './customer/checkout/order-creation-status/order-creation-status.component';
 import { ManageGalleryComponent } from './admin/manage-gallery/manage-gallery.component';
+import { HeaderComponent } from './header/header.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'header', component: HeaderComponent },
   { path: 'about', component: AboutComponent },
   { path: 'store', component: StoreComponent },
   { path: 'checkout', component: CheckoutComponent, canActivate: [GlobalAuthGuard] },

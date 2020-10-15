@@ -50,7 +50,7 @@ exports.getIsAdmin = (req, res ,next) => {
                         isAdmin: true
                     });
                 } else {
-                    res.status(401).json({
+                    res.status(200).json({
                         message: 'User is not an admin',
                         isAdmin: false
                     });

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { GlobalAuthService } from 'src/app/global-auth.service';
 import { Subscription } from 'rxjs';
+import { AdminAuthService } from 'src/app/admin/admin-auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   //to handle subscription in ngoninit
   private authStatusSub: Subscription;
+  private adminStatusSub: Subscription;
 
   constructor(private globalAuthService: GlobalAuthService) { }
 
@@ -26,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       'password': new FormControl(null, {validators: [Validators.required]})
     });
 
-    //for handline error
+    //for handling error
     this.authStatusSub = this.globalAuthService.getAuthStatusListener().subscribe(
       authStatus =>{
         this.isLoading = false;
@@ -39,7 +41,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     this.isLoading = true;
     this.globalAuthService.loginUser(this.form.value.email, this.form.value.password);
-
     this.form.reset();
   }
 
