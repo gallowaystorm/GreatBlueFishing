@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
         //set based off result of above call to authService
         this.userIsAuthenticated = isAuthenticated;
       });
-    this.isAdmin = this.adminAuthService.getIsAdmin();
+    this.adminAuthService.getIsAdmin();
     this.adminListenerSubscription = this.adminAuthService.getAdminStatusListener()
       .subscribe( isAdmin  => {
         //set based off result of above call to authService

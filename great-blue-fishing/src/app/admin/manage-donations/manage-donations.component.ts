@@ -68,8 +68,8 @@ export class ManageDonationsComponent implements OnInit, OnDestroy {
         return
       }
       if (this.mode === 'create'){
-        this.isLoading = true;
-        this.donationService.addDonationComapny(this.form.value.companyName, this.form.value.companyDescription, this.form.value.image, this.form.value.addressLineOne, this.form.value.addressLineTwo, this.form.value.city, this.form.value.state, this.form.value.postal, this.form.value.companyWebsite);
+        // this.isLoading = true;
+        this.donationService.addDonationComapny(this.form.value.companyName, this.form.value.image, this.form.value.companyDescription, this.form.value.addressLineOne, this.form.value.addressLineTwo, this.form.value.city, this.form.value.state, this.form.value.postal, this.form.value.companyWebsite);
         if (this.donationService.addDonationComapny){
           this.isLoading = false;
           alert('Donation company saved successfully');
@@ -87,8 +87,8 @@ export class ManageDonationsComponent implements OnInit, OnDestroy {
       //     return;
       //   }
       // }
-      formDirective.resetForm();
-      this.form.reset();
+      // formDirective.resetForm();
+      // this.form.reset();
       this.getDonationCompanies();
      }
   }
@@ -104,7 +104,7 @@ export class ManageDonationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.donationCompanySub.unsubscribe();
+    // this.donationCompanySub.unsubscribe();
   }
 
 }

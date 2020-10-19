@@ -34,7 +34,7 @@ export class AdminAuthService{
       }, error => {
         this.adminStatusListener.next(false);
     });
-      return this.isAdmin
+      return this.getAdminStatusListener();
   }
 
   getAdminStatusListener(){
