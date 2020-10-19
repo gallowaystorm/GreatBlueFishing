@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { State } from 'src/app/customer/checkout/stepper/states.model';
 import { mimeType } from '../create-blog/mime-type.validator';
@@ -22,7 +22,7 @@ export class ManageDonationsComponent implements OnInit, OnDestroy {
   //for states
   states = State;
   public mode = 'create';
-  private donationComapnyId: string;
+  private donationCompanyId: string;
   public DonationCompany: DonationCompany;
 
   donationCompanies: DonationCompany[] = [];
@@ -44,6 +44,58 @@ export class ManageDonationsComponent implements OnInit, OnDestroy {
       //added mie type validator
       'image': new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]})
     });
+
+    //for create vs edit mode
+      //pulls the path that you are at to determine between /create and /edit/:productID
+      this.route.paramMap
+      //subscribes to observable
+      .subscribe( (paramMap: ParamMap) => {
+        //check if path exists
+        if (paramMap.has('companyId')) {
+          this.mode = 'edit';
+          //sets productId in the path equal to productId variable
+          this.donationCompanyId = paramMap.get('companyId');
+          //spinner on load
+          this.isLoading = true;
+          //call overloaded getPost function that finds post in database that matches id
+          this.donationService.getSingleCompany(this.donationCompanyId)
+            //subscribe to observable
+            .subscribe(donationCompanyData => {
+              //stop spinner
+              this.isLoading = false;
+              this.DonationCompany = {
+                id: donationCompanyData._id,
+                companyName: donationCompanyData.name,
+                imagePath: donationCompanyData.imagePath,
+                description: donationCompanyData.description,
+                companyAddress: {
+                  addressLineOne: donationCompanyData.addressLineOne,
+                  addressLineTwo: donationCompanyData.addressLineTwo,
+                  city: donationCompanyData.city,
+                  state: donationCompanyData.state,
+                  postal: donationCompanyData.postal
+                },
+                companyWebsite: donationCompanyData.companyWebsite
+              };
+
+              //overite default form value on init
+              this.form.setValue({
+                'title': this.DonationCompany.companyName,
+                'image': this.DonationCompany.imagePath,
+                'companyDescription': this.DonationCompany.description,
+                'addressLineOne': this.DonationCompany.companyAddress.addressLineOne,
+                'addressLineTwo': this.DonationCompany.companyAddress.addressLineTwo,
+                'city': this.DonationCompany.companyAddress.city,
+                'state': this.DonationCompany.companyAddress.state,
+                'postal': this.DonationCompany.companyAddress.postal,
+                'companyWebsite': this.DonationCompany.companyWebsite
+              });
+            });
+        } else {
+          this.mode = 'create';
+          this.donationCompanyId = null;
+        }
+      });
 
     this.getDonationCompanies();
   }
@@ -76,24 +128,23 @@ export class ManageDonationsComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           alert('Donation company saved successfully');
         }
-      // } else {
-      //   var confirmUpdate = confirm("Are you sure you want to update this image?");
-      //   if (confirmUpdate == true){
-      //     var galleryUpdated = this.donationService.updateImage(this.donationCompanyId, this.form.value.title, this.form.value.image);
-      //     this.isLoading = false;
-      //     if (galleryUpdated == true) {
-      //       alert("Gallery image has been updated!");
-      //       this.mode = "create";
-      //     }
-      //   } else {
-      //     return;
-      //   }
-      // }
-      // formDirective.resetForm();
-      // this.form.reset();
+      } else {
+        var confirmUpdate = confirm("Are you sure you want to update this donation company?");
+        if (confirmUpdate == true){
+          var donationCompanyUpdated = this.donationService.updateDonationCompany(this.form.value.companyName, this.form.value.image, this.form.value.companyDescription, this.form.value.addressLineOne, this.form.value.addressLineTwo, this.form.value.city, this.form.value.state, this.form.value.postal, this.form.value.companyWebsite, this.donationCompanyId);
+          this.isLoading = false;
+          if (donationCompanyUpdated == true) {
+            alert("Donation company has been updated!");
+            this.mode = "create";
+          }
+        } else {
+          return;
+        }
+      }
+      formDirective.resetForm();
+      this.form.reset();
       this.getDonationCompanies();
      }
-  }
 
   getDonationCompanies(){
     //for gallery list

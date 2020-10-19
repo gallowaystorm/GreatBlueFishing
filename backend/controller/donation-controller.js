@@ -53,6 +53,25 @@ exports.getAllDonationCompanies = (req, res, next) => {
         });
 }
 
+exports.getSingleDonationCompany = (req, res, next) => {
+  DonationCompany.findById(req.params.id).then( donationCompany => {
+      //check if exist
+      if (gallery) {
+          res.status(200).json(donationCompany)
+      } else {
+          res.status(404).json({
+            message: 'Donation company not found!'
+          })
+      }
+  })
+  //to catch technical issues
+  .catch( error => {
+      res.status(500).json({
+          message: "Fetching image failed!"
+      });
+  });
+};
+
 exports.deleteDonationCompany = (req, res, next) => {
     //params pulls id from url
     DonationCompany.deleteOne( {_id: req.params.id})

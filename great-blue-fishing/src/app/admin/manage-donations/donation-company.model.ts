@@ -12,5 +12,5 @@ export interface DonationCompany {
     state: string;
     postal: number;
   }
-  companyWebsite: Url
+  companyWebsite: string
 }

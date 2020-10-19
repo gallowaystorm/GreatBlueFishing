@@ -42,6 +42,7 @@ const routes: Routes = [
   { path: 'admin/users', component: ManageUsersComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
   { path: 'admin/gallery', component: ManageGalleryComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
   { path: 'admin/gallery/edit/:galleryId', component: ManageGalleryComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
+  { path: 'admin/donation-company/edit/:companyId', component: ManageDonationsComponent, canActivate: [GlobalAuthGuard, AdminAuthGuard] },
 ];
 
 @NgModule({
