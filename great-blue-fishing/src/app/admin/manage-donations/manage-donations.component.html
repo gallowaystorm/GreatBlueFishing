@@ -1,5 +1,5 @@
 <h1>Manage Donations</h1>
-<!-- gallery image creation -->
+<!-- donation-company image creation -->
 <mat-card>
   <mat-spinner *ngIf='isLoading'></mat-spinner>
   <form [formGroup]="form" #formDirective="ngForm" (submit)="onSubmit(formDirective)" *ngIf="!isLoading">
@@ -46,3 +46,20 @@
     <button id='submit' mat-raised-button color="accent" type="submit">Save Donation Company</button>
   </form>
 </mat-card>
+
+<!-- Company List -->
+
+<mat-grid-list cols="3" rowHeight="1:1" class="donation-company-list">
+  <mat-grid-tile *ngFor="let donationCompany of donationCompanies">
+    <mat-card>
+      <mat-card-title>{{ donationCompany.companyName }}</mat-card-title>
+      <a href='{{ donationCompany.imagePath }}'>
+        <img [src]="donationCompany.imagePath" [alt]="donationCompany.companyName">
+      </a>
+      <mat-card-actions>
+        <a mat-button color="primary" [routerLink]="['/admin/donation-company/edit', donationCompany.id]">Edit</a>
+        <button mat-button color="warn" (click)="onDelete(donationCompany.id)">Delete</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

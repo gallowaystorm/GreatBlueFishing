@@ -25,7 +25,7 @@ export class ManageDonationsComponent implements OnInit, OnDestroy {
   private donationComapnyId: string;
   public DonationCompany: DonationCompany;
 
-  donationComapnies: DonationCompany[] = [];
+  donationCompanies: DonationCompany[] = [];
   private donationCompanySub: Subscription;
 
   constructor(public donationService: DonationService, public route: ActivatedRoute) { }
@@ -44,6 +44,8 @@ export class ManageDonationsComponent implements OnInit, OnDestroy {
       //added mie type validator
       'image': new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]})
     });
+
+    this.getDonationCompanies();
   }
 
   onImagePicked(event: Event){
@@ -94,13 +96,30 @@ export class ManageDonationsComponent implements OnInit, OnDestroy {
   }
 
   getDonationCompanies(){
-    // //for gallery list
-    // this.donationService.getDonationComapanies();
-    // //gallery posts subscription
-    // this.donationCompanySub = this.donationService.getDonationCompanyUpdateListener().subscribe((donationComapnyData: { donationCompanies: DonationCompany[] }) => {
-    //   this.isLoading = false;
-    //   this.donationComapnies = donationComapnyData.donationCompanies;
-    //   });
+    //for gallery list
+    this.donationService.getDonationCompanies();
+    //gallery posts subscription
+    this.donationCompanySub = this.donationService.getDonationCompanyUpdateListener().subscribe((donationComapnyData: { donationCompanies: DonationCompany[] }) => {
+      this.isLoading = false;
+      this.donationCompanies = donationComapnyData.donationCompanies;
+      console.log(this.donationCompanies)
+      });
+  }
+
+  onDelete(companyId: string) {
+    var confirmDelete = confirm("Are you sure you want to delete this company? This cannot be undone.");
+    if (confirmDelete){
+      this.isLoading = true;
+      this.donationService.deleteCompany(companyId).subscribe( () => {
+        //to update product list on frontend on delete
+        this.donationService.getDonationCompanies();
+      }, () => {
+        //this method helps handle errors
+        this.isLoading = false;
+      });
+    } else {
+      return;
+    }
   }
 
   ngOnDestroy(){

@@ -36,3 +36,39 @@ exports.addDonationCompany = (req, res, next) => {
         });
     });
 }
+
+exports.getAllDonationCompanies = (req, res, next) => {
+    DonationCompany.find()
+        .then(donationCompanies => {
+            res.status(200).json({
+                message: "Donation companies fetched successfully!",
+                donationCompanies: donationCompanies
+            });
+        })
+        //to catch technical issues
+        .catch( error => {
+            res.status(500).json({
+                message: "Fetching donation companies failed!"
+            });
+        });
+}
+
+exports.deleteDonationCompany = (req, res, next) => {
+    //params pulls id from url
+    DonationCompany.deleteOne( {_id: req.params.id})
+    //to get result
+    .then(result => {
+        //for error catching
+        if (result.n > 0){
+            res.status(200).json({message: 'Deletion Successful'});
+        } else {
+            res.status(401).json({message: 'Not Authroized!'});
+        }
+    })
+    //to catch technical issues
+    .catch( error => {
+        res.status(500).json({
+            message: "Deleting donation company failed!"
+        });
+    });
+};

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Url } from 'url';
 import { DonationCompany } from './donation-company.model';
@@ -11,8 +12,8 @@ const BACKEND_URL = environment.apiUrl + '/donations/'
 @Injectable({ providedIn: 'root'})
 export class DonationService{
 
-  private donationCompany: DonationCompany[] = [];
-  private donationCompanyUpdated = new Subject<{ donationCompanies: DonationCompany[]}>();
+  private donationCompanies: DonationCompany[] = [];
+  private donationCompaniesUpdated = new Subject<{ donationCompanies: DonationCompany[]}>();
 
   constructor(private http: HttpClient, private router: Router){}
 
@@ -31,8 +32,40 @@ export class DonationService{
     donationComapnyData.append('companyWebsite', companyWebsite.toString());
     this.http.post<{message: string, donationCompany: DonationCompany}>(BACKEND_URL, donationComapnyData)
       .subscribe( (responseData) => {
-        return true;
+        if (responseData) {
+          return true
+        } else {
+          return false
+        }
       });
+  }
+
+  deleteCompany(companyId){
+    return this.http.delete(BACKEND_URL +  companyId);
+  }
+
+  getDonationCompanies(){
+    this.http.get<{message: string, donationCompanies: any }>(BACKEND_URL)
+      //to change id to _id
+      .pipe(map((donationCompanyData => {
+        //replace every post with...
+        return { donationCompany: donationCompanyData.donationCompanies.map(donationCompany => {
+          return {
+            id: donationCompany._id,
+            companyName: donationCompany.name,
+            imagePath: donationCompany.imagePath
+          };
+        })};
+      })))
+      //subscribe to observable with remapped posts
+      .subscribe( (transformedDonationCompaniesData) => {
+        this.donationCompanies = transformedDonationCompaniesData.donationCompany;
+        this.donationCompaniesUpdated.next( { donationCompanies: [...this.donationCompanies] } );
+      });
+  }
+
+  getDonationCompanyUpdateListener(){
+    return this.donationCompaniesUpdated.asObservable();
   }
 
 }
