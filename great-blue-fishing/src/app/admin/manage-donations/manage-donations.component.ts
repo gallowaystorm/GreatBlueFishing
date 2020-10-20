@@ -69,18 +69,17 @@ export class ManageDonationsComponent implements OnInit, OnDestroy {
                 imagePath: donationCompanyData.imagePath,
                 description: donationCompanyData.description,
                 companyAddress: {
-                  addressLineOne: donationCompanyData.addressLineOne,
-                  addressLineTwo: donationCompanyData.addressLineTwo,
-                  city: donationCompanyData.city,
-                  state: donationCompanyData.state,
-                  postal: donationCompanyData.postal
+                  addressLineOne: donationCompanyData.companyAddress.streetAddress,
+                  addressLineTwo: donationCompanyData.companyAddress.addressLineTwo,
+                  city: donationCompanyData.companyAddress.city,
+                  state: donationCompanyData.companyAddress.state,
+                  postal: donationCompanyData.companyAddress.postal
                 },
                 companyWebsite: donationCompanyData.companyWebsite
               };
-
               //overite default form value on init
               this.form.setValue({
-                'title': this.DonationCompany.companyName,
+                'companyName': this.DonationCompany.companyName,
                 'image': this.DonationCompany.imagePath,
                 'companyDescription': this.DonationCompany.description,
                 'addressLineOne': this.DonationCompany.companyAddress.addressLineOne,
@@ -153,7 +152,6 @@ export class ManageDonationsComponent implements OnInit, OnDestroy {
     this.donationCompanySub = this.donationService.getDonationCompanyUpdateListener().subscribe((donationComapnyData: { donationCompanies: DonationCompany[] }) => {
       this.isLoading = false;
       this.donationCompanies = donationComapnyData.donationCompanies;
-      console.log(this.donationCompanies)
       });
   }
 

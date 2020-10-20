@@ -13,4 +13,6 @@ router.delete('/:id', checkAuth, DonationController.deleteDonationCompany);
 
 router.get('/:id', checkAuth, DonationController.getSingleDonationCompany);
 
+router.put('/:id', checkAuth, extractFile, DonationController.updateSingleDonationCompany);
+
 module.exports = router;

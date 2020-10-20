@@ -40,6 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   onLogout(){
     this.globalAuthService.logoutUser();
     //ensures that system thinks isAdmin == false
+    //TODO: make sure this works in all circumstances!!!
     this.adminAuthService.setAdminStatusListner(false);
   }
 

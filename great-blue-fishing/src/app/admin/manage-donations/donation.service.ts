@@ -66,8 +66,9 @@ export class DonationService{
 
   updateDonationCompany(companyName: string, image: File | string, description: string, addressLineOne: string, addressLineTwo: string, city: string, state: string, postal: number, companyWebsite: string, companyId: string){
     let donationCompanyData: DonationCompany | FormData;
+    console.log(typeof(image))
     if(typeof(image) === 'object') {
-      const donationCompanyData = new FormData();
+      donationCompanyData = new FormData();
       donationCompanyData.append('companyName', companyName);
       //title is passed in as well to name image
       donationCompanyData.append('image', image, companyName);
@@ -93,19 +94,19 @@ export class DonationService{
           postal: postal
         },
         companyWebsite: companyWebsite
+      }
     }
     this.http.put(BACKEND_URL + companyId, donationCompanyData).subscribe( response => {
-        this.navigateToDonationPage();
-        if (response) {
-          return true
-        }
-      });
-        return false
-    }
+      this.navigateToDonationPage();
+      if (response) {
+        return true
+      }
+    });
+      return false
   }
 
   getSingleCompany(companyId: string){
-    return this.http.get<{ _id: string, name: string, imagePath: string, description: string, addressLineOne: string, addressLineTwo: string, city: string, state: string, postal: number, companyWebsite: string}>(BACKEND_URL + companyId);
+    return this.http.get<{   _id: string, name: string, imagePath: string, description: string, companyAddress: {streetAddress: string, addressLineTwo: string, city: string, state: string, postal: number}, companyWebsite: string}>(BACKEND_URL + companyId);
   }
 
   getDonationCompanyUpdateListener(){

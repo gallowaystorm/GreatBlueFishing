@@ -10,7 +10,7 @@ exports.addDonationCompany = (req, res, next) => {
         description: req.body.description,
         companyAddress: {
             streetAddress: req.body.addressLineOne,
-            addressLineOne: req.body.addressLineTwo,
+            addressLineTwo: req.body.addressLineTwo,
             city: req.body.city,
             state: req.body.state,
             postal: parseFloat(req.body.postal, 10)
@@ -56,7 +56,7 @@ exports.getAllDonationCompanies = (req, res, next) => {
 exports.getSingleDonationCompany = (req, res, next) => {
   DonationCompany.findById(req.params.id).then( donationCompany => {
       //check if exist
-      if (gallery) {
+      if (donationCompany) {
           res.status(200).json(donationCompany)
       } else {
           res.status(404).json({
@@ -67,7 +67,7 @@ exports.getSingleDonationCompany = (req, res, next) => {
   //to catch technical issues
   .catch( error => {
       res.status(500).json({
-          message: "Fetching image failed!"
+          message: "Fetching donation company failed!"
       });
   });
 };
@@ -90,4 +90,67 @@ exports.deleteDonationCompany = (req, res, next) => {
             message: "Deleting donation company failed!"
         });
     });
+};
+
+exports.updateSingleDonationCompany = (req, res, next) => {
+    console.log
+    let donationCompany = new DonationCompany();
+    //check if string or req already has the path
+    let imagePath = req.body.imagePath;
+    if (req.file) {
+        //set image path to url of image
+        const url = req.protocol + '://' + req.get('host');
+        imagePath = url + '/images/' + req.file.filename; 
+        //creates new donation company
+        donationCompany = { 
+            _id: req.params.id,
+            name: req.body.companyName,
+            imagePath: imagePath,
+            description: req.body.description,
+            companyAddress: {
+                streetAddress: req.body.addressLineOne,
+                addressLineTwo: req.body.addressLineTwo,
+                city: req.body.city,
+                state: req.body.state,
+                postal: parseFloat(req.body.postal, 10)
+            },
+            companyWebsite: req.body.companyWebsite
+        };
+    } else {
+        //creates new donation company
+        donationCompany = { 
+            _id: req.params.id,
+            name: req.body.companyName,
+            imagePath: imagePath,
+            description: req.body.description,
+            companyAddress: {
+                streetAddress: req.body.companyAddress.addressLineOne,
+                addressLineTwo: req.body.companyAddress.addressLineTwo,
+                city: req.body.companyAddress.city,
+                state: req.body.companyAddress.state,
+                postal: parseFloat(req.body.companyAddress.postal, 10)
+            },
+            companyWebsite: req.body.companyWebsite
+        };
+    }
+    
+    //update gallery image based off id passed in through browser
+    //creator checks to see if the id of one updating matches the one creating
+    DonationCompany.updateOne( {_id: req.params.id }, donationCompany )
+        //if post is successfully updated
+        .then( result => {
+            //for error catching
+            if (result.n > 0){
+                res.status(200).json({message: 'Update Successful'});
+            } else {
+                res.status(401).json({message: 'Not Authroized!'});
+            }
+        })
+        //to catch tecnical errors as well
+        .catch(error => {
+            console.log(error)
+            res.status(500).json({
+                message: "Couldn't update donation company!"
+            });
+        });  
 };
