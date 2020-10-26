@@ -1,13 +1,19 @@
-<h1>Gallery</h1>
-<!-- Image List -->
+<div class="background">
+  <img src="../../../assets/backgrounds//gallery-background.png"/>
+</div>
 
-<mat-grid-list cols="3" rowHeight="1:1" class="gallery-list">
-  <mat-grid-tile *ngFor="let gallery of gallery">
-    <mat-card>
-      <mat-card-title>{{ gallery.title }}</mat-card-title>
-      <a href='{{ gallery.imagePath }}'>
-        <img [src]="gallery.imagePath" [alt]="gallery.title">
-      </a>
-    </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+<!-- Image List -->
+<div class='list-container'>
+  <mat-grid-list cols="3" rowHeight="1:1" class="gallery-list">
+    <mat-grid-tile *ngFor="let gallery of gallery">
+      <mat-card>
+        <mat-card-title>{{ gallery.title }}</mat-card-title>
+        <a href='{{ gallery.imagePath }}'>
+          <img [src]="gallery.imagePath" [alt]="gallery.title">
+        </a>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+
+
