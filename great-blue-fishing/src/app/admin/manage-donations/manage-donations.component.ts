@@ -172,7 +172,7 @@ export class ManageDonationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    // this.donationCompanySub.unsubscribe();
+    this.donationCompanySub.unsubscribe();
   }
 
 }
