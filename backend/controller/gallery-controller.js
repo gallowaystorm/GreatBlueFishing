@@ -77,7 +77,7 @@ exports.deleteGalleryImage = (req, res, next) => {
     //to catch technical issues
     .catch( error => {
         res.status(500).json({
-            message: "Deleting product failed!"
+            message: "Deleting gallery image failed!"
         });
     });
 };

@@ -24,7 +24,11 @@ export class GalleryService{
     galleryData.append('image', image, title);
     this.http.post<{message: string, gallery: Gallery}>(BACKEND_URL, galleryData)
       .subscribe( (responseData) => {
-        return true;
+        if (responseData) {
+          return true
+        } else {
+          return false
+        }
       });
   }
 

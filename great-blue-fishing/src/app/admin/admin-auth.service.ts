@@ -3,7 +3,7 @@ import { UserData } from '../user-model';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 const BACKEND_URL = environment.apiUrl + '/admin/user/'
@@ -11,7 +11,7 @@ const BACKEND_URL = environment.apiUrl + '/admin/user/'
 @Injectable({ providedIn: 'root'})
 export class AdminAuthService{
 
-  private adminStatusListener = new Subject<boolean>();
+  private adminStatusListener = new ReplaySubject<boolean>();
   private adminCreationStatusListener = new Subject<boolean>();
   private adminUsersUpdated = new Subject<{adminUsers: UserData[]}>();
   private isAdmin = false;
@@ -23,6 +23,7 @@ export class AdminAuthService{
     const userId = localStorage.getItem('userId');
     const userData = { id: userId };
     if (!userId){
+      this.adminStatusListener.next(false);
       return false;
     }
     //find user that matches and tell if admin
@@ -37,7 +38,11 @@ export class AdminAuthService{
   }
 
   getAdminStatusListener(){
-    return this.adminStatusListener.asObservable();
+    return this.adminStatusListener;
+  }
+
+  setAdminStatusListner(isAdmin: boolean){
+    this.adminStatusListener.next(isAdmin);
   }
 
   getAdminCreationStatusListener(){
@@ -47,7 +52,6 @@ export class AdminAuthService{
   getAdminUserUpdateListener(){
     return this.adminUsersUpdated.asObservable();
   }
-
 
   getAdminUsers(){
     //get all admin users

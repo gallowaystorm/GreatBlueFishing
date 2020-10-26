@@ -102,6 +102,7 @@ import { ManageGalleryComponent } from './admin/manage-gallery/manage-gallery.co
     [Data]
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorsComponent]
+  entryComponents: [ErrorsComponent],
+
 })
 export class AppModule { }

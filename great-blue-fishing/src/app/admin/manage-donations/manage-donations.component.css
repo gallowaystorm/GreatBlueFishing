@@ -1,0 +1,114 @@
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+h1 {
+  text-align: center;
+}
+
+mat-card {
+  width: 75%;
+  margin: auto;
+  margin-bottom: 3%;
+}
+
+
+mat-form-field,
+textarea {
+  width: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+input[type='file']{
+  visibility: hidden;
+}
+
+.image-preview{
+  height: 5rem;
+  margin: 1rem 0;
+}
+
+.image-preview img {
+  height: 100%;
+  border-radius: 50%
+}
+
+mat-select {
+  width: 80px;
+}
+
+#submit {
+  margin-top: 2%;
+}
+
+mat-grid-list {
+  width: 60%;
+  height: auto;
+  margin: auto;
+}
+
+.donation-company-list mat-card {
+  width: 85%;
+  margin: auto;
+}
+.donation-company-list mat-card-title {
+  text-align: center;
+}
+
+.donation-company-list img {
+  height: 60%;
+  width: 70%;
+  border-radius: 50%;
+  display: block;
+  margin: 5% auto 2% auto;
+}
+
+mat-form-field.ng-invalid.ng-touched {
+  animation: example;
+  animation-duration: 0.3s;
+  margin-bottom: 13px;
+}
+
+@keyframes example {
+  from {margin-bottom: 0;}
+  to {margin-bottom: 13px;}
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+mat-form-field.ng-invalid.ng-touched {
+  animation: example;
+  animation-duration: 0.3s;
+  margin-bottom: 13px;
+}
+
+@keyframes example {
+  from {margin-bottom: 0;}
+  to {margin-bottom: 13px;}
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
