@@ -34,6 +34,7 @@ input[type='file']{
 
 .image-preview img {
   height: 100%;
+  border-radius: 50%
 }
 
 mat-select {
@@ -61,6 +62,7 @@ mat-grid-list {
 .donation-company-list img {
   height: 60%;
   width: 70%;
+  border-radius: 50%;
   display: block;
   margin: 5% auto 2% auto;
 }

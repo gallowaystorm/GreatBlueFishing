@@ -101,7 +101,7 @@ exports.updateSingleDonationCompany = (req, res, next) => {
         //set image path to url of image
         const url = req.protocol + '://' + req.get('host');
         imagePath = url + '/images/' + req.file.filename; 
-        //creates new donation company
+        //creates new donation company if image is uploaded
         donationCompany = { 
             _id: req.params.id,
             name: req.body.companyName,
@@ -117,7 +117,7 @@ exports.updateSingleDonationCompany = (req, res, next) => {
             companyWebsite: req.body.companyWebsite
         };
     } else {
-        //creates new donation company
+        //creates new donation company if image is not changed
         donationCompany = { 
             _id: req.params.id,
             name: req.body.companyName,

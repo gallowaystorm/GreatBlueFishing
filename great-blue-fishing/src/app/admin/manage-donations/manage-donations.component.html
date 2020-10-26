@@ -56,6 +56,9 @@
       <a href='{{ donationCompany.imagePath }}'>
         <img [src]="donationCompany.imagePath" [alt]="donationCompany.companyName">
       </a>
+      <mat-card-content>
+        <p>{{ donationCompany.description }}</p>
+      </mat-card-content>
       <mat-card-actions>
         <a mat-button color="primary" [routerLink]="['/admin/donation-company/edit', donationCompany.id]">Edit</a>
         <button mat-button color="warn" (click)="onDelete(donationCompany.id)">Delete</button>

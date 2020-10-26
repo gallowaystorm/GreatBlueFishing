@@ -53,7 +53,8 @@ export class DonationService{
           return {
             id: donationCompany._id,
             companyName: donationCompany.name,
-            imagePath: donationCompany.imagePath
+            imagePath: donationCompany.imagePath,
+            description: donationCompany.description
           };
         })};
       })))
