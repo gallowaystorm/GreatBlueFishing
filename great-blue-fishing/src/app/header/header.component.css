@@ -1,6 +1,12 @@
-a {
+#home-logo {
+  z-index: 20;
+}
+
+li a {
   text-decoration: none;
-  color: white;
+  color: black;
+  font-size: 18px;
+  font-style: italic;
 }
 
 ul {

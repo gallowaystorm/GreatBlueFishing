@@ -10,36 +10,36 @@
 @include mat-core();
 
 $md-greatblueprimary: (
-    50 : #e6f3fa,
-    100 : #c0e2f3,
-    200 : #97ceec,
-    300 : #6dbae4,
-    400 : #4dacde,
-    500 : #2e9dd8,
-    600 : #2995d4,
-    700 : #238bce,
-    800 : #1d81c8,
-    900 : #126fbf,
-    A100 : #eef7ff,
-    A200 : #bbddff,
-    A400 : #88c4ff,
-    A700 : #6eb8ff,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #000000,
-        500 : #000000,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
+  50 : #e6f3fa,
+  100 : #c1e2f4,
+  200 : #98cfec,
+  300 : #6fbce4,
+  400 : #50addf,
+  500 : #319fd9,
+  600 : #2c97d5,
+  700 : #258dcf,
+  800 : #1f83ca,
+  900 : #1372c0,
+  A100 : #f1f8ff,
+  A200 : #bedfff,
+  A400 : #8bc6ff,
+  A700 : #71baff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
 );
 
 /* For use in src/lib/core/theming/_palette.scss */
@@ -96,6 +96,26 @@ $great-blue-fishing-theme: mat-light-theme($great-blue-fishing-primary, $great-b
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($great-blue-fishing-theme);
+
+//customizing the font
+//TODO: make more classes for bolds, colors, etc...
+$custom-typography: mat-typography-config(
+  $font-family: '"Kanit", sans-serif',
+  $display-4:     mat-typography-level(112px, 112px, 300),
+  $display-3:     mat-typography-level(56px, 56px, 400),
+  $display-2:     mat-typography-level(45px, 48px, 400),
+  $display-1:     mat-typography-level(34px, 40px, 400),
+  $headline:      mat-typography-level(24px, 32px, 400),
+  $title:         mat-typography-level(20px, 32px, 500),
+  $subheading-2:  mat-typography-level(16px, 28px, 400),
+  $subheading-1:  mat-typography-level(15px, 24px, 400),
+  $body-2:        mat-typography-level(14px, 24px, 500),
+  $body-1:        mat-typography-level(14px, 20px, 400),
+  $caption:       mat-typography-level(12px, 20px, 400),
+  $button:        mat-typography-level(14px, 14px, 500),
+  $input:         mat-typography-level(inherit, 1.125, 400)
+);
+@include mat-core($custom-typography);
 
 
 /* For use in src/lib/core/theming/_palette.scss */
