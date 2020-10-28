@@ -16,8 +16,24 @@ span {
   height: 45%;
   width: 20%;
   top: 23%;
-  background-color: rgba(8, 8, 8, 0.719);
+  background-color: rgba(8, 8, 8, 0.904);
   border-radius: 10px;
+  color: white;
+  text-align: center;
+}
+
+span h2 {
+  margin-top: 5%;
+}
+
+span svg {
+  margin-top: 20px;
+  font-size: 60px;
+}
+
+span p {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 #box-1 {
@@ -25,7 +41,9 @@ span {
 }
 
 #box-2{
-  left: 50%;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
 #box-3 {
