@@ -13,6 +13,10 @@ h1 {
   margin-right: 2.5%;
 }
 
+mat-grid-tile {
+  padding: 0% 1% 0% 1%;
+}
+
 .product-list{
   width: 85%;
 }
@@ -20,7 +24,7 @@ h1 {
 mat-grid-list {
   width: 60%;
   height: auto;
-  margin: auto;
+  margin: 0 auto 0 auto;
 }
 
 .product-list mat-card {
