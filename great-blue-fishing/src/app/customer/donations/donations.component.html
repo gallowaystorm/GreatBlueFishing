@@ -1,18 +1,21 @@
 <div class="background">
   <img src="../../../assets/backgrounds/donations-background.jpeg"/>
 </div>
-<h1>Charities that we support!</h1>
-<mat-grid-list cols="3" rowHeight="1:1" class="donation-company-list">
-  <mat-grid-tile *ngFor="let donationCompany of donationCompanies">
-    <mat-card>
-      <mat-card-title>{{ donationCompany.companyName }}</mat-card-title>
-      <a href='{{ donationCompany.imagePath }}'>
-        <img [src]="donationCompany.imagePath" [alt]="donationCompany.companyName">
-      </a>
-      <mat-card-content>
-        <p>{{ donationCompany.description }}</p>
-      </mat-card-content>
-    </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+<div class='lower-container'>
+  <h1>Charities that we support!</h1>
+  <mat-grid-list cols="3" rowHeight="1:1" class="donation-company-list">
+    <mat-grid-tile *ngFor="let donationCompany of donationCompanies">
+      <mat-card>
+        <mat-card-title>{{ donationCompany.companyName }}</mat-card-title>
+        <a href='{{ donationCompany.imagePath }}'>
+          <img [src]="donationCompany.imagePath" [alt]="donationCompany.companyName">
+        </a>
+        <mat-card-content>
+          <p>{{ donationCompany.description }}</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+
 
