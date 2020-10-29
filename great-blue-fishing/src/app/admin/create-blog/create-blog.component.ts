@@ -15,6 +15,7 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class CreateBlogComponent implements OnInit, OnDestroy {
 
+  //TODO: FIX IMAGE NOT APPEARING
   isLoading = false;
   enteredContent = '';
   enteredTitle = '';

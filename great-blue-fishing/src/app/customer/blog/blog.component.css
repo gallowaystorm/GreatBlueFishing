@@ -1,6 +1,27 @@
-:host {
-  display: block;
-  margin-top: 1rem;
+
+.background{
+  width: 100%;
+  height: 100%;
+}
+
+.background img{
+  height: auto;
+  width: 100%;
+  position: fixed;
+  background-size: cover;
+  object-fit: cover;
+}
+
+.background h1 {
+  margin: 3% 0 0 0 ;
+  text-align:center;
+  position: absolute;
+  left: 50%;
+  transform: translateX( -50% );
+  z-index: 1;
+  color: black;
+  font-size: 40px;
+  font-style: italic;
 }
 
 h1 {
@@ -15,11 +36,17 @@ mat-card {
 
 mat-paginator{
   margin-top: 1rem;
+  background: rgba(255, 255, 255, 0);
+  color: black;
 }
 
 .blog-list{
-  margin-top: 5%;
   width: 75%;
+  position: absolute;
+  text-align: center;
+  left: 0;
+  right: 0;
+  top: 25%;
   margin: auto;
 }
 

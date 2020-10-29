@@ -1,0 +1,53 @@
+.background{
+  width: 100%;
+  height: 100%;
+}
+
+.background h1{
+  margin: 3% 0 0 0 ;
+  text-align:center;
+  position: absolute;
+  left: 50%;
+  transform: translateX( -50% );
+  z-index: 1;
+  color: white;
+  font-size: 40px;
+  font-style: italic;
+}
+
+.background img{
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background-size: cover;
+  object-fit: cover;
+}
+
+mat-card {
+  width: 50%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 23%;
+  margin: auto;
+}
+
+mat-form-field,
+textarea {
+  width: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+mat-form-field.ng-invalid.ng-touched {
+  animation: example;
+  animation-duration: 0.3s;
+  margin-bottom: 13px;
+}
+
+@keyframes example {
+  from {margin-bottom: 0;}
+  to {margin-bottom: 13px;}
+}

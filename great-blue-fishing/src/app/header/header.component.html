@@ -1,7 +1,12 @@
 <mat-toolbar color="primary">
-  <span><a routerLink='/'>Great Blue Fishing</a></span>
+  <span>
+    <a routerLink='/'>
+      <img id="home-logo" src="../../assets/logos/text-no-logo-black.svg" alt="Great Blue Logo"/>
+    </a>
+  </span>
   <span class="header-spacer"></span>
   <ul>
+    <!-- TODO: Get the active router link to work (it works without the custom font i think) -->
     <li>
       <a mat-button routerLink='/about' routerLinkActive='mat-accent'>About</a>
     </li>
