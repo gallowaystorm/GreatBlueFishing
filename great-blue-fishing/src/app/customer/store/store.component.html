@@ -1,29 +1,31 @@
-<h1>Store</h1>
-<div class="view-shopping-cart">
-    <a mat-stroked-button color='primary' routerLink='/checkout'>
-      View Cart <mat-icon aria-hidden="false" aria-label="home icon">shopping_cart</mat-icon>
-    </a>
-</div>
-
-<mat-grid-list cols="3" rowHeight="1:1" class="product-list">
-  <mat-grid-tile *ngFor="let product of products">
-    <mat-card>
-      <mat-card-title>{{ product.name }}</mat-card-title>
-      <a href='{{product.imagePath }}'>
-        <img [src]="product.imagePath" [alt]="product.name">
+<div class='container'>
+  <h1>Store</h1>
+  <div class="view-shopping-cart">
+      <a mat-stroked-button color='primary' routerLink='/checkout'>
+        View Cart <mat-icon aria-hidden="false" aria-label="home icon">shopping_cart</mat-icon>
       </a>
-      <mat-card-content>
-        <p>{{ product.description }}</p>
-        <h4>${{ product.price }}</h4>
-      </mat-card-content>
-      <mat-card-actions>
-        <form [formGroup]="form" #formDirective="ngForm" (submit)="addToCart(product.id, product.price, product.name, formDirective)">
-          <input id='quantity' type='number' matInput formControlName="quantity">
-          <button mat-button color="primary" type="submit">
-            <mat-icon aria-hidden="false" aria-label="home icon">add_shopping_cart</mat-icon>
-          </button>
-        </form>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
+  </div>
+
+  <mat-grid-list cols="3" rowHeight="1:1" class="product-list">
+    <mat-grid-tile *ngFor="let product of products">
+      <mat-card>
+        <mat-card-title>{{ product.name }}</mat-card-title>
+        <a href='{{product.imagePath }}'>
+          <img [src]="product.imagePath" [alt]="product.name">
+        </a>
+        <mat-card-content>
+          <p>{{ product.description }}</p>
+          <h4>${{ product.price }}</h4>
+        </mat-card-content>
+        <mat-card-actions>
+          <form [formGroup]="form" #formDirective="ngForm" (submit)="addToCart(product.id, product.price, product.name, formDirective)">
+            <input id='quantity' type='number' matInput formControlName="quantity">
+            <button mat-button color="primary" type="submit">
+              <mat-icon aria-hidden="false" aria-label="home icon">add_shopping_cart</mat-icon>
+            </button>
+          </form>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
 </mat-grid-list>
+</div>

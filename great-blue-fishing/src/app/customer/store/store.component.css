@@ -1,11 +1,14 @@
-:host {
-  display: block;
-  margin-top: 1rem;
+.container{
+  background-image: linear-gradient(white, #6FCFF2);
 }
 
 
 h1 {
   text-align: center;
+  margin-top:3%;
+  color: black;
+  font-size: 40px;
+  font-style: italic;
 }
 
 .view-shopping-cart{
