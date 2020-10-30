@@ -12,17 +12,12 @@
 }
 
 h1 {
-  margin: 1% 0 0 0 ;
-  text-align:center;
-  position: absolute;
-  left: 50%;
-  transform: translateX( -50% );
-  z-index: 1;
-  color: black;
+  text-align: center;
+  margin-top: 1%;
   font-size: 40px;
   font-style: italic;
-
 }
+
 
 .lower-container {
   background-image: linear-gradient(white, #6FCFF2);
@@ -30,6 +25,10 @@ h1 {
 
 mat-spinner {
   margin: auto;
+}
+
+.donation-company-list {
+  margin-top: 2%
 }
 
 .donation-company-list mat-card {
@@ -41,9 +40,9 @@ mat-spinner {
 }
 
 .donation-company-list img {
-  height: 60%;
-  width: 70%;
-  border-radius: 50%;
+  height: 20%;
+  width: 30%;
+  border-radius: 10%;
   display: block;
   margin: 5% auto 2% auto;
 }
