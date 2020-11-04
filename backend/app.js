@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 
 //to grant backend access to images folder and forwards requests to images to backend images
-app.use('/images', express.static(path.join('../backend/images')));
+app.use("/images", express.static(path.join("images")));
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
