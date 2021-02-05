@@ -8,3 +8,5 @@ services:
       dockerfile: Dockerfile
     image: gallowaystorm/great-blue-fishing-frontend
     container_name: great-blue-fishing-frontend
+    ports:
+      - 80:80

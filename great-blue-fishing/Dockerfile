@@ -8,13 +8,13 @@ RUN npm install && \
   ng build
 
 
-# #Use build files from previous build to make applicate
-# FROM nginx:1.19.6-alpine
-# COPY --from=build-deps /app/build /usr/share/nginx/html
-# #download and install necessary packages
-# RUN apk update --available && sync
-# EXPOSE 80
-# CMD ["nginx", "-g", "daemon off;"]
+#Use build files from previous build to make applicate
+FROM nginx:1.19.6-alpine
+COPY --from=build-deps /app/dist/great-blue-fishing /usr/share/nginx/html
+#download and install necessary packages
+RUN apk update --no-cache
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 
 
 
