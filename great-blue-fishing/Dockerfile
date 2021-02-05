@@ -1,18 +1,20 @@
 #using alpine linux with node offical image
-FROM node:15.7.0-alpine3.10 as build-deps
-WORKDIR /usr/src/app
+FROM gallowaystorm/nodejs as build-deps
+USER root
 COPY . .
-RUN npm install \
-  npm build
+#install dependencies from package.json, install angular cli, build angular project
+RUN npm install && \
+  npm install -g @angular/cli && \
+  ng build
 
 
-#Use build files from previous build to make applicate
-FROM nginx:1.19.6-alpine
-COPY --from=build-deps /usr/src/app/build /usr/share/nginx/html
-#download and install necessary packages
-RUN apk update --available && sync
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# #Use build files from previous build to make applicate
+# FROM nginx:1.19.6-alpine
+# COPY --from=build-deps /app/build /usr/share/nginx/html
+# #download and install necessary packages
+# RUN apk update --available && sync
+# EXPOSE 80
+# CMD ["nginx", "-g", "daemon off;"]
 
 
 
