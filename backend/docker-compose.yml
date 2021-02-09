@@ -1,0 +1,12 @@
+version: '3'
+
+
+services:
+  great-blue-fishing-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gallowaystorm/great-blue-fishing-backend
+    container_name: great-blue-fishing-backend
+    ports:
+      - 3000:3000
