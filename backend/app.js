@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const blogRoutes = require('./routes/blog-route');
 const customerUserRoutes = require('./routes/customer-user-route');
 const globalUserRoutes = require('./routes/global-user-route');
@@ -14,12 +15,14 @@ const donationRoutes = require('./routes/donation-route.js')
 const app = express();
 
 //connect to database
+dotenv.config();
 mongoose.connect('mongodb+srv://great-blue-fishing-dev:' + process.env.MONGO_ATLAS_PASSWORD + '@greatbluefishingdb.4vsmj.mongodb.net/great-blue-fishing?retryWrites=true&w=majority')
 .then( () => {
     console.log('Connected to great blue fishing database successful!');
 })
-.catch( () => {
+.catch( (err) => {
     console.log('Connected to database failed!');
+    console.log(err);
 });
 
 app.use(bodyParser.json());

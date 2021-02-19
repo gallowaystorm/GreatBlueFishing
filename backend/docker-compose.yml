@@ -10,4 +10,3 @@ services:
     container_name: great-blue-fishing-backend
     ports:
       - 3000:3000
-      - 27017:27017
