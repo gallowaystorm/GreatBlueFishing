@@ -7,6 +7,7 @@ RUN npm install
 # Run the node server
 RUN node server.js
 EXPOSE 3000
+USER app
 
 
 
